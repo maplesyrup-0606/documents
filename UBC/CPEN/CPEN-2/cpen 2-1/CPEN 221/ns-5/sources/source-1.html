@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Controllable</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: Controllable (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+  <tr>
+    <td class="name">Controllable$AbortException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">Controllable$SolutionFailedException</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;import cpen221.mp2.controllers.HunterStage;
+&nbsp;import cpen221.mp2.controllers.GathererStage;
+&nbsp;
+&nbsp;/** An instance is controllable by some Controller. */
+&nbsp;public interface Controllable extends HunterStage, GathererStage {
+&nbsp;
+&nbsp;    /** Start the search phase and return an instance that
+&nbsp;     *  purely implements HuntStage. */
+&nbsp;    public HunterStage beginHuntStage();
+&nbsp;
+&nbsp;    /** Start the gather stage and returns an instance that
+&nbsp;     *  purely implements GatherStage. */
+&nbsp;    public GathererStage beginGatherStage();
+&nbsp;
+&nbsp;    /** End the hunt phase, returning true iff it was successful
+&nbsp;     * and false otherwise.
+&nbsp;     * Precondition: the game is in the search phase. */
+&nbsp;    public boolean endHuntStage();
+&nbsp;
+&nbsp;    /** End the rescue phase, returning true iff it was successful and
+&nbsp;     * false otherwise. Precondition: the game is in the rescue phase. */
+&nbsp;    public boolean endGatherStage();
+&nbsp;
+&nbsp;    /** Advance the simulation by one tick.
+&nbsp;     * Throw SolutionFailedException if the update causes a failure. */
+&nbsp;    public void update(int tick) throws SolutionFailedException;
+&nbsp;
+&nbsp;    /** Abort the current game. Any attempts to change the state (i.e. by
+&nbsp;     * moveTo) will result in an exception. This allows the game to instantly
+&nbsp;     * end a solution, rather than stepping through the entire solution. */
+&nbsp;    public void abort();
+&nbsp;
+&nbsp;    /** Set the ship&#39;s current location to n. */
+&nbsp;    public void setShipLocation(Planet planet);
+&nbsp;
+&nbsp;    /** An instance indicates that the game has aborted. */
+&nbsp;    @SuppressWarnings(&quot;serial&quot;)
+<b class="nc">&nbsp;    public static class AbortException extends RuntimeException {}</b>
+&nbsp;
+&nbsp;    /** An instance contains a message detailing how a solution failed.  */
+&nbsp;    @SuppressWarnings(&quot;serial&quot;)
+&nbsp;    public static class SolutionFailedException extends Exception {
+&nbsp;        public SolutionFailedException(String msg) {
+<b class="nc">&nbsp;            super(msg);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,445 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Heap</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.util</a>
+</div>
+
+<h1>Coverage Summary for Class: Heap (cpen221.mp2.util)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Heap</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/77)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Heap$VP</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/81)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.util;
+&nbsp;
+&nbsp;import java.lang.reflect.Array;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashMap;
+&nbsp;import java.util.NoSuchElementException;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance is a min-heap or a max-heap of distinct values of type E
+&nbsp; * with priorities of type double.
+&nbsp; */
+<b class="nc">&nbsp;public class Heap&lt;E&gt; {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Class Invariant:
+&nbsp;     * 1. d[0..size-1] represents a complete binary tree. d[0] is the root;
+&nbsp;     * For each k, d[2k+1] and d[2k+2] are the left and right children of d[k].
+&nbsp;     * If k != 0, d[(k-1)/2] (using integer division) is the parent of d[k].
+&nbsp;     * &lt;p&gt;
+&nbsp;     * 2. For k in 0..size-1, d[k] contains the value and its priority.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * 3. The values in d[0..size-1] are all different.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * 4. For k in 1..size-1,
+&nbsp;     * if isMinHeap, (d[k]&#39;s priority) &gt;= (d[k]&#39;s parent&#39;s priority),
+&nbsp;     * otherwise,    (d[k]&#39;s priority) &lt;= (d[k]&#39;s parent&#39;s priority).
+&nbsp;     * &lt;p&gt;
+&nbsp;     * map and the tree are in sync, meaning:
+&nbsp;     * &lt;p&gt;
+&nbsp;     * 5. The keys of map are the values in d[0..size-1].
+&nbsp;     * This implies that this.size = map.size().
+&nbsp;     * &lt;p&gt;
+&nbsp;     * 6. if value v is in d[k], then map.get(v) returns k.
+&nbsp;     */
+&nbsp;    protected final boolean isMinHeap;
+&nbsp;    protected VP[] d;
+&nbsp;    protected int size;
+&nbsp;    protected HashMap&lt;E, Integer&gt; map;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: an empty heap with capacity 10.
+&nbsp;     * It is a min-heap if isMin is true, a max-heap if isMin is false.
+&nbsp;     */
+<b class="nc">&nbsp;    public Heap(boolean isMin) {</b>
+<b class="nc">&nbsp;        isMinHeap = isMin;</b>
+<b class="nc">&nbsp;        d = createVPArray(10);</b>
+<b class="nc">&nbsp;        map = new HashMap&lt;E, Integer&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add v with priority p to the heap.
+&nbsp;     * Throw an illegalArgumentException if v is already in the heap.
+&nbsp;     * The expected time is logarithmic and the worst-case time is linear
+&nbsp;     * in the size of the heap.
+&nbsp;     */
+&nbsp;    public void add(E v, double p) throws IllegalArgumentException {
+&nbsp;        // Do NOT call bubbleUp until the class invariant is true except
+&nbsp;        // for the need to bubble up.
+&nbsp;        // Calling bubbleUp is the last thing to be done.
+<b class="nc">&nbsp;        if (map.containsKey(v)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;v is already in the heap&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        ensureSpace();</b>
+<b class="nc">&nbsp;        map.put(v, size);</b>
+<b class="nc">&nbsp;        d[size] = new VP(v, p);</b>
+<b class="nc">&nbsp;        size = size + 1;</b>
+<b class="nc">&nbsp;        bubbleUp(size - 1);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If size = length of d, double the length of array d.
+&nbsp;     * The worst-case time is proportional to the length of d.
+&nbsp;     */
+&nbsp;    protected void ensureSpace() {
+<b class="nc">&nbsp;        if (size == d.length) {</b>
+<b class="nc">&nbsp;            d = Arrays.copyOf(d, 2 * d.length);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the size of this heap.
+&nbsp;     * This operation takes constant time.
+&nbsp;     */
+&nbsp;    public int size() { // Do not change this method
+<b class="nc">&nbsp;        return size;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Swap d[h] and d[k].
+&nbsp;     * Precondition: 0 &lt;= h &lt; heap-size, 0 &lt;= k &lt; heap-size.
+&nbsp;     */
+&nbsp;    void swap(int h, int k) {
+<b class="nc">&nbsp;        assert 0 &lt;= h &amp;&amp; h &lt; size &amp;&amp; 0 &lt;= k &amp;&amp; k &lt; size;</b>
+<b class="nc">&nbsp;        VP temp = d[h];</b>
+<b class="nc">&nbsp;        d[h] = d[k];</b>
+<b class="nc">&nbsp;        d[k] = temp;</b>
+<b class="nc">&nbsp;        map.put(d[h].val, h);</b>
+<b class="nc">&nbsp;        map.put(d[k].val, k);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If a value with priority p1 should be above a value with priority
+&nbsp;     * p2 in the heap, return 1.
+&nbsp;     * If priority p1 and priority p2 are the same, return 0.
+&nbsp;     * If a value with priority p1 should be below a value with priority
+&nbsp;     * p2 in the heap, return -1.
+&nbsp;     * This is based on what kind of a heap this is,
+&nbsp;     * E.g. a min-heap, the value with the smallest priority is in the root.
+&nbsp;     * E.g. a max-heap, the value with the largest priority is in the root.
+&nbsp;     */
+&nbsp;    public int compareTo(double p1, double p2) {
+<b class="nc">&nbsp;        if (p1 == p2) {</b>
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (isMinHeap) {</b>
+<b class="nc">&nbsp;            return p1 &lt; p2 ? 1 : -1;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return p1 &gt; p2 ? 1 : -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If d[m] should be above d[n] in the heap, return 1.
+&nbsp;     * If d[m]&#39;s priority and d[n]&#39;s priority are the same, return 0.
+&nbsp;     * If d[m] should be below d[n] in the heap, return -1.
+&nbsp;     * This is based on what kind of a heap this is,
+&nbsp;     * E.g. a min-heap, the value with the smallest priority is in the root.
+&nbsp;     * E.g. a max-heap, the value with the largest priority is in the root.
+&nbsp;     */
+&nbsp;    public int compareTo(int m, int n) {
+<b class="nc">&nbsp;        return compareTo(d[m].priority, d[n].priority);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Bubble d[k] up the heap to its right place.
+&nbsp;     * Precondition: 0 &lt;= k &lt; size and
+&nbsp;     * The class invariant is true, except perhaps
+&nbsp;     * that d[k] belongs above its parent (if k &gt; 0)
+&nbsp;     * in the heap, not below it.
+&nbsp;     */
+&nbsp;    void bubbleUp(int k) {
+&nbsp;        // to bubble a value up to its proper place, based on its priority.
+&nbsp;        // Do not use recursion. Use iteration.
+&nbsp;        // Use method compareTo to test whether value k is in its right place.
+<b class="nc">&nbsp;        assert 0 &lt;= k &amp;&amp; k &lt; size;</b>
+&nbsp;
+&nbsp;        // Inv: 0 &lt;= k &lt; size and
+&nbsp;        //      The class invariant is true, except perhaps
+&nbsp;        //      that d[k] belongs above its parent (if k &gt; 0)
+&nbsp;        //      in the heap, not below it.
+<b class="nc">&nbsp;        while (k &gt; 0) {</b>
+<b class="nc">&nbsp;            int p = (k - 1) / 2; // p is k&#39;s parent</b>
+<b class="nc">&nbsp;            if (compareTo(k, p) &lt;= 0) {</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            swap(k, p);</b>
+<b class="nc">&nbsp;            k = p;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If this is a min-heap, return the heap value with lowest priority.
+&nbsp;     * If this is a max-heap, return the heap value with highest priority
+&nbsp;     * Do not change the heap. This operation takes constant time.
+&nbsp;     * Throw a NoSuchElementException if the heap is empty.
+&nbsp;     */
+&nbsp;    public E peek() {
+<b class="nc">&nbsp;        if (size &lt;= 0) {</b>
+<b class="nc">&nbsp;            throw new NoSuchElementException(&quot;heap is empty&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return d[0].val;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Bubble d[k] down in heap until it finds the right place.
+&nbsp;     * If there is a choice to bubble down to both the left and
+&nbsp;     * right children (because their priorities are equal), choose
+&nbsp;     * the right child.
+&nbsp;     * Precondition: 0 &lt;= k &lt; size   and
+&nbsp;     * Class invariant is true except that perhaps
+&nbsp;     * d[k] belongs below one or both of its children.
+&nbsp;     */
+&nbsp;    void bubbleDown(int k) {
+<b class="nc">&nbsp;        assert 0 &lt;= k &amp;&amp; k &lt; size;</b>
+&nbsp;
+&nbsp;        // Invariant: Class invariant is true except that perhaps
+&nbsp;        //            d[k] belongs below one or both of its children
+<b class="nc">&nbsp;        while (2 * k + 1 &lt; size) { // while d[k] has a child</b>
+<b class="nc">&nbsp;            int uc = upperChild(k);</b>
+<b class="nc">&nbsp;            if (compareTo(k, uc) &gt;= 0) {</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;            swap(k, uc);</b>
+<b class="nc">&nbsp;            k = uc;</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If d[n] doesn&#39;t exist or has no child, return n.
+&nbsp;     * If d[n] has one child, return its index.
+&nbsp;     * If d[n] has two children with the same priority, return the
+&nbsp;     * index of the right one.
+&nbsp;     * If d[n] has two children with different priorities return the
+&nbsp;     * index of the one that must appear above the other in a heap.
+&nbsp;     */
+&nbsp;    protected int upperChild(int n) {
+<b class="nc">&nbsp;        if (size &lt;= n) {</b>
+<b class="nc">&nbsp;            return n;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        int lc = 2 * n + 1;                  // index of n&#39;s left child</b>
+<b class="nc">&nbsp;        if (size &lt;= lc) {</b>
+<b class="nc">&nbsp;            return n;         // n has no child</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (size == lc + 1) {</b>
+<b class="nc">&nbsp;            return lc;  // n has exactly one child</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return compareTo(lc, lc + 1) &gt; 0 ? lc : lc + 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If this is a min-heap, remove and return heap value with lowest priority.
+&nbsp;     * If this is a max-heap, remove and return heap value with highest priority.
+&nbsp;     * The expected time is logarithmic and the worst-case time is linear
+&nbsp;     * in the size of the heap.
+&nbsp;     * Throw a NoSuchElementException if the heap is empty.
+&nbsp;     */
+&nbsp;    public E poll() {
+<b class="nc">&nbsp;        if (size &lt;= 0) {</b>
+<b class="nc">&nbsp;            throw new NoSuchElementException(&quot;heap is empty&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        E v = d[0].val;</b>
+<b class="nc">&nbsp;        swap(0, size - 1);</b>
+<b class="nc">&nbsp;        map.remove(v);</b>
+<b class="nc">&nbsp;        size = size - 1;</b>
+<b class="nc">&nbsp;        if (size &gt; 0) {</b>
+<b class="nc">&nbsp;            bubbleDown(0);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return v;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Change the priority of value v to p.
+&nbsp;     * The expected time is logarithmic and the worst-case time is linear
+&nbsp;     * in the size of the heap.
+&nbsp;     * Throw an IllegalArgumentException if v is not in the heap.
+&nbsp;     */
+&nbsp;    public void updatePriority(E v, double p) {
+<b class="nc">&nbsp;        Integer index = map.get(v);</b>
+<b class="nc">&nbsp;        if (index == null) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;v is not in the priority queue&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        double oldP = d[index].priority;</b>
+<b class="nc">&nbsp;        d[index].priority = p;</b>
+<b class="nc">&nbsp;        int t = compareTo(p, oldP);</b>
+<b class="nc">&nbsp;        if (t == 0) {</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        if (t &lt; 0) {</b>
+<b class="nc">&nbsp;            bubbleDown(index);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            bubbleUp(index);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create and return an array of size n.
+&nbsp;     * This is necessary because generics and arrays don&#39;t interoperate nicely.
+&nbsp;     */
+&nbsp;    @SuppressWarnings(&quot;unchecked&quot;)
+&nbsp;    VP[] createVPArray(int n) {
+<b class="nc">&nbsp;        return (VP[]) Array.newInstance(VP.class, n);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method creates and returns an array list that contains all of the values
+&nbsp;     * in the order they are presented in the VP array. Thus, if it is a max heap, this will
+&nbsp;     * create an ArrayList of the values with the highest priority value being first in the list.
+&nbsp;     * PRECONDITION: heap has at least 1 element
+&nbsp;     * Returns: ArrayList&lt;E&gt; - contains all values listed in order of their priority
+&nbsp;     */
+&nbsp;    public ArrayList&lt;E&gt; makeArrayList() {
+<b class="nc">&nbsp;        ArrayList&lt;E&gt; ret = new ArrayList&lt;E&gt;();</b>
+<b class="nc">&nbsp;        for (int k = 0; k &lt; d.length; k++) {</b>
+<b class="nc">&nbsp;            if (d[k] != null) {</b>
+<b class="nc">&nbsp;                ret.add(d[k].val);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return ret;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A VP object houses a value and a priority.
+&nbsp;     */
+&nbsp;    class VP {
+&nbsp;        E val;             // The value
+&nbsp;        double priority;   // The priority
+&nbsp;
+&nbsp;        /**
+&nbsp;         * An instance with value v and priority p.
+&nbsp;         */
+<b class="nc">&nbsp;        VP(E v, double p) {</b>
+<b class="nc">&nbsp;            val = v;</b>
+<b class="nc">&nbsp;            priority = p;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Return a representation of this VP object.
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public String toString() {
+<b class="nc">&nbsp;            return &quot;(&quot; + val + &quot;, &quot; + priority + &quot;)&quot;;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

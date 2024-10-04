@@ -1,0 +1,55 @@
+
+task1:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000400078 <.text>:
+  400078:	92800002 	mov	x2, #0xffffffffffffffff    	// #-1
+  40007c:	91000442 	add	x2, x2, #0x1
+  400080:	38401401 	ldrb	w1, [x0], #1
+  400084:	35ffffc1 	cbnz	w1, 0x40007c
+  400088:	aa0203e0 	mov	x0, x2
+  40008c:	d65f03c0 	ret
+  400090:	d10043ff 	sub	sp, sp, #0x10
+  400094:	f90007fe 	str	x30, [sp, #8]
+  400098:	f90003e0 	str	x0, [sp]
+  40009c:	97fffff7 	bl	0x400078
+  4000a0:	aa0003e2 	mov	x2, x0
+  4000a4:	d2800020 	mov	x0, #0x1                   	// #1
+  4000a8:	f94003e1 	ldr	x1, [sp]
+  4000ac:	d2800808 	mov	x8, #0x40                       // #64
+  4000b0:	d4000001 	svc	#0x0
+  4000b4:	f94007fe 	ldr	x30, [sp, #8]
+  4000b8:	910043ff 	add	sp, sp, #0x10
+  4000bc:	d65f03c0 	ret
+  4000c0:	f94003e0 	ldr	x0, [sp]
+  4000c4:	f100081f 	cmp	x0, #0x2
+  4000c8:	540000a0 	b.eq	0x4000dc  			// b.none
+  4000cc:	700001e0 	adr	x0, 0x40010b
+  4000d0:	97fffff0 	bl	0x400090
+  4000d4:	d2800020 	mov	x0, #0x1                   	// #1
+  4000d8:	14000008 	b	0x4000f8
+  4000dc:	10000120 	adr	x0, 0x400100
+  4000e0:	97ffffec 	bl	0x400090
+  4000e4:	f9400be0 	ldr	x0, [sp, #16]
+  4000e8:	97ffffea 	bl	0x400090
+  4000ec:	100000e0 	adr	x0, 0x400108
+  4000f0:	97ffffe8 	bl	0x400090
+  4000f4:	d2800000 	mov	x0, #0x0                   	// #0
+  4000f8:	d2800ba8 	mov	x8, #0x5d                  	// #93
+  4000fc:	d4000001 	svc	#0x0
+  400100:	6c6c6568 	ldnp	d8, d25, [x11, #-320]
+  400104:	00202c6f 	.inst	0x00202c6f ; NYI
+  400108:	6e000a21 	ext	v1.16b, v17.16b, v0.16b, #1
+  40010c:	20646565 	.inst	0x20646565 ; undefined
+  400110:	63617865 	.inst	0x63617865 ; undefined
+  400114:	20796c74 	.inst	0x20796c74 ; undefined
+  400118:	20656e6f 	.inst	0x20656e6f ; undefined
+  40011c:	6d6d6f63 	ldp	d3, d27, [x27, #-304]
+  400120:	2d646e61 	ldp	s1, s27, [x19, #-224]
+  400124:	656e696c 	fnmls	z12.h, p2/m, z11.h, z14.h
+  400128:	67726120 	.inst	0x67726120 ; undefined
+  40012c:	6e656d75 	umin	v21.8h, v11.8h, v5.8h
+  400130:	00000a74 	.inst	0x00000a74 ; undefined
+  400134:	d503201f 	nop

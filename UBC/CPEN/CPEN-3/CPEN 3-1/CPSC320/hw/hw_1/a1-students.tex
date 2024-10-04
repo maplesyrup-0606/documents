@@ -1,0 +1,401 @@
+\documentclass[11pt]{article}
+\usepackage{assignment}
+
+\newcommand{\fillinMCmath}[1]{\begin{tikzpicture}\draw circle [radius=0.5em];\end{tikzpicture}\ #1}
+\newcommand{\fillinMCmathsoln}[1]{\begin{tikzpicture}\draw[black, fill=blue] circle [radius=0.5em];\end{tikzpicture}\ #1}
+
+\newcommand{\permset}{\mbox{permut}}
+\newcommand{\avg}{\mu}
+
+\author{}
+\date{}
+\begin{document}
+
+\title{CPSC 320 2023W1: Assignment 1}
+
+\maketitle
+\vspace{-0.5in}
+
+This assignment is due on \textbf{Wednesday, Sep 27 at 10pm Vancouver time} on Gradescope. Assignments submitted by noon on the day after the deadline will be accepted, but a penalty of 15\% will be applied. Please follow these guidelines:
+
+\begin{itemize}
+\item
+We strongly recommend that you prepare your solution using \LaTeX, and submit a
+pdf file.  Easiest will be to use the .tex file provided, along with the
+provided tutorial-students.sty file.
+We will accept
+solutions that are prepared using other good formatting systems, as
+long as they are clearly legibile. Solutions that are handwritten or
+difficult to read will receive a grade of zero.
+
+\item
+  For
+questions where you need to select a circle, you can simply change
+\verb~\fillinMCmath~ to \verb~\fillinMCmathsoln~ .
+\item
+In problem 3 below, you'll see an example of how you can format pseudocode using latex. If you have your own preferred way to format pseudocode, you can use that, take an image of it, and insert it as a figure into your document using the following lines (changing the file name as needed and adjusting the width so that it displays clearly):
+
+\begin{verbatim}
+\begin{center}
+\includegraphics[width=0.3\textwidth]{filename.jpg}
+\end{center}
+\end{verbatim}
+
+\item
+  We would also appreciate it if you could typeset your solutions in blue, as it makes it easier for TAs to find the solutions. To do this, all you need to do is use the following lines in your latex file:
+
+\begin{verbatim}
+\begin{soln}
+[Your solution here]
+\end{soln}
+\end{verbatim}
+
+which will produce:
+
+\begin{soln}
+[Your solution here]
+\end{soln}
+
+\item
+Whenever possible, keep the solution to a subproblem on a single page, rather than having it span two pages.  
+
+\item Include in question 1 below the \textbf{names} of each member
+  of your team, as recorded on Canvas. If you want an extra
+double-check on your identity, include your student number.
+Reminder: groups should include a
+maximum of three students; we encourage groups of two.
+\item 
+Start each problem on a new page, using the same numbering and ordering as this
+handout.
+\item
+  Submit the assignment via GradeScope.
+  Your group must make a \textbf{single} submission via one group member's account, marking all other group members in that submission \textbf{using GradeScope's interface}. 
+\item
+After uploading to Gradescope, link each question with all the pages of your pdf containing your solution.
+\end{itemize}
+
+Before  we  begin, a  few  notes  on pseudocode. Your
+pseudocode should  communicate your
+algorithm  clearly,  concisely,  correctly, and  without  irrelevant  detail.
+Reasonable  use of  plain  English is  fine. You  should
+envision your  audience as  a capable  CPSC 320  student unfamiliar  with the
+problem you are solving. Don't
+include what we consider to  be irrelevant detail.
+
+Remember also to \textbf{justify/explain your answers}, unless explicitly indicated otherwise.  We understand
+that gauging how much justification to provide can be tricky.
+Inevitably, judgment is applied by both student and grader as to how
+much is enough, or too much, and it's frustrating for all concerned when judgments
+don't align.  Justifications/explanations need not be long or formal,
+but should be clear and specific (referring back to lines of
+pseudocode, for example). In this class the words \textbf{``prove'',
+``explain'', ``show''} and \textbf{``justify''} are used interchangeably; we're
+not looking for the formality that might be expected in a Math
+class. You don't need to be more formal when a proof is requested, but
+sometimes formal notation or assertions can really help make concepts
+clear and unambiguous.
+
+On the plus side, if you choose an incorrect answer when selecting an
+option but your reasoning shows partial understanding, you might get
+more marks than if no justification is provided. And the effort you
+expend in writing down the justification will hopefully help you gain
+deeper understanding and may well help you converge to the right
+selection :)
+
+Ok, time to get started...
+
+\newpage
+\vspace*{1pt}
+
+%------------------------------------------------------------------------------
+\section{List of names of group members (as listed on Canvas)}
+
+Provide the list here. This is worth 1 mark. Include student numbers
+as a secondary failsafe if you wish.
+
+\section{Statement on collaboration and use of resources}
+To develop good practices in doing homeworks,
+citing resources and acknowledging input from others, please complete the following.
+This question is worth 2 marks.
+
+\begin{enumerate}
+\item All group members have read and followed the guidelines for groupwork
+on assignments given on the website (see \url{https://www.students.cs.ubc.ca/~cs-320/2023W1/coursework.html}, under Assignments).
+\fillinMCmath{Yes} \hspace{.5in} \fillinMCmath{No}
+
+\item We used the following resources (list books, online sources, etc. that you consulted):
+\item One or more of us consulted with course staff during office hours.
+
+\fillinMCmath{Yes} \hspace{.5in} \fillinMCmath{No}
+
+\item One or more of us collaborated with other CPSC 320 students; none of us took
+      written notes during our consultations and we took at least a half-hour break afterwards.
+
+\fillinMCmath{Yes} \hspace{.5in} \fillinMCmath{No}
+
+      If yes, please list their name(s) here:
+
+
+\item One or more of us collaborated with or consulted others outside of CPSC 320; none of us took written notes during our consultations and we took at least a half-hour break afterwards.
+
+\fillinMCmath{Yes} \hspace{.5in} \fillinMCmath{No}
+
+      If yes, please list their name(s) here:
+
+\end{enumerate}
+
+
+\newpage
+
+\section{Matching Preferences}
+Here is an instance of the SMP (stable matching problem) with two applicants and two employers that has at least two stable solutions:
+
+\vspace{.1in}
+
+\begin{center}
+\begin{tabular}{ccccc}
+       $e_1$: & $a_1,a_2$ & \hspace{.5in} &  $a_1:$ & $e_2, e_1$ \\
+       $e_2$: & $a_2,a_1$ & \hspace{.5in} &  $a_2:$ & $e_1, e_2$
+\end{tabular}
+\end{center}
+
+\vspace{.1in}
+
+The matching $\{ (e_1,a_1),(e_2,a_2) \}$ is stable since both employers are
+matched with their top choice.  Also the matching $\{ (e_1,a_2), (e_2,a_1) \}$
+is stable since both applicants are matched with their top choice.
+The matching $\{ (e_1,a_1),(e_2,a_2) \}$ is best for both employers,
+while matching $\{ (e_1,a_2), (e_2,a_1) \}$ is best for both applicants.
+
+More generally, let $I$ be an SMP instance with (at least) two
+different stable matchings $M$ and $M'$. We say that employer $e$
+prefers matching $M$ over $M'$ if $e$ prefers its match in $M$ over
+its match in $M'$.  That is (using notation from the worksheet) if
+$(e,a) \in M$ and $(e,a') \in M'$, then $a >_e a'$.
+
+\begin{enumerate}
+\item (3 points)
+Show an instance of SMP with four applicants and four employers, and show two
+stable matchings $M$ and $M'$ for this instance, such that two employers
+prefer $M$ to $M'$ while the remaining two employers prefer $M'$ to $M$.
+Hint: Build on the example given above.
+(Make sure to provide a short justification of your answer.)
+
+\item (1 point)
+  Let $G(I,M,M')$ be the bipartite graph whose nodes are employers and applicants of $I$, and with an edge between $e$ and $a$ if either $(e,a) \in M$ or $(e,a) \in M'$. Is the graph $G(I,M,M')$ for your SMP instance of part 1 connected?
+  Give a short justification. (Note: While this question refers to graphs, you don't need any knowledge of graph algorithms to complete the question.)
+
+\item (2 points)
+In this and the subsequent parts of the problem let $I$ be an instance with $n\ge $ employers and $n$ applicants, with distinct stable matchings $M$ and $M'$.
+
+Without loss of generality, let $e_1$ be an employer that prefers $M$ over $M'$, and let $e_1$ be matched with $a_1$ in $M$, that is $(e_1,a_1) \in M$. Let $e_2$ be the employer matched with $a_1$ in $M'$, and let $a_2$ be the applicant matched with $e_2$ in $M$. That is, we have:
+
+\vspace{.1in}
+
+\begin{center}
+\begin{tabular}{c|c}
+$M$ & $M'$ \\ \hline
+$(e_1,a_1)$ &  $(e_1, ??)$ \\
+  $(e_2,a_2)$ & $(e_2,a_1)$ \\
+  $\ldots$ & $\ldots$ \\
+\end{tabular}
+\end{center}
+
+\vspace{.1in}
+
+Show that $e_2 >_{a_1} e_1$ and that $a_2 >_{e_2} a_1$.
+
+\item (2 points)
+Now suppose that there are $i$ distinct employers $e_1,e_2,\ldots e_i$, and $i$ distinct applicants $a_1, a_2,\ldots a_i$, such that in the matchings we have:
+
+  \vspace{.1in}
+
+\begin{center}
+\begin{tabular}{c|c}
+$M$ & $M'$ \\ \hline
+$(e_1,a_1)$ &  $(e_1, ??)$ \\
+$(e_2,a_2)$ & $(e_2,a_1)$ \\
+$\ldots$ & $\ldots$ \\
+$(e_{i-1},a_{i-1})$ & $(e_{i-1},a_{i-2})$ \\[.1in]
+$(e_i,a_i)$ & $(e_i,a_{i-1})$ \\
+\end{tabular}
+\end{center}
+\vspace{.1in}
+
+Suppose furthermore that $e_1, e_2, \ldots e_{i-1}$ prefer their
+matches in $M$ to their matches in $M'$.
+Show that $a_{i-1}$ must prefer $e_i$ to $e_{i-1}$
+and furthermore, that $e_i$ must prefer $a_i$ to $a_{i-1}$.
+
+\item (3 points)
+Now, suppose that the graph $G(I,M,M')$ is connected. 
+Show that if one employer prefers $M$ over $M'$, then it must be the case that {\em all} employers prefer $M$ over $M'$.
+
+\end{enumerate}
+
+\newpage
+
+\section{Recursive Permutation Generation}
+In this problem you'll show that 
+the recursive permutation generation algorithm from the first tutorial does
+generate all permutations of the numbers in an array. Here is the algorithm again.
+
+\vspace{.1in}
+
+\begin{algorithmic}[1]
+\Function{Generate-All-Permutations}{$p[1..n]$, $i$}
+\State $\triangleright$ $p[1..n]$ contains $n$ distinct integers, $1 \le i \le n$
+\If{$i = 1$}
+\State \Return $p[1..n]$
+\Else
+   \For{$j$ from $i$ downto 1}
+      \State swap($p[i]$,$p[j]$)
+      \State \textsc{Generate-All-Permutations}($p[1..n]$, $i-1$)
+      \State swap($p[i]$,$p[j]$)
+   \EndFor
+\EndIf
+\EndFunction
+\end{algorithmic}
+
+For a set $S$ of $i$ distinct numbers and a sequence $s$ of additional distinct numbers, let $\permset(S,s)$ be the set of all $i!$ permutations obtained by permuting the numbers in $S$, and then appending the sequence of numbers $s$.
+
+For example, if $n= 4$, $S = \{1,3\}$ and $s = 4,2$ then
+\[
+\permset(S,s) = \{ (1,3,4,2), (3,1,4,2) \}.
+\]
+
+When the sequence $s$ is empty we denote it by $\epsilon$ and we'll shorten the notation by writing
+\[\permset(\{a_1,a_2,\ldots,a_i\})
+\]
+to mean
+$\permset(\{a_1,a_2,\ldots,a_i\}, \epsilon)$.
+
+\begin{enumerate}
+\item (2 points)
+Give a short explanation as to why, for any $i$ in the range $2 \le i \le n$, 
+\[
+\permset(\{a_1,a_2,\ldots,a_i\}, a_{i+1}, a_{i+2},\ldots,a_n)
+\]
+is the same as the set
+\[
+\cup_{1 \le j \le i} \permset(\{a_1,a_2,\ldots,a_{j-1},a_{j+1},\ldots,a_i\}, a_j, a_{i+1},\ldots,a_n).
+\]
+
+\item (5 points)
+Use induction on $i$ to prove the following claim:
+
+\noindent
+{\bf Claim:}
+Let $a_1, a_2, \ldots, a_n$ be the sequence of distinct numbers in array $p[1..n]$. Then for any $i, 1\le i \le n$, \textsc{Generate-All-Permutations}($p[1..n]$, $i$) returns exactly the $i!$ permutations in the set
+\[
+\permset(\{a_1,a_2,\ldots,a_i\}, a_{i+1}, a_{i+2},\ldots,a_n).
+\]
+\end{enumerate}
+
+\newpage
+
+\section{A Number Sieve}
+The following \textsc{Number-Sieve} algorithm repeatedly scans an
+array containing the numbers 1,2, $\ldots, n$ in order.  On the first
+iteration of the {\bf while} loop, the algorithm removes every second
+number, by replacing the number with $-1$.  On subsequent iterations
+every third number from the remaining set of numbers (not counting the
+$-1$'s) is removed; then every fourth number and so on.  The algorithm
+terminates once no number is removed on some iteration. We'll call
+the numbers that are never removed the {\em lucky numbers}.  The first
+few lucky numbers in a sufficiently long array are 1, 3, 7, 13, 19.
+
+\begin{algorithmic}[1]
+\Function{Number-Sieve}{$p[1..n]$}
+\State $\triangleright$ $p[1..n]$ initially contains the numbers $1,2,\ldots,n$ in this order
+\State done $\gets$ false
+\State $k = 1$
+\While{not done}
+\State $k = k+1$
+\State $j \gets 0$
+\State done $\gets$ true
+\For{$i$ from 1 to $n$} \Comment Remove every $k$th of the remaining positive numbers in $p$ 
+   \If{$p[i] \neq -1$}
+      \State $j \gets j+1$
+      \If{$j == k$}
+         \State $p[i] \gets -1$
+         \State $j \gets 0$
+         \State done $\gets$ false
+      \EndIf
+   \EndIf     
+   \EndFor
+\EndWhile   
+\State \Return the list of positive numbers remaining in $p$
+\EndFunction
+\end{algorithmic}
+
+\begin{enumerate}
+\item (4 points)
+One nice feature of big-$O$ analysis of algorithm runtime is that we can
+often ignore annoying floors and ceilings.  
+Show that if we ignore these, then for $k \ge 1$ there are
+$n/k$ positive numbers remaining in the array at the start of the $k$th
+iteration of the {\bf while} loop (assuming that the algorithm has not
+already terminated).
+
+\item (3 points)
+What is the runtime of \textsc{Number-Sieve}, as a function of $n$?
+
+\end{enumerate}
+
+\newpage
+
+\section{Computing Averages}
+
+Let $p[1..n]$ be a 1D array of real-valued numbers.
+We want to create a 2D $n \times n$ array $P$, where
+$P[i][j] = 0$ if $j < i$ and otherwise
+$P[i][j] = \avg(i,j)$, where
+$\avg(i,j)$ is the average of the numbers in the sub-array $p[i..j]$.
+That is, if $i \le j$, then $\avg(i,j) = (p[i] + p[i+1] + \ldots + p[j])/(j-i+1)$.
+
+\begin{enumerate}
+\item (3 points)
+  Here is one algorithm that creates $P$ and computes all entries in the 2D array $P[1..n][1..n]$. Explain why the runtime is $\Theta(n^3)$.
+  
+  \vspace{.1in}
+  
+  \begin{algorithmic}[1]
+\Function{Compute-Averages}{$p[1..n]$}
+\State create the 2D (uninitialized) array $P[1..n][1..n]$
+\For{$i$ from 1 to $n$}
+\For{$j$ from 1 to $n$}
+\If{$j < i$} \State $P[i][j] \gets 0$
+\Else
+\State $P[i][j] \gets (p[i] + p[i+1] \ldots p[j])/(j-i+1)$
+\EndIf
+\EndFor
+\EndFor
+\EndFunction
+  \end{algorithmic}
+  
+  \vspace{.1in}
+
+\item (2 points)
+Modify the above algorithm to obtain an algorithm that
+  runs in time  $\Theta(n^2)$ time. You do not need to provide a justification of your runtime or the correctness of your algorithm.
+
+  \vspace{.1in}
+  
+  \begin{algorithmic}[1]
+\Function{Compute-Averages}{$p[1..n]$}
+\For{$i$ from 1 to $n$}
+\For{$j$ from 1 to $n$}
+\If{$j < i$} \State $P[i][j] \gets 0$
+\ElsIf{$i==j$} \State $P[i][j] \gets p[i]$
+\Else \hspace{.3in} $\triangleright$ $i < j$
+\State $P[i][j] \gets$ {\bf PUT NEW PSEUDOCODE HERE}
+\EndIf
+\EndFor
+\EndFor
+\EndFunction
+  \end{algorithmic}
+
+\end{enumerate}
+\end{document}
+

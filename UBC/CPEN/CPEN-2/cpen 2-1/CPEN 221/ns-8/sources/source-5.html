@@ -1,0 +1,170 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > View</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.views</a>
+</div>
+
+<h1>Coverage Summary for Class: View (cpen221.mp2.views)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">View</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.views;
+&nbsp;
+&nbsp;import cpen221.mp2.controllers.Controller;
+&nbsp;import cpen221.mp2.models.Model;
+&nbsp;
+&nbsp;import static cpen221.mp2.models.Model.Stage;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance is minimum requirements of a view of the Space Gem game.
+&nbsp; */
+&nbsp;public interface View {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialize the view with the given Controller and Model. If the view
+&nbsp;     * has already been initialized, this will simply overwrite the previous
+&nbsp;     * initialization.
+&nbsp;     */
+&nbsp;    public void init(Controller c, Model m);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Begin a particular stage. The view will autonomously update and display
+&nbsp;     * the model until told to stop updating this particular stage.
+&nbsp;     */
+&nbsp;    public void beginStage(Stage s);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Signal the end of a particular stage; the view will stop updating,
+&nbsp;     * leaving a static displayed state.
+&nbsp;     * Precondition: this stage has begun.
+&nbsp;     */
+&nbsp;    public void endStage(Stage s);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Signal that the game has ended with score score.
+&nbsp;     */
+&nbsp;    public void endGame(int score);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print s as a regular message.
+&nbsp;     */
+&nbsp;    public default void outprint(String s) {
+<b class="nc">&nbsp;        System.out.print(s);</b>
+<b class="nc">&nbsp;        System.out.flush();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print s as an error message.
+&nbsp;     */
+&nbsp;    public default void errprint(String s) {
+<b class="nc">&nbsp;        System.err.print(s);</b>
+<b class="nc">&nbsp;        System.err.flush();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print s terminated by a newline as a regular message.
+&nbsp;     */
+&nbsp;    public default void outprintln(String s) {
+<b class="nc">&nbsp;        outprint(s + &#39;\n&#39;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print s terminated by a newline as an error message.
+&nbsp;     */
+&nbsp;    public default void errprintln(String s) {
+<b class="nc">&nbsp;        errprint(s + &#39;\n&#39;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,220 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GUIView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.views</a>
+</div>
+
+<h1>Coverage Summary for Class: GUIView (cpen221.mp2.views)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GUIView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/26)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GUIView$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.views;
+&nbsp;
+&nbsp;import cpen221.mp2.controllers.Controller;
+&nbsp;import cpen221.mp2.gui.GUI;
+&nbsp;import cpen221.mp2.models.Model;
+&nbsp;import cpen221.mp2.models.Model.Stage;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance represents a graphical view.
+&nbsp; */
+&nbsp;public class GUIView implements View {
+&nbsp;
+&nbsp;    private GUI gui; // The GUI rendering this game
+&nbsp;    private Controller ctrlr; // The controller of this game&#39;s model
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a GUIView with a blank GUI.
+&nbsp;     */
+<b class="nc">&nbsp;    public GUIView() {</b>
+<b class="nc">&nbsp;        gui = new GUI();</b>
+<b class="nc">&nbsp;        addTopMenuListeners();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add listeners to the top menu to relay user input to the presenter.
+&nbsp;     */
+&nbsp;    private void addTopMenuListeners() {
+<b class="nc">&nbsp;        gui.addStartListener(e -&gt; ctrlr.start());</b>
+<b class="nc">&nbsp;        gui.addResetListener(e -&gt; ctrlr.reset());</b>
+<b class="nc">&nbsp;        gui.addNewMapListener(e -&gt; ctrlr.newGame(JOptionPane.showInputDialog(</b>
+&nbsp;                &quot;Enter either a valid seed, or anything else to get a random seed.&quot;)));
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init(Controller c, Model m) {
+<b class="nc">&nbsp;        ctrlr = c;</b>
+<b class="nc">&nbsp;        gui.setStartEnabled(true);</b>
+<b class="nc">&nbsp;        gui.init(c, m);</b>
+<b class="nc">&nbsp;        outprintln(&quot;Seed: &quot; + m.seed());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void beginStage(Stage s) {
+<b class="nc">&nbsp;        gui.beginStage(s);</b>
+<b class="nc">&nbsp;        gui.setStartEnabled(false);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endStage(Stage s) {
+<b class="nc">&nbsp;        gui.endPhase(s);</b>
+<b class="nc">&nbsp;        switch (s) {</b>
+&nbsp;            case HUNT:
+<b class="nc">&nbsp;                if (ctrlr.huntSucceeded()) {</b>
+<b class="nc">&nbsp;                    outprintln(&quot;Hunt Stage ended successfully!&quot;);</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;
+&nbsp;            case GATHER:
+<b class="nc">&nbsp;                if (ctrlr.gatherSucceeded()) {</b>
+<b class="nc">&nbsp;                    outprintln(&quot;Gather Stage ended successfully!&quot;);</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;
+&nbsp;            default:
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endGame(int score) {
+<b class="nc">&nbsp;        gui.pause();</b>
+<b class="nc">&nbsp;        if (ctrlr.gatherSucceeded()) {</b>
+<b class="nc">&nbsp;            outprintln(&quot;Score: &quot; + score);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            errprintln(&quot;Score: &quot; + score);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void errprint(String s) {
+<b class="nc">&nbsp;        View.super.errprint(s);</b>
+<b class="nc">&nbsp;        gui.errprint(s);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void outprint(String s) {
+<b class="nc">&nbsp;        View.super.outprint(s);</b>
+<b class="nc">&nbsp;        gui.outprint(s);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

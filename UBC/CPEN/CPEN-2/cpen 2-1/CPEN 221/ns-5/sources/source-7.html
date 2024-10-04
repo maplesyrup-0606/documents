@@ -1,0 +1,341 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ProximityGrid</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: ProximityGrid (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProximityGrid</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/58)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ProximityGrid$MapIterator</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/17)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/75)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;import cpen221.mp2.util.Util;
+&nbsp;
+&nbsp;import java.awt.geom.Point2D;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Iterator;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance maintains Planets in a 2D rectangle and can return the closest Planet
+&nbsp; * to a given Point. It maintains an internal set of rectangles containing Planets
+&nbsp; * based on their coordinates.
+&nbsp; */
+&nbsp;public class ProximityGrid implements Iterable&lt;Planet&gt; {
+&nbsp;
+&nbsp;    /* The dimensions of an individual rectangle. */
+&nbsp;    private static final int RECT_WIDTH = 64, RECT_HEIGHT = 64;
+&nbsp;    /* a 2D array(list) representing rectangles that contain a list of Planets.
+&nbsp;     * [0][0] is the bottom-left rectangle. rs will always have at least one
+&nbsp;     * rectangle, and will always be rectangular (i.e. not ragged). */
+&nbsp;    private ArrayList&lt;ArrayList&lt;List&lt;Planet&gt;&gt;&gt; rectangles;
+&nbsp;    /* The minimum x- and y-values of this PlanetProximitySet. */
+&nbsp;    private int x, y;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a ProximityMap spanning the axis-aligned rectangle
+&nbsp;     * with bottom-left coordinates (x, y) and the given dimensions.
+&nbsp;     *
+&nbsp;     * @param x      the bottom-left x coordinate for the grid.
+&nbsp;     * @param y      the bottom-left y coordinate for the grid.
+&nbsp;     * @param width  the width of the grid.
+&nbsp;     * @param height the height of the grid.
+&nbsp;     */
+<b class="nc">&nbsp;    public ProximityGrid(int x, int y, int width, int height) {</b>
+<b class="nc">&nbsp;        this.x = x;</b>
+<b class="nc">&nbsp;        this.y = y;</b>
+&nbsp;
+<b class="nc">&nbsp;        int w = width / RECT_WIDTH + 1;</b>
+<b class="nc">&nbsp;        int h = height / RECT_HEIGHT + 1;</b>
+<b class="nc">&nbsp;        rectangles = new ArrayList&lt;&gt;(h);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; h; ++i) {</b>
+<b class="nc">&nbsp;            rectangles.add(new ArrayList&lt;&gt;(h));</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; w; ++j) {</b>
+<b class="nc">&nbsp;                rectangles.get(i).add(new LinkedList&lt;Planet&gt;());</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the Planet in planets closest to (x, y) or null if planets is null/empty.
+&nbsp;     *
+&nbsp;     * @return the Planet in planets closest to (x, y) or null if planets is null/empty.
+&nbsp;     */
+&nbsp;    private static Planet closestOfList(List&lt;Planet&gt; planets, Point2D p) {
+<b class="nc">&nbsp;        if (planets.isEmpty()) {</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Planet closest = planets.get(0);</b>
+<b class="nc">&nbsp;        double dist = Double.MAX_VALUE;</b>
+<b class="nc">&nbsp;        for (Planet pl : planets) {</b>
+<b class="nc">&nbsp;            if (pl != null) {</b>
+<b class="nc">&nbsp;                double nDist = Util.distance(pl.x(), pl.y(), p.getX(), p.getY());</b>
+<b class="nc">&nbsp;                if (dist &gt; nDist) {</b>
+<b class="nc">&nbsp;                    dist = nDist;</b>
+<b class="nc">&nbsp;                    closest = pl;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return closest;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add Planet pl to this ProximityGrid.
+&nbsp;     *
+&nbsp;     * @param pl is within the bounds of this ProximityGrid.
+&nbsp;     */
+&nbsp;    public void addPlanet(Planet pl) {
+<b class="nc">&nbsp;        int ri = (pl.y() - y) / RECT_HEIGHT;</b>
+<b class="nc">&nbsp;        int rj = (pl.x() - x) / RECT_WIDTH;</b>
+&nbsp;
+<b class="nc">&nbsp;        rectangles.get(ri).get(rj).add(pl);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the planet closest to p.&lt;br /&gt;&lt;br /&gt;
+&nbsp;     * &lt;p&gt;&lt;strong&gt;requires clause:&lt;/strong&gt; the ProximityGrid is not empty.&lt;/p&gt;
+&nbsp;     *
+&nbsp;     * @return the planet closest to p.
+&nbsp;     */
+&nbsp;    public Planet closestPlanet(Point2D p) {
+<b class="nc">&nbsp;        int ri = (int) (p.getY() - y) / RECT_HEIGHT;</b>
+<b class="nc">&nbsp;        int rj = (int) (p.getX() - x) / RECT_WIDTH;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (ri &gt;= rows()) {</b>
+<b class="nc">&nbsp;            ri = rows() - 1;</b>
+<b class="nc">&nbsp;        } else if (ri &lt; 0) {</b>
+<b class="nc">&nbsp;            ri = 0;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (rj &gt;= cols()) {</b>
+<b class="nc">&nbsp;            rj = cols() - 1;</b>
+<b class="nc">&nbsp;        } else if (rj &lt; 0) {</b>
+<b class="nc">&nbsp;            rj = 0;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Planet pl = closestOfList(rectangles.get(ri).get(rj), p);</b>
+&nbsp;
+<b class="nc">&nbsp;        int imin = ri - 1 &gt;= 0 ? ri - 1 : 0;</b>
+<b class="nc">&nbsp;        int imax = ri + 1 &lt; rows() ? ri + 1 : rows() - 1;</b>
+<b class="nc">&nbsp;        int jmin = rj - 1 &gt;= 0 ? rj - 1 : 0;</b>
+<b class="nc">&nbsp;        int jmax = rj + 1 &lt; cols() ? rj + 1 : cols() - 1;</b>
+&nbsp;        do {
+<b class="nc">&nbsp;            List&lt;Planet&gt; ns = new LinkedList&lt;Planet&gt;();</b>
+<b class="nc">&nbsp;            ns.add(pl);</b>
+<b class="nc">&nbsp;            for (int i = imin; i &lt;= imax; ++i) {</b>
+<b class="nc">&nbsp;                ns.add(closestOfList(rectangles.get(i).get(jmin), p));</b>
+<b class="nc">&nbsp;                ns.add(closestOfList(rectangles.get(i).get(jmax), p));</b>
+&nbsp;            }
+<b class="nc">&nbsp;            for (int j = jmin + 1; j &lt; jmax; ++j) {</b>
+<b class="nc">&nbsp;                ns.add(closestOfList(rectangles.get(imin).get(j), p));</b>
+<b class="nc">&nbsp;                ns.add(closestOfList(rectangles.get(imax).get(j), p));</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            pl = closestOfList(ns, p);</b>
+&nbsp;
+<b class="nc">&nbsp;            imin = imin - 1 &gt;= 0 ? imin - 1 : imin;</b>
+<b class="nc">&nbsp;            imax = imax + 1 &lt; rows() ? imax + 1 : imax;</b>
+<b class="nc">&nbsp;            jmin = jmin - 1 &gt;= 0 ? jmin - 1 : jmin;</b>
+<b class="nc">&nbsp;            jmax = jmax + 1 &lt; cols() ? jmax + 1 : jmax;</b>
+<b class="nc">&nbsp;        } while (pl == null);</b>
+<b class="nc">&nbsp;        return pl;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the number of rows in this grid.
+&nbsp;     *
+&nbsp;     * @return the number of rows in this grid.
+&nbsp;     */
+&nbsp;    private int rows() {
+<b class="nc">&nbsp;        return rectangles.size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the number of columns in this grid.
+&nbsp;     *
+&nbsp;     * @return the number of columns in this grid.
+&nbsp;     */
+&nbsp;    private int cols() {
+<b class="nc">&nbsp;        return rectangles.get(0).size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Iterator&lt;Planet&gt; iterator() {
+<b class="nc">&nbsp;        return new MapIterator();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * An instance enumerates all Planets in this PlanetProximityGrid.
+&nbsp;     */
+&nbsp;    private class MapIterator implements Iterator&lt;Planet&gt; {
+&nbsp;
+&nbsp;        /* The current index whose Planets are being iterated. */
+&nbsp;        private int ri, rj;
+&nbsp;
+&nbsp;        /* The current iterator getting Planets. */
+&nbsp;        private Iterator&lt;Planet&gt; iter;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Constructor: a MapIterator starting at rs[0][0].
+&nbsp;         */
+<b class="nc">&nbsp;        public MapIterator() {</b>
+<b class="nc">&nbsp;            ri = 0;</b>
+<b class="nc">&nbsp;            rj = 0;</b>
+<b class="nc">&nbsp;            iter = rectangles.get(0).get(0).iterator();</b>
+<b class="nc">&nbsp;            ensureTotalEnumeration();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public boolean hasNext() {
+<b class="nc">&nbsp;            return iter.hasNext();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public Planet next() {
+<b class="nc">&nbsp;            Planet n = iter.next();</b>
+<b class="nc">&nbsp;            ensureTotalEnumeration();</b>
+<b class="nc">&nbsp;            return n;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Iff iter still has more elements, do nothing. Otherwise, cycle to
+&nbsp;         * the next List&#39;s iterator until all Planets have been enumerated.
+&nbsp;         */
+&nbsp;        private void ensureTotalEnumeration() {
+<b class="nc">&nbsp;            while (!iter.hasNext() &amp;&amp; ri &lt; rectangles.size()) {</b>
+<b class="nc">&nbsp;                ++rj;</b>
+<b class="nc">&nbsp;                if (rj &lt; cols()) {</b>
+<b class="nc">&nbsp;                    iter = rectangles.get(ri).get(rj).iterator();</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    ++ri;</b>
+<b class="nc">&nbsp;                    if (ri &lt; rows()) {</b>
+<b class="nc">&nbsp;                        rj = 0;</b>
+<b class="nc">&nbsp;                        iter = rectangles.get(ri).get(rj).iterator();</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

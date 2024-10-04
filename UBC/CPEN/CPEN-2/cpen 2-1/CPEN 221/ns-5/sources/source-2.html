@@ -1,0 +1,577 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameModel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: GameModel (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/138)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameModel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">GameModel$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/49)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/151)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;import cpen221.mp2.controllers.GathererStage;
+&nbsp;import cpen221.mp2.controllers.HunterStage;
+&nbsp;import cpen221.mp2.graph.ImGraph;
+&nbsp;
+&nbsp;import java.awt.geom.Point2D;
+&nbsp;import java.util.HashSet;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;import static cpen221.mp2.models.Model.Stage.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance maintains the current state of a Kamino game.
+&nbsp; */
+&nbsp;public class GameModel implements Model, Controllable {
+&nbsp;
+&nbsp;    private static final int BASE_SPEED = 100; // Base speed of ship (per second)
+&nbsp;    private final Universe universe; // The Universe associated with this instance
+&nbsp;    private final ImGraph&lt;Planet, Link&gt; planetGraph; // the graph representation of the universe
+&nbsp;    private Stage stage; // The current phase of the model
+&nbsp;    private Planet shipPlanet; // The Node that the ship is on or has last visited.
+&nbsp;    private Point2D.Double shipLocation; // The current location of the ship.
+&nbsp;    private Link shipLink; // The link on which the ship is traveling. null if still.
+&nbsp;    private double lerpT; // linear interpolation parameter (shipNode to next)
+&nbsp;    private int edgeDist; // current distance traveled on this edge
+&nbsp;    private int fuelRemaining; // Fuel left for rescue. &lt; 0 =&gt; failed solution.
+&nbsp;    private int fuelUsed; // Fuel used by the ship
+&nbsp;    private int spice; // The current amount of spice that the ship holds; &gt;= 0
+&nbsp;    private int score; // The cumulative score
+&nbsp;
+&nbsp;    private String failMessage; // Iff failed, contains message; else null
+&nbsp;    private boolean abort; // True if a game has aborted
+&nbsp;    private boolean huntSuccessful; // True if rescue ended successfully
+&nbsp;    private boolean gatherSuccessful; // True if return ended successfully
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create a new game with a given universe.
+&nbsp;     *
+&nbsp;     * @param univ represents the universe for the new game.
+&nbsp;     */
+<b class="nc">&nbsp;    public GameModel(Universe univ) {</b>
+<b class="nc">&nbsp;        stage = NONE;</b>
+<b class="nc">&nbsp;        universe = univ;</b>
+<b class="nc">&nbsp;        planetGraph = univ.planetGraph();</b>
+&nbsp;
+<b class="nc">&nbsp;        shipPlanet = universe.earth();</b>
+<b class="nc">&nbsp;        shipLocation = new Point2D.Double(shipPlanet.x(), shipPlanet.y());</b>
+<b class="nc">&nbsp;        shipLink = null;</b>
+<b class="nc">&nbsp;        lerpT = 0d;</b>
+&nbsp;
+<b class="nc">&nbsp;        fuelUsed = 0;</b>
+<b class="nc">&nbsp;        fuelRemaining = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        spice = 0;</b>
+<b class="nc">&nbsp;        score = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        failMessage = null;</b>
+<b class="nc">&nbsp;        abort = false;</b>
+<b class="nc">&nbsp;        huntSuccessful = false;</b>
+<b class="nc">&nbsp;        gatherSuccessful = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int width() {
+<b class="nc">&nbsp;        return universe.width();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int height() {
+<b class="nc">&nbsp;        return universe.height();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public long seed() {
+<b class="nc">&nbsp;        return universe.seed();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Set&lt;Planet&gt; planets() {
+<b class="nc">&nbsp;        HashSet&lt;Planet&gt; planets = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (Planet planet : universe.planets()) {</b>
+<b class="nc">&nbsp;            planets.add(planet);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return planets;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Set&lt;Link&gt; edges() {
+<b class="nc">&nbsp;        return universe.links();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Planet closestNode(Point2D p) {
+<b class="nc">&nbsp;        return universe.closestPlanet(p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Planet shipNode() {
+<b class="nc">&nbsp;        return shipPlanet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Point2D shipLocation() {
+<b class="nc">&nbsp;        return shipLocation;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Stage phase() {
+<b class="nc">&nbsp;        return stage;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int fuelRemaining() {
+<b class="nc">&nbsp;        return fuelRemaining - edgeDist;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int fuelUsed() {
+<b class="nc">&nbsp;        return fuelUsed + edgeDist;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int score() {
+<b class="nc">&nbsp;        if (stage == HUNT) {</b>
+<b class="nc">&nbsp;            int tmp = score - edgeDist;</b>
+<b class="nc">&nbsp;            return tmp &gt; 0 ? tmp : 0;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            return score;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public synchronized void update(int tick) throws SolutionFailedException {
+<b class="nc">&nbsp;        if (failMessage != null) {</b>
+<b class="nc">&nbsp;            throw new SolutionFailedException(failMessage);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (shipLink != null) {</b>
+<b class="nc">&nbsp;            Planet shipNext = shipLink.distinctVertex(shipPlanet);</b>
+<b class="nc">&nbsp;            double travelDist = BASE_SPEED * (tick / 1e3);</b>
+<b class="nc">&nbsp;            lerpT += travelDist / shipLink.length();</b>
+<b class="nc">&nbsp;            if (lerpT &gt; 1d) {</b>
+<b class="nc">&nbsp;                shipArrive();</b>
+<b class="nc">&nbsp;                notifyAll();</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                edgeDist = (int) (lerpT * shipLink.length() + 0.5d);</b>
+<b class="nc">&nbsp;                shipLocation.x = (1 - lerpT) * shipPlanet.x() + lerpT * shipNext.x();</b>
+<b class="nc">&nbsp;                shipLocation.y = (1 - lerpT) * shipPlanet.y() + lerpT * shipNext.y();</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (stage == GATHER &amp;&amp; fuelRemaining() &lt; 0) {</b>
+<b class="nc">&nbsp;                failMessage = &quot;ran out of fuel and can no longer travel.&quot;;</b>
+<b class="nc">&nbsp;                score = 0;</b>
+<b class="nc">&nbsp;                throw new SolutionFailedException(failMessage);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Make the ship arrive to its next destination.
+&nbsp;     * Precondition: the ship is moving between two Nodes.
+&nbsp;     */
+&nbsp;    private void shipArrive() {
+<b class="nc">&nbsp;        shipPlanet = shipLink.distinctVertex(shipPlanet);</b>
+<b class="nc">&nbsp;        shipLocation.x = shipPlanet.x();</b>
+<b class="nc">&nbsp;        shipLocation.y = shipPlanet.y();</b>
+<b class="nc">&nbsp;        lerpT = 0d;</b>
+<b class="nc">&nbsp;        edgeDist = 0;</b>
+<b class="nc">&nbsp;        fuelUsed += shipLink.length();</b>
+<b class="nc">&nbsp;        if (stage == HUNT) {</b>
+<b class="nc">&nbsp;            score -= shipLink.length();</b>
+<b class="nc">&nbsp;            if (score &lt; 0) {</b>
+<b class="nc">&nbsp;                score = 0;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        } else if (stage == GATHER) {</b>
+<b class="nc">&nbsp;            fuelRemaining -= shipLink.length();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        shipLink = null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int currentID() {
+<b class="nc">&nbsp;        return shipPlanet.id();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public double signal() {
+<b class="nc">&nbsp;        return universe.signal(shipPlanet);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public PlanetStatus[] neighbors() {
+<b class="nc">&nbsp;        Set&lt;Planet&gt; planets = universe.neighbors(shipPlanet);</b>
+<b class="nc">&nbsp;        PlanetStatus[] ps = new PlanetStatus[planets.size()];</b>
+<b class="nc">&nbsp;        int i = 0;</b>
+<b class="nc">&nbsp;        for (Planet planet : planets) {</b>
+<b class="nc">&nbsp;            ps[i] = new PlanetStatus(planet.id(), planet.name(), universe.signal(planet));</b>
+<b class="nc">&nbsp;            ++i;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return ps;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean onKamino() {
+<b class="nc">&nbsp;        return shipPlanet == universe.target();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Planet currentPlanet() {
+<b class="nc">&nbsp;        return shipPlanet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Planet earth() {
+<b class="nc">&nbsp;        return universe.earth();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Planet kamino() {
+<b class="nc">&nbsp;        return universe.target();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * When called, blocks until the ship has moved from shipNode to planet.
+&nbsp;     */
+&nbsp;    private synchronized void waitUntilMoved(Planet planet) {
+<b class="nc">&nbsp;        shipLink = planetGraph.getEdge(shipPlanet, planet);</b>
+<b class="nc">&nbsp;        while (shipLink != null) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                wait();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public synchronized void moveTo(int id) {
+<b class="nc">&nbsp;        if (abort) {</b>
+<b class="nc">&nbsp;            throw new AbortException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (failMessage != null) {</b>
+<b class="nc">&nbsp;            waitUntilAbort();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (Planet n : universe.neighbors(shipPlanet)) {</b>
+<b class="nc">&nbsp;            if (n.id() == id) {</b>
+<b class="nc">&nbsp;                waitUntilMoved(n);</b>
+&nbsp;                return;
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        failMessage = &quot;tried to call moveTo to a non-adjacent ID.&quot;;</b>
+<b class="nc">&nbsp;        waitUntilAbort();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public synchronized void moveTo(Planet planet) {
+<b class="nc">&nbsp;        if (abort) {</b>
+<b class="nc">&nbsp;            throw new AbortException();</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (failMessage != null) {</b>
+<b class="nc">&nbsp;            waitUntilAbort();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (!universe.connected(shipPlanet, planet)) {</b>
+<b class="nc">&nbsp;            failMessage = &quot;tried to call moveTo to a non-adjacent Node.&quot;;</b>
+<b class="nc">&nbsp;            waitUntilAbort();</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        waitUntilMoved(planet);</b>
+&nbsp;
+<b class="nc">&nbsp;        int s = planet.takeSpice();</b>
+<b class="nc">&nbsp;        spice += s;</b>
+<b class="nc">&nbsp;        score += s;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int spice() {
+<b class="nc">&nbsp;        return spice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public ImGraph&lt;Planet, Link&gt; planetGraph() {
+<b class="nc">&nbsp;        return planetGraph;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public HunterStage beginHuntStage() {
+<b class="nc">&nbsp;        stage = HUNT;</b>
+<b class="nc">&nbsp;        score = universe.distanceToTarget() * 2;</b>
+&nbsp;
+<b class="nc">&nbsp;        return new HunterStage() {</b>
+&nbsp;            @Override
+&nbsp;            public int currentID() {
+<b class="nc">&nbsp;                return GameModel.this.currentID();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public double signal() {
+<b class="nc">&nbsp;                return GameModel.this.signal();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public PlanetStatus[] neighbors() {
+<b class="nc">&nbsp;                return GameModel.this.neighbors();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public boolean onKamino() {
+<b class="nc">&nbsp;                return GameModel.this.onKamino();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public void moveTo(int id) {
+<b class="nc">&nbsp;                GameModel.this.moveTo(id);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public GathererStage beginGatherStage() {
+<b class="nc">&nbsp;        stage = GATHER;</b>
+<b class="nc">&nbsp;        fuelRemaining = universe.sumLinkLengths() / 2 + universe.distanceToTarget();</b>
+&nbsp;
+<b class="nc">&nbsp;        return new GathererStage() {</b>
+&nbsp;            @Override
+&nbsp;            public Planet currentPlanet() {
+<b class="nc">&nbsp;                return GameModel.this.currentPlanet();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public Planet earth() {
+<b class="nc">&nbsp;                return GameModel.this.earth();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public Set&lt;Planet&gt; planets() {
+<b class="nc">&nbsp;                return GameModel.this.planets();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public void moveTo(Planet planet) {
+<b class="nc">&nbsp;                GameModel.this.moveTo(planet);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public int fuelRemaining() {
+<b class="nc">&nbsp;                return GameModel.this.fuelRemaining();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public ImGraph&lt;Planet, Link&gt; planetGraph() {
+<b class="nc">&nbsp;                return GameModel.this.planetGraph;</b>
+&nbsp;            }
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean endHuntStage() {
+<b class="nc">&nbsp;        if (stage != HUNT) {</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(</b>
+&nbsp;                    &quot;error: not in rescue stage; can&#39;t end rescue stage&quot;);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        stage = NONE;</b>
+<b class="nc">&nbsp;        huntSuccessful = shipPlanet == universe.target();</b>
+<b class="nc">&nbsp;        if (!huntSuccessful) {</b>
+<b class="nc">&nbsp;            score = 0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return huntSuccessful;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean endGatherStage() {
+<b class="nc">&nbsp;        if (stage != GATHER) {</b>
+<b class="nc">&nbsp;            throw new IllegalStateException(</b>
+&nbsp;                    &quot;error: not in return stage; can&#39;t end return stage&quot;);
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        stage = NONE;</b>
+<b class="nc">&nbsp;        gatherSuccessful = shipPlanet == universe.earth();</b>
+<b class="nc">&nbsp;        if (!gatherSuccessful) {</b>
+<b class="nc">&nbsp;            score = 0;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return gatherSuccessful;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean huntSucceeded() {
+<b class="nc">&nbsp;        return huntSuccessful;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean gatherSucceeded() {
+<b class="nc">&nbsp;        return gatherSuccessful;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void setShipLocation(Planet planet) {
+<b class="nc">&nbsp;        shipPlanet = planet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Block until the game is aborted, then throws an AbortException.
+&nbsp;     */
+&nbsp;    private synchronized void waitUntilAbort() throws AbortException {
+<b class="nc">&nbsp;        while (!abort) {</b>
+&nbsp;            try {
+<b class="nc">&nbsp;                wait();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            catch (InterruptedException e) {</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        throw new AbortException();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public synchronized void abort() {
+<b class="nc">&nbsp;        abort = true;</b>
+&nbsp;
+&nbsp;        // If the ship was moving, forcibly stop it
+<b class="nc">&nbsp;        if (shipLink != null) {</b>
+<b class="nc">&nbsp;            shipArrive();</b>
+<b class="nc">&nbsp;            notifyAll();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

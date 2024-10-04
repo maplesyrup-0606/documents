@@ -1,0 +1,123 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Spaceship</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: Spaceship (cpen221.mp2.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Spaceship</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.controllers;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance contains the methods that must be implemented
+&nbsp; * in order to solve the game.
+&nbsp; */
+&nbsp;public interface Spaceship {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The spaceship is on the location given by parameter state.
+&nbsp;     * Move the spaceship to Kamino and then return.
+&nbsp;     * This completes the first phase of the mission.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * If the spaceship continues to move after reaching Kamino, rather than
+&nbsp;     * returning, it will not count. A return from this procedure while
+&nbsp;     * not on Kamino count as a failure.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * There is no limit to how many steps you can take, but the score is
+&nbsp;     * directly related to how long it takes you to find Kamino.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * At every step, you know only the current planet&#39;s ID, the IDs of
+&nbsp;     * neighboring planets, and the strength of the signal from Kamino
+&nbsp;     * at each planet.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * In this stage of the game,&lt;br&gt;
+&nbsp;     * (1) In order to get information about the current state, use
+&nbsp;     * functions currentID(), neighbors(), and signal().&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * (2) Use method onKamino() to know if your ship is on Kamino.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * (3) Use method moveTo(int id) to move to a neighboring planet
+&nbsp;     * with the given ID. Doing this will change state to reflect the
+&nbsp;     * ship&#39;s new position.
+&nbsp;     */
+&nbsp;    public void hunt(HunterStage state);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The spaceship is on the location given by state. Get back to Earth
+&nbsp;     * without running out of fuel and return while on Earth. Your ship can
+&nbsp;     * determine how much fuel it has left via method fuelRemaining(), and how
+&nbsp;     * much fuel is needed to travel on a link via link&#39;s fuelNeeded().&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Each Planet has some spice. Moving to a Planet automatically
+&nbsp;     * collects any spice it carries, which increases your score. your
+&nbsp;     * objective is to return to earth with as much spice as possible.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * You now have access to the entire underlying graph, which can be
+&nbsp;     * accessed through parameter state. currentNode() and earth() return
+&nbsp;     * planets of interest, and planets() returns a collection of
+&nbsp;     * all planets in the graph.&lt;br&gt;&lt;br&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * Note: Use moveTo() to move to a destination node adjacent to
+&nbsp;     * your ship&#39;s current node.
+&nbsp;     */
+&nbsp;    public void gather(GathererStage state);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

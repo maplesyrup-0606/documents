@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ImGraph</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.graph</a>
+</div>
+
+<h1>Coverage Summary for Class: ImGraph (cpen221.mp2.graph)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ImGraph</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.graph;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;public interface ImGraph&lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find the edge that connects two vertices if such an edge exists.
+&nbsp;     * This method should not permit graph mutations.
+&nbsp;     *
+&nbsp;     * @param v1 one end of the edge
+&nbsp;     * @param v2 the other end of the edge
+&nbsp;     * @return the edge connecting v1 and v2
+&nbsp;     */
+&nbsp;    public E getEdge(V v1, V v2);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the shortest path from source to sink
+&nbsp;     *
+&nbsp;     * @param source the start vertex
+&nbsp;     * @param sink   the end vertex
+&nbsp;     * @return the vertices, in order, on the shortest path from source to sink (both end points are part of the list)
+&nbsp;     */
+&nbsp;    List&lt;V&gt; shortestPath(V source, V sink);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the length of a given path
+&nbsp;     *
+&nbsp;     * @param path indicates the vertices on the given path
+&nbsp;     * @return the length of path
+&nbsp;     */
+&nbsp;    int pathLength(List&lt;V&gt; path);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain all vertices w that are no more than a &lt;em&gt;path distance&lt;/em&gt; of range from v.
+&nbsp;     *
+&nbsp;     * @param v     the vertex to start the search from.
+&nbsp;     * @param range the radius of the search.
+&nbsp;     * @return a map where the keys are the vertices in the neighbourhood of v,
+&nbsp;     *          and the value for key w is the last edge on the shortest path
+&nbsp;     *          from v to w.
+&nbsp;     */
+&nbsp;    Map&lt;V, E&gt; getNeighbours(V v, int range);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a set with k connected components of the graph..
+&nbsp;     *
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;When k = 1, the method returns one graph in the set, and that graph
+&nbsp;     * represents the minimum spanning tree of the graph.
+&nbsp;     * See: https://en.wikipedia.org/wiki/Minimum_spanning_tree&lt;/li&gt;
+&nbsp;     *
+&nbsp;     * &lt;li&gt;When k = n, where n is the number of vertices in the graph, then
+&nbsp;     * the method returns a set of n graphs, and each graph contains a
+&nbsp;     * unique vertex and no edge.&lt;/li&gt;
+&nbsp;     *
+&nbsp;     * &lt;li&gt;When k is in [2, n-1], the method partitions the graph into sub-graphs
+&nbsp;     * such that for any two vertices V_i and V_j, if vertex V_i is in subgraph
+&nbsp;     * G_a and vertex V_j is in subgraph G_b (a != b), and there is an edge
+&nbsp;     * between V_i and V_j then there must exist some vertex V_k in G_a such
+&nbsp;     * that the length of the edge between V_i and V_k is at most the length
+&nbsp;     * of the edge between V_i and V_j.&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     *
+&nbsp;     * @param k the number of sub graphs to be partitioned into. k &gt;= number of connected components and k &lt;= vertices in graph.
+&nbsp;     * @return a set of graph partitions such that a vertex in one partition
+&nbsp;     * is no closer to a vertex in a different partition than it is to a vertex
+&nbsp;     * in its own partition.
+&nbsp;     */
+&nbsp;    Set&lt;ImGraph&lt;V, E&gt;&gt; minimumSpanningComponents(int k);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the diameter of the graph.
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;The diameter of a graph is the length of the longest shortest path in the graph.&lt;/li&gt;
+&nbsp;     * &lt;li&gt;If a graph has multiple components then we will define the diameter
+&nbsp;     * as the diameter of the largest component.&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     *
+&nbsp;     * @return the diameter of the graph.
+&nbsp;     */
+&nbsp;    int diameter();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the center of the graph. The graph must have at least 1 vertex.
+&nbsp;     *
+&nbsp;     * &lt;ul&gt;
+&nbsp;     * &lt;li&gt;For a vertex s, the eccentricity of s is defined as the maximum distance
+&nbsp;     * between s and any other vertex t in the graph.&lt;/li&gt;
+&nbsp;     *
+&nbsp;     * &lt;li&gt;The center of a graph is the vertex with minimum eccentricity.&lt;/li&gt;
+&nbsp;     *
+&nbsp;     * &lt;li&gt;If a graph is not connected, we will define the graph&#39;s center to be the
+&nbsp;     * center of the largest connected component.&lt;/li&gt;
+&nbsp;     * &lt;/ul&gt;
+&nbsp;     *
+&nbsp;     * @return the center of the graph.
+&nbsp;     */
+&nbsp;    V getCenter();
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

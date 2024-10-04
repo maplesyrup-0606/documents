@@ -1,0 +1,893 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Graph</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.graph</a>
+</div>
+
+<h1>Coverage Summary for Class: Graph (cpen221.mp2.graph)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Graph</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/314)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Graph$1VEPair</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/317)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.graph;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a graph with vertices of type V.
+&nbsp; *
+&nbsp; * @param &lt;V&gt; represents a vertex type
+&nbsp; */
+&nbsp;public class Graph&lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; implements ImGraph&lt;V, E&gt;, MGraph&lt;V, E&gt;, Cloneable {
+&nbsp;    // TODO: Implement this type
+&nbsp;    // You can re-implement this graph, or use composition and
+&nbsp;    // rely on your implementation of ALGraph or AMGraph
+&nbsp;
+&nbsp;    private ALGraph&lt;V, E&gt; Lgraph;
+<b class="nc">&nbsp;    private boolean hasCyclesAfterEdgeAdded = false;</b>
+&nbsp;    //// add all new code above this line ////
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create an empty graph
+&nbsp;     */
+<b class="nc">&nbsp;    public Graph() {</b>
+<b class="nc">&nbsp;        Lgraph = new ALGraph&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Graph clone() {
+<b class="nc">&nbsp;        Set&lt;V&gt; vertices = this.allVertices();</b>
+<b class="nc">&nbsp;        Set&lt;E&gt; edges = this.allEdges();</b>
+<b class="nc">&nbsp;        Graph cloned = new Graph();</b>
+<b class="nc">&nbsp;        for (V vertex : vertices) {</b>
+<b class="nc">&nbsp;            cloned.addVertex(vertex.clone());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        for (E edge : edges) {</b>
+<b class="nc">&nbsp;            cloned.addEdge(edge.clone());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return cloned;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;        if (o instanceof Graph) {</b>
+<b class="nc">&nbsp;            Graph other = (Graph) o;</b>
+<b class="nc">&nbsp;            if (other.Lgraph.equals(Lgraph)) {</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return this.allVertices().size() + this.allEdges().size();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method removes some edges at random while preserving connectivity
+&nbsp;     * &lt;p&gt;
+&nbsp;     * DO NOT CHANGE THIS METHOD
+&nbsp;     * &lt;/p&gt;
+&nbsp;     * &lt;p&gt;
+&nbsp;     * You will need to implement allVertices() and allEdges(V v) for this
+&nbsp;     * method to run correctly
+&nbsp;     * &lt;/p&gt;
+&nbsp;     * &lt;p&gt;&lt;strong&gt;requires:&lt;/strong&gt; this graph is connected&lt;/p&gt;
+&nbsp;     *
+&nbsp;     * @param rng random number generator to select edges at random
+&nbsp;     */
+&nbsp;    public void pruneRandomEdges(Random rng) {
+&nbsp;        class VEPair {
+&nbsp;            V v;
+&nbsp;            E e;
+&nbsp;
+<b class="nc">&nbsp;            public VEPair(V v, E e) {</b>
+<b class="nc">&nbsp;                this.v = v;</b>
+<b class="nc">&nbsp;                this.e = e;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;        /* Visited Nodes */
+<b class="nc">&nbsp;        Set&lt;V&gt; visited = new HashSet&lt;&gt;();</b>
+&nbsp;        /* Nodes to visit and the cpen221.mp2.graph.Edge used to reach them */
+<b class="nc">&nbsp;        Deque&lt;VEPair&gt; stack = new LinkedList&lt;VEPair&gt;();</b>
+&nbsp;        /* Edges that could be removed */
+<b class="nc">&nbsp;        ArrayList&lt;E&gt; candidates = new ArrayList&lt;&gt;();</b>
+&nbsp;        /* Edges that must be kept to maintain connectivity */
+<b class="nc">&nbsp;        Set&lt;E&gt; keep = new HashSet&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        V start = null;</b>
+<b class="nc">&nbsp;        for (V v : this.allVertices()) {</b>
+<b class="nc">&nbsp;            start = v;</b>
+<b class="nc">&nbsp;            break;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (start == null) {</b>
+&nbsp;            // nothing to do
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        stack.push(new VEPair(start, null));</b>
+<b class="nc">&nbsp;        while (!stack.isEmpty()) {</b>
+<b class="nc">&nbsp;            VEPair pair = stack.pop();</b>
+<b class="nc">&nbsp;            if (visited.add(pair.v)) {</b>
+<b class="nc">&nbsp;                keep.add(pair.e);</b>
+<b class="nc">&nbsp;                for (E e : this.allEdges(pair.v)) {</b>
+<b class="nc">&nbsp;                    stack.push(new VEPair(e.distinctVertex(pair.v), e));</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            } else if (!keep.contains(pair.e)) {</b>
+<b class="nc">&nbsp;                candidates.add(pair.e);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        // randomly trim some candidate edges
+<b class="nc">&nbsp;        int iterations = rng.nextInt(candidates.size());</b>
+<b class="nc">&nbsp;        for (int count = 0; count &lt; iterations; ++count) {</b>
+<b class="nc">&nbsp;            int end = candidates.size() - 1;</b>
+<b class="nc">&nbsp;            int index = rng.nextInt(candidates.size());</b>
+<b class="nc">&nbsp;            E trim = candidates.get(index);</b>
+<b class="nc">&nbsp;            candidates.set(index, candidates.get(end));</b>
+<b class="nc">&nbsp;            candidates.remove(end);</b>
+<b class="nc">&nbsp;            remove(trim);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Find the edge that connects two vertices if such an edge exists.
+&nbsp;     * This method should not permit graph mutations. In order to
+&nbsp;     * call this method, the method edge(v1,v2) or edge(v2,v1) must return true
+&nbsp;     * to ensure that the edge exists in the graph.
+&nbsp;     *
+&nbsp;     * @param v1 one end of the edge
+&nbsp;     * @param v2 the other end of the edge
+&nbsp;     * @return the edge connecting v1 and v2
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public E getEdge(V v1, V v2) {
+<b class="nc">&nbsp;        for (E e : Lgraph.allEdges()) {</b>
+<b class="nc">&nbsp;            if (e.v1().equals(v1) &amp;&amp; e.v2().equals(v2)) {</b>
+<b class="nc">&nbsp;                return (E) e.clone();</b>
+<b class="nc">&nbsp;            } else if (e.v1().equals(v2) &amp;&amp; e.v2().equals(v1)) {</b>
+<b class="nc">&nbsp;                return (E) e.clone();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the shortest path from source to sink
+&nbsp;     *
+&nbsp;     * @param source the start vertex
+&nbsp;     * @param sink   the end vertex
+&nbsp;     * @return the vertices, in order, on the shortest path from source to sink (both end points are part of the list)
+&nbsp;     * Returns an empty list if no path exists between the starting and ending vertices.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public List&lt;V&gt; shortestPath(V source, V sink) {
+<b class="nc">&nbsp;        List&lt;V&gt; visited = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        visited.add(source);</b>
+<b class="nc">&nbsp;        List&lt;V&gt; unvisited = null;</b>
+<b class="nc">&nbsp;        Map&lt;V, V&gt; previousVertex = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        Map&lt;V, Integer&gt; distanceFromSource = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        Graph&lt;V, E&gt; graphToBeChecked = new Graph&lt;&gt;();</b>
+&nbsp;
+&nbsp;        // checks if the source and sink are in the same sub-graph
+<b class="nc">&nbsp;        if (getComponents().size() &gt; 0) {</b>
+<b class="nc">&nbsp;            for (Graph g : getComponents()) {</b>
+<b class="nc">&nbsp;                if ((g.vertex(source) &amp;&amp; !g.vertex(sink))) {</b>
+<b class="nc">&nbsp;                    return new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;                } else if (!g.vertex(source) &amp;&amp; g.vertex(sink)) {</b>
+<b class="nc">&nbsp;                    return new ArrayList&lt;&gt;();</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (getComponents().size() &gt; 1) {</b>
+<b class="nc">&nbsp;            for (Graph g : getComponents()) {</b>
+<b class="nc">&nbsp;                if (g.vertex(source)) {</b>
+<b class="nc">&nbsp;                    unvisited = new ArrayList&lt;&gt;(g.allVertices());</b>
+<b class="nc">&nbsp;                    graphToBeChecked = g;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            unvisited = new ArrayList&lt;&gt;(Lgraph.allVertices());</b>
+<b class="nc">&nbsp;            for (Graph g : getComponents()) {</b>
+<b class="nc">&nbsp;                graphToBeChecked = g;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        //initializing distance from source
+<b class="nc">&nbsp;        for (V v : graphToBeChecked.allVertices()) {</b>
+<b class="nc">&nbsp;            if (v.equals(source)) {</b>
+<b class="nc">&nbsp;                distanceFromSource.put(source, -1);</b>
+<b class="nc">&nbsp;                previousVertex.put(source, null);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                distanceFromSource.put(v, Integer.MAX_VALUE);</b>
+<b class="nc">&nbsp;                previousVertex.put(v, null);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;        //first recursion call
+<b class="nc">&nbsp;        shortestPathHelper(source, visited, previousVertex, distanceFromSource, graphToBeChecked, null);</b>
+<b class="nc">&nbsp;        List&lt;V&gt; shortestPath = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        V nextV = sink;</b>
+<b class="nc">&nbsp;        while (!nextV.equals(source)) {</b>
+<b class="nc">&nbsp;            shortestPath.add(0, previousVertex.get(nextV));</b>
+<b class="nc">&nbsp;            nextV = previousVertex.get(nextV);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        shortestPath.add(sink);</b>
+<b class="nc">&nbsp;        return shortestPath;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Helper method for the recursive implementation of the shortestHelper method. Recursively finds
+&nbsp;     * all shortest path from the source given to all the vertices within the connected graph component.
+&nbsp;     *
+&nbsp;     * @param curVertex          the vertex which we will check its neighbor vertices for
+&nbsp;     * @param visited            All the vertices that we have already checked recursively
+&nbsp;     * @param previousVertex     Key is the vertex while the value for a given key is the last vertex on the shortest
+&nbsp;     *                           path from source to key
+&nbsp;     * @param distanceFromSource Given a vertex key we get the shortest distance from source for that specific key
+&nbsp;     * @param graph              The graph component which contains both the source and sink that is being analyzed to find the shortest path
+&nbsp;     * @param prevVertex         The vertex prior to the vertex currently being checked on.
+&nbsp;     */
+&nbsp;    private void shortestPathHelper(V curVertex, List&lt;V&gt; visited, Map&lt;V, V&gt; previousVertex, Map&lt;V, Integer&gt; distanceFromSource, Graph&lt;V, E&gt; graph, V prevVertex) {
+<b class="nc">&nbsp;        V nextVertex = null;</b>
+<b class="nc">&nbsp;        int minDistance = Integer.MAX_VALUE;</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        graph.getNeighbours(curVertex);</b>
+<b class="nc">&nbsp;        for (var verEdge : graph.getNeighbours(curVertex).entrySet()) {</b>
+<b class="nc">&nbsp;            int curLen = verEdge.getValue().length();</b>
+<b class="nc">&nbsp;            if (!visited.contains(verEdge.getKey())) {</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                if (graph.allEdges(verEdge.getKey()).size() == 1) {</b>
+<b class="nc">&nbsp;                    visited.add(verEdge.getKey());</b>
+<b class="nc">&nbsp;                } else if (curLen &lt; minDistance) {</b>
+<b class="nc">&nbsp;                    nextVertex = verEdge.getKey();</b>
+<b class="nc">&nbsp;                    minDistance = verEdge.getValue().length();</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (distanceFromSource.get(verEdge.getKey()) != -1) {</b>
+<b class="nc">&nbsp;                if (distanceFromSource.get(curVertex) == -1) {</b>
+<b class="nc">&nbsp;                    if (distanceFromSource.get(verEdge.getKey()) &gt; curLen) {</b>
+<b class="nc">&nbsp;                        distanceFromSource.put(verEdge.getKey(), curLen);</b>
+<b class="nc">&nbsp;                        previousVertex.put(verEdge.getKey(), curVertex);</b>
+&nbsp;                    }
+&nbsp;                } else {
+<b class="nc">&nbsp;                    if (distanceFromSource.get(verEdge.getKey()) &gt; distanceFromSource.get(curVertex) + curLen) {</b>
+<b class="nc">&nbsp;                        distanceFromSource.put(verEdge.getKey(), distanceFromSource.get(curVertex) + curLen);</b>
+<b class="nc">&nbsp;                        previousVertex.put(verEdge.getKey(), curVertex);</b>
+&nbsp;                    }
+&nbsp;                }
+&nbsp;
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nextVertex != null) {</b>
+<b class="nc">&nbsp;            visited.add(nextVertex);</b>
+<b class="nc">&nbsp;            shortestPathHelper(nextVertex, visited, previousVertex, distanceFromSource, graph, curVertex);</b>
+<b class="nc">&nbsp;        } else if (distanceFromSource.keySet().size() == visited.size()) ;</b>
+&nbsp;        else {
+&nbsp;            // visited.add(curVertex);
+<b class="nc">&nbsp;            shortestPathHelper(prevVertex, visited, previousVertex, distanceFromSource, graph, curVertex);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the length of a given path
+&nbsp;     *
+&nbsp;     * @param path indicates the vertices on the given path
+&nbsp;     * @return the length of path
+&nbsp;     * Returns Integer.MAX_VALUE if the given param path is empty. This is to signify that the path is an empty path
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int pathLength(List&lt;V&gt; path) {
+<b class="nc">&nbsp;        int pathLength = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        if (path.size() == 0) {</b>
+<b class="nc">&nbsp;            return Integer.MAX_VALUE;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; path.size() - 1; i++) {</b>
+<b class="nc">&nbsp;            pathLength += edgeLength(path.get(i), path.get(i + 1));</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return pathLength;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain all vertices w that are no more than a &lt;em&gt;path distance&lt;/em&gt; of range from v.
+&nbsp;     *
+&nbsp;     * @param v     the vertex to start the search from.
+&nbsp;     * @param range the radius of the search. range has to be &gt;= 0.
+&nbsp;     * @return a map where the keys are the vertices in the neighbourhood of v,
+&nbsp;     * and the value for key w is the last edge on the shortest path
+&nbsp;     * from v to w.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Map&lt;V, E&gt; getNeighbours(V v, int range) {
+<b class="nc">&nbsp;        List&lt;V&gt; visited = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        visited.add(v);</b>
+<b class="nc">&nbsp;        List&lt;V&gt; unvisited = null;</b>
+<b class="nc">&nbsp;        Map&lt;V, V&gt; previousVertex = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        Map&lt;V, Integer&gt; distanceFromSource = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        Graph&lt;V, E&gt; graphToBeChecked = new Graph&lt;&gt;();</b>
+<b class="nc">&nbsp;        Map&lt;V, E&gt; neighbours = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        if (getComponents().size() &gt; 1) {</b>
+<b class="nc">&nbsp;            for (Graph g : getComponents()) {</b>
+<b class="nc">&nbsp;                if (g.vertex(v)) {</b>
+<b class="nc">&nbsp;                    unvisited = new ArrayList&lt;&gt;(g.allVertices());</b>
+<b class="nc">&nbsp;                    graphToBeChecked = g;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            unvisited = new ArrayList&lt;&gt;(Lgraph.allVertices());</b>
+<b class="nc">&nbsp;            for (Graph g : getComponents()) {</b>
+<b class="nc">&nbsp;                graphToBeChecked = g;</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        for (V vertex : graphToBeChecked.allVertices()) {</b>
+<b class="nc">&nbsp;            if (vertex.equals(v)) {</b>
+<b class="nc">&nbsp;                distanceFromSource.put(vertex, -1);</b>
+<b class="nc">&nbsp;                previousVertex.put(vertex, null);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                distanceFromSource.put(vertex, Integer.MAX_VALUE);</b>
+<b class="nc">&nbsp;                previousVertex.put(vertex, null);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        shortestPathHelper(v, visited, previousVertex, distanceFromSource, graphToBeChecked, null);</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;        for (V vertex : distanceFromSource.keySet()) {</b>
+<b class="nc">&nbsp;            if (distanceFromSource.get(vertex) &gt;= 0 &amp;&amp; distanceFromSource.get(vertex) &lt;= range) {</b>
+<b class="nc">&nbsp;                getEdge(vertex, previousVertex.get(vertex));</b>
+<b class="nc">&nbsp;                neighbours.put(vertex, getEdge(vertex, previousVertex.get(vertex)));</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return neighbours;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a set with k connected components of the graph.
+&nbsp;     *
+&nbsp;     * @param k the number of sub graphs to be partitioned into. k &gt;= number of connected components and k &lt;= vertices in graph.
+&nbsp;     * @return a set of graph partitions such that a vertex in one partition
+&nbsp;     * is no closer to a vertex in a different partition than it is to a vertex
+&nbsp;     * in its own partition.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Set&lt;ImGraph&lt;V, E&gt;&gt; minimumSpanningComponents(int k) {
+<b class="nc">&nbsp;        Set&lt;Graph&gt; components = getComponents();</b>
+<b class="nc">&nbsp;        Set&lt;ImGraph&lt;V, E&gt;&gt; minSpanComponents = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        int numComponents = components.size();</b>
+<b class="nc">&nbsp;        int requiredPartitions = k - numComponents;</b>
+<b class="nc">&nbsp;        if (numComponents &gt; 1) {</b>
+<b class="nc">&nbsp;            if (requiredPartitions == 0) {</b>
+<b class="nc">&nbsp;                Set&lt;Graph&gt; graphs = this.getComponents();</b>
+<b class="nc">&nbsp;                for (Graph graph : graphs) {</b>
+<b class="nc">&nbsp;                    minSpanComponents.add(graph);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                return minSpanComponents;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            Set&lt;Graph&gt; remainingComponents = new HashSet&lt;&gt;(components);</b>
+<b class="nc">&nbsp;            for (Graph component : components) {</b>
+<b class="nc">&nbsp;                remainingComponents.remove(component);</b>
+<b class="nc">&nbsp;                int offeredPartitions = component.allVertices().size() - 1;</b>
+<b class="nc">&nbsp;                if (offeredPartitions &gt; requiredPartitions) {</b>
+<b class="nc">&nbsp;                    minSpanComponents.addAll(component.minimumSpanningComponents(requiredPartitions + 1));</b>
+<b class="nc">&nbsp;                    for (Graph graph : remainingComponents) {</b>
+<b class="nc">&nbsp;                        minSpanComponents.add(graph.getMinimumSpanningTree(graph));</b>
+<b class="nc">&nbsp;                    }</b>
+<b class="nc">&nbsp;                    return minSpanComponents;</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    requiredPartitions -= offeredPartitions;</b>
+<b class="nc">&nbsp;                    minSpanComponents.addAll(component.minimumSpanningComponents(offeredPartitions + 1));</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            minSpanComponents.addAll(iterativeComputeMinSpanComps(k));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return minSpanComponents;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the minimum spanning components of a single connected graph.
+&nbsp;     *
+&nbsp;     * @param k number of subgraphs to be partitioned into. k &gt;= 1 and k &lt;= number of vertices in subgraph.
+&nbsp;     * @return a set of partitioned subgraphs.
+&nbsp;     */
+&nbsp;    private Set&lt;ImGraph&lt;V, E&gt;&gt; iterativeComputeMinSpanComps(int k) {
+&nbsp;        Set&lt;ImGraph&lt;V, E&gt;&gt; minSpanComponents;
+<b class="nc">&nbsp;        Graph minSpanningTree = this.getMinimumSpanningTree(this);</b>
+<b class="nc">&nbsp;        List&lt;E&gt; edgeList = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        edgeList.addAll(minSpanningTree.allEdges());</b>
+<b class="nc">&nbsp;        edgeList.sort(Comparator.comparing(o -&gt; o.length()));</b>
+<b class="nc">&nbsp;        Collections.reverse(edgeList);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; k - 1; i++) {</b>
+<b class="nc">&nbsp;            minSpanningTree.remove(edgeList.get(i));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        minSpanComponents = minSpanningTree.getComponents();</b>
+<b class="nc">&nbsp;        return minSpanComponents;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the minimum spanning tree of a sub graph.
+&nbsp;     *
+&nbsp;     * @param graph that is a sub graph of &quot;this&quot; and is connected.
+&nbsp;     * @return minimum spanning tree of graph.
+&nbsp;     */
+&nbsp;    public Graph getMinimumSpanningTree(Graph graph) {
+<b class="nc">&nbsp;        Graph&lt;V, E&gt; resultGraph = new Graph&lt;&gt;();</b>
+<b class="nc">&nbsp;        Set&lt;E&gt; edges = graph.allEdges();</b>
+<b class="nc">&nbsp;        List&lt;E&gt; sortEdges = new ArrayList&lt;E&gt;(edges);</b>
+<b class="nc">&nbsp;        Set&lt;V&gt; newSet = graph.allVertices();</b>
+<b class="nc">&nbsp;        for (V each : newSet) {</b>
+<b class="nc">&nbsp;            resultGraph.addVertex(each);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; sortEdges.size() - 1; i++) {</b>
+<b class="nc">&nbsp;            for (int j = i + 1; j &lt; sortEdges.size(); j++) {</b>
+<b class="nc">&nbsp;                if (sortEdges.get(i).length() &gt; sortEdges.get(j).length()) {</b>
+<b class="nc">&nbsp;                    E save = sortEdges.get(i);</b>
+<b class="nc">&nbsp;                    sortEdges.set(i, sortEdges.get(j));</b>
+<b class="nc">&nbsp;                    sortEdges.set(j, save);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        for (E each : sortEdges) {</b>
+<b class="nc">&nbsp;            resultGraph.addEdge(each);</b>
+<b class="nc">&nbsp;            checkCycle(each.v1(), each.v2(), each.v1(), resultGraph);</b>
+<b class="nc">&nbsp;            if (hasCyclesAfterEdgeAdded) {</b>
+<b class="nc">&nbsp;                resultGraph.remove(each);</b>
+<b class="nc">&nbsp;                hasCyclesAfterEdgeAdded = false;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                resultGraph.addEdge(each);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return resultGraph;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Computes whether adding a certain edge to a graph creates a cycle within it.
+&nbsp;     *
+&nbsp;     * @param start the start to determine if this vertex reachable due to a cycle within the graph.
+&nbsp;     * @param end   the end of the edge connected to last to be passed on.
+&nbsp;     * @param last  the last vertex visited.
+&nbsp;     * @param graph the graph to add edges to form a minimum spanning tree.
+&nbsp;     */
+&nbsp;    private void checkCycle(V start, V end, V last, Graph graph) {
+<b class="nc">&nbsp;        if (start.equals(end)) {</b>
+<b class="nc">&nbsp;            hasCyclesAfterEdgeAdded = true;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            Set&lt;E&gt; Edges = graph.allEdges(end);</b>
+<b class="nc">&nbsp;            for (E each : Edges) {</b>
+<b class="nc">&nbsp;                if (!each.v2().equals(last)) {</b>
+<b class="nc">&nbsp;                    if (!each.v1().equals(last)) {</b>
+<b class="nc">&nbsp;                        checkCycle(start, each.v1(), end, graph);</b>
+<b class="nc">&nbsp;                        checkCycle(start, each.v2(), end, graph);</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the diameter of the graph.
+&nbsp;     *
+&nbsp;     * @return the diameter of the graph. Returns 0 if the largest component
+&nbsp;     * has only 1 or fewer vertices.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int diameter() {
+<b class="nc">&nbsp;        int maxShortestPath = 0;</b>
+<b class="nc">&nbsp;        Graph largestComponent = getLargestComponent();</b>
+<b class="nc">&nbsp;        List&lt;V&gt; visitedNodes = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        Set&lt;V&gt; vertices = largestComponent.allVertices();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (V v1 : vertices) {</b>
+<b class="nc">&nbsp;            visitedNodes.add(v1);</b>
+<b class="nc">&nbsp;            for (V v2 : vertices) {</b>
+<b class="nc">&nbsp;                if (!visitedNodes.contains(v2)) {</b>
+<b class="nc">&nbsp;                    List&lt;V&gt; shortestPath = shortestPath(v1, v2);</b>
+<b class="nc">&nbsp;                    int shortestPathLength = pathLength(shortestPath);</b>
+<b class="nc">&nbsp;                    if (shortestPathLength &gt; maxShortestPath) {</b>
+<b class="nc">&nbsp;                        maxShortestPath = shortestPathLength;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return maxShortestPath;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Compute the center of the graph. The graph must have at least 1 vertex.
+&nbsp;     *
+&nbsp;     * @return the center of the graph.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public V getCenter() {
+<b class="nc">&nbsp;        V resultVertex = null;</b>
+<b class="nc">&nbsp;        Graph largestComp = getLargestComponent();</b>
+<b class="nc">&nbsp;        Set&lt;V&gt; largestCompVertices = largestComp.allVertices();</b>
+<b class="nc">&nbsp;        Map&lt;V, Integer&gt; distanceMap = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        for (V each : largestCompVertices) {</b>
+<b class="nc">&nbsp;            int max = Integer.MIN_VALUE;</b>
+<b class="nc">&nbsp;            for (V another : largestCompVertices) {</b>
+<b class="nc">&nbsp;                if (!each.equals(another)) {</b>
+<b class="nc">&nbsp;                    int distance = pathLength(shortestPath(each, another));</b>
+<b class="nc">&nbsp;                    if (distance &gt; max) {</b>
+<b class="nc">&nbsp;                        max = distance;</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            distanceMap.put(each, max);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        int min = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;        for (var each : distanceMap.entrySet()) {</b>
+<b class="nc">&nbsp;            if (each.getValue() &lt; min) {</b>
+<b class="nc">&nbsp;                min = each.getValue();</b>
+<b class="nc">&nbsp;                resultVertex = each.getKey();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return resultVertex;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Finds the separate components of the graph.
+&nbsp;     *
+&nbsp;     * @return a set of graphs that are disjoint.
+&nbsp;     */
+&nbsp;    private Set&lt;Graph&gt; getComponents() {
+<b class="nc">&nbsp;        Set&lt;List&lt;V&gt;&gt; visitedNodeSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (V vertex : this.allVertices()) {</b>
+<b class="nc">&nbsp;            boolean vertexVisited = false;</b>
+<b class="nc">&nbsp;            for (List&lt;V&gt; visitedNodeList : visitedNodeSet) {</b>
+<b class="nc">&nbsp;                if (visitedNodeList.contains(vertex)) {</b>
+<b class="nc">&nbsp;                    vertexVisited = true;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            if (vertexVisited) {</b>
+<b class="nc">&nbsp;                continue;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            List&lt;V&gt; visitedNodes = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;            getConnectedGraphNodes(visitedNodes, vertex);</b>
+<b class="nc">&nbsp;            visitedNodeSet.add(visitedNodes);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        Set&lt;V&gt; oldVertices = this.allVertices();</b>
+<b class="nc">&nbsp;        Set&lt;Graph&gt; componentsSet = new HashSet&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (List&lt;V&gt; list : visitedNodeSet) {</b>
+<b class="nc">&nbsp;            Graph newGraph = this.clone();</b>
+<b class="nc">&nbsp;            for (V vertex : oldVertices) {</b>
+<b class="nc">&nbsp;                if (!list.contains(vertex)) {</b>
+<b class="nc">&nbsp;                    newGraph.remove(vertex);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            componentsSet.add(newGraph);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return componentsSet;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Gets the largest component in a graph.
+&nbsp;     *
+&nbsp;     * @return largest disjoint component in a graph.
+&nbsp;     */
+&nbsp;    public Graph getLargestComponent() {
+<b class="nc">&nbsp;        Set&lt;Graph&gt; components = getComponents();</b>
+<b class="nc">&nbsp;        Graph largestComponent = new Graph();</b>
+<b class="nc">&nbsp;        int maxSize = 0;</b>
+<b class="nc">&nbsp;        for (Graph component : components) {</b>
+<b class="nc">&nbsp;            if (component.allVertices().size() &gt; maxSize) {</b>
+<b class="nc">&nbsp;                maxSize = component.allVertices().size();</b>
+<b class="nc">&nbsp;                largestComponent = component.clone();</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return largestComponent;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds all unvisited nodes to visitedNodes that are connected to a vertex
+&nbsp;     * indirectly and directly.
+&nbsp;     *
+&nbsp;     * @param visitedNodes nodes that have been visited
+&nbsp;     * @param vertex       vertex to get connected nodes
+&nbsp;     */
+&nbsp;    private void getConnectedGraphNodes(List&lt;V&gt; visitedNodes, V vertex) {
+<b class="nc">&nbsp;        visitedNodes.add(vertex);</b>
+<b class="nc">&nbsp;        Map&lt;V, E&gt; Neighbours = this.getNeighbours(vertex);</b>
+<b class="nc">&nbsp;        List&lt;V&gt; unvisitedNeighbours = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;        for (V v : Neighbours.keySet()) {</b>
+<b class="nc">&nbsp;            if (!visitedNodes.contains(v)) {</b>
+<b class="nc">&nbsp;                unvisitedNeighbours.add(v);</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        for (V unvisitedNeighbour : unvisitedNeighbours) {</b>
+<b class="nc">&nbsp;            getConnectedGraphNodes(visitedNodes, unvisitedNeighbour);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adds a vertex to the graph
+&nbsp;     *
+&nbsp;     * @param v vertex to add
+&nbsp;     * @return true if the graph did not contain v.
+&nbsp;     * Returns false if the graph contains the vertex,
+&nbsp;     * or if the vertex is null,
+&nbsp;     * or if a vertex shares an id with an existing vertex.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean addVertex(V v) {
+<b class="nc">&nbsp;        return Lgraph.addVertex(v);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if a vertex is part of the graph
+&nbsp;     *
+&nbsp;     * @param v vertex to check in the graph
+&nbsp;     * @return true if v is part of the graph and false otherwise
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean vertex(V v) {
+<b class="nc">&nbsp;        return Lgraph.vertex(v);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add an edge of the graph
+&nbsp;     *
+&nbsp;     * @param e the edge to add to the graph
+&nbsp;     * @return true if the edge is not already in the graph.
+&nbsp;     * False if the edge already exists, or if the edge&#39;s vertices
+&nbsp;     * are not in the graph, or if the edge is null.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean addEdge(E e) {
+<b class="nc">&nbsp;        return Lgraph.addEdge(e);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if an edge is part of the graph
+&nbsp;     *
+&nbsp;     * @param e the edge to check in the graph
+&nbsp;     * @return true if e is an edge in the graph and false otherwise
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean edge(E e) {
+<b class="nc">&nbsp;        return Lgraph.edge(e);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if v1-v2 is an edge in the graph
+&nbsp;     *
+&nbsp;     * @param v1 the first vertex of the edge
+&nbsp;     * @param v2 the second vertex of the edge
+&nbsp;     * @return true of the v1-v2 edge is part of the graph and false otherwise
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean edge(V v1, V v2) {
+<b class="nc">&nbsp;        return Lgraph.edge(v1, v2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Determine the length on an edge in the graph. &quot;edge&quot; must return true for v1 and v2.
+&nbsp;     *
+&nbsp;     * @param v1 the first vertex of the edge
+&nbsp;     * @param v2 the second vertex of the edge
+&nbsp;     * @return the length of the v1-v2 edge if this edge is part of the graph
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int edgeLength(V v1, V v2) {
+<b class="nc">&nbsp;        return Lgraph.edgeLength(v1, v2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain the sum of the lengths of all edges in the graph
+&nbsp;     *
+&nbsp;     * @return the sum of the lengths of all edges in the graph. Returns 0 if there are no edges.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int edgeLengthSum() {
+<b class="nc">&nbsp;        return Lgraph.edgeLengthSum();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Remove an edge from the graph
+&nbsp;     *
+&nbsp;     * @param e the edge to remove. Mutates the graph.
+&nbsp;     * @return true if e exists in the graph. False if e is null or does not exist in the graph.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean remove(E e) {
+<b class="nc">&nbsp;        return Lgraph.remove(e);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Remove a vertex from the graph and all the edges attached to it.
+&nbsp;     *
+&nbsp;     * @param v the vertex to remove. Mutates the graph.
+&nbsp;     * @return true if v exists in the graph. False if e is null or does not exist in the graph.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean remove(V v) {
+<b class="nc">&nbsp;        return Lgraph.remove(v);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain a set of all vertices in the graph.
+&nbsp;     * Access to this set **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @return a set of all vertices in the graph.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Set&lt;V&gt; allVertices() {
+<b class="nc">&nbsp;        return Lgraph.allVertices();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain a set of all edges incident on v.
+&nbsp;     * Access to this set **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @param v the vertex of interest
+&nbsp;     * @return all edges incident on v. Returns an empty set if no such vertex exists.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Set&lt;E&gt; allEdges(V v) {
+<b class="nc">&nbsp;        return Lgraph.allEdges(v);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain a set of all edges in the graph.
+&nbsp;     * Access to this set **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @return all edges in the graph
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Set&lt;E&gt; allEdges() {
+<b class="nc">&nbsp;        return Lgraph.allEdges();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain all the neighbours of vertex v.
+&nbsp;     * Access to this map **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @param v is the vertex whose neighbourhood we want.
+&nbsp;     * @return a map containing each vertex w that neighbors v and the edge between v and w.
+&nbsp;     * returns empty map if v does not exist or if no neighbours exist.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public Map&lt;V, E&gt; getNeighbours(V v) {
+<b class="nc">&nbsp;        return Lgraph.getNeighbours(v);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

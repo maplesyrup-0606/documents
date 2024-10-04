@@ -1,0 +1,267 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{8} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 8:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Prove or disprove. If a relation $\mathcal{R}$ on a set $A$ is symmetric and transitive, then it is also reflexive.
+\begin{itemize}
+	\item Let $x,y \in A$ such that $x \mathrel \mathcal{R} y$. 
+	\item As $\mathcal{R}$ is symmetric $y \mathrel \mathcal{R} x$.
+	\item Also, as $\mathcal{R}$ is transitive, $ (x \mathrel \mathcal{R} y) \wedge
+	(y \mathrel \mathcal{R} x) \implies x \mathrel \mathcal{R} x$.
+	\item Therefore, $\mathcal{R}$ is reflexive.
+\end{itemize}
+\item Define a relation on $\mathbb{Z}$ as $a \mathrel R b$ if $ 3 \mid (5a-8b).$ Is $R$ an equivalence relation? Justify your answer.
+\begin{itemize}
+\item Let $a \in \mathbb{Z}$, then $5a-8a = -3a = 3(-a)$ and $-a \in \mathbb{Z}$.
+\item Thus, $3 \mid (5a-8a)$ making $a \mathrel R a$ showing that $R$ is reflexive.
+\item Let $a,b \in \mathbb{Z}$ such that $a \mathrel R b$, then $(5a-8b) = 3k$ ($k \in \mathbb{Z}$).
+\begin{align}
+5a-8b &= 3k \\ 8a-5b &= 3k + 3a+3b \\ 5b -8a &= 3(-k-a-b)	
+\end{align}
+\item $5b-8a = 3(-k-a-b)$ , $-k-a-b \in \mathbb{Z}$ therefore $3 \mid (5b-8a)$.
+\item Hence, $ b \mathrel R a $ and $R$ is reflexive.
+\item Now let $a,b,c \in  \mathbb{Z}$ such that $a \mathrel R b $ and $b \mathrel R c$.
+\item Then $5a-8b = 3k$ and $5b-8c = 3\ell$ for $k,\ell \in \mathbb{Z}$.
+\begin{align}
+	(5a-8b) + (5b-8c) &= 3(k+\ell). \\ 5a-8c &=3(k+\ell+b) 
+\end{align} 
+\item As we know that $k+\ell+b \in \mathbb{Z}$, then $3 \mid (5a-8c)$.
+\item Therefore, $(a \mathrel R b) \wedge (b \mathrel R c) \implies a \mathrel R c$. and $R$ is transitive.
+\end{itemize}
+\item Determine whether the following relations are reflexive, symmetric and transitive.
+\begin{itemize}
+	\item (a) On the set $X$ of all functions $\mathbb{R} \rightarrow \mathbb{R}$, we define the relation
+	\begin{center}
+		$f \mathrel \mathcal{R} g$ if there exists $x \in \mathbb{R}$ such that $f(x) = g(x).$
+	\end{center} 
+	\begin{itemize}
+	\item Let $f(x) =x$, then $x=x, \forall x \in \mathbb{R}$
+	\item Hence, $f \mathrel \mathcal{R} f $ making $\mathcal R$ reflexive.
+	\item Now assume $g(x),f(x) $ exist such that $f(\alpha) =g(\alpha)$ for some $\alpha \in \mathbb{R}$.
+	\item Then for some $\alpha \in \mathbb{R}$, $g(\alpha) = f(\alpha)$.
+	\item Therefore, $g \mathrel \mathcal R f$ hence $\mathcal R$ is symmetric.
+	\item Let $f(x) = x^2, g(x) = x+1,h(x) =x^2+1$.
+	\item Then there exists some $p,q \in \mathbb{R}$ such that $f(p) = g(p),g(q) =h(q)$.
+	\item So $f \mathrel \mathcal R g,g \mathrel \mathcal R h$.
+	\item However there exists no real number that makes $f(x) = x^2 = x^2+1 = h(x)$.
+	\item Hence, $f  \not{\mathrel \mathcal R } h$ making $\mathcal R $ not transitive.
+	\end{itemize}
+	\item (b) Let $R$ be a relation on $\mathbb{Z}$ defined by:  
+	\begin{center}
+	$x \mathrel R y $ if $ xy \equiv 0 (\mod 4)$.	
+	\end{center}
+	\begin{itemize}
+	\item Let $x= 1$ then $x \cdot x  = 1 \cdot 1 =1$.
+	\item And $1 \not{\equiv} 0 (\mod 4)$. Hence, $1 \not{\mathrel R} 1 $ so $R$ is not reflexive.
+	\item Let's take $x,y \in \mathbb{Z} $ such that $xy = 4k $ ($k\in \mathbb{Z}$).
+	\item Then $yx = 4k$ ($k \in \mathbb{Z}$) showing that $y \mathrel R x$. 
+	\item Therefore, $R$ is symmetric.
+	\item Let $x,y,z \in \mathbb{Z}$ such that $x=1,y=4,z=1$.
+	\item As $ xy= 4$ and $yz= 4$ showing that $x \mathrel R y$ and $y\mathrel R z$.
+	\item However, $xz= 1$ showing that $x \not{\mathrel R} z$.
+	\item Hence $R$ is not transitive.
+	\end{itemize}
+
+\end{itemize}
+\item Let $A$ be a non-empty set and $P \subseteq \mathcal{P}(A) $ and $Q \subseteq \mathcal{P}(A)$ be partitions of A. Show that $R$ defined as 
+\begin{center}
+	$R = \{S \cap T: S \in P, T \in Q\} - \{\emptyset\}$
+\end{center}
+is a partition of A.
+\begin{itemize}
+	\item In order for $R$ to be a partition of $A$, we need to show that $\bigcup_{X \in R}X = A$ and $\bigcap_{X\in R}X = \emptyset$.
+	\item First, let's choose an element $a\in A$. Then there exists a $P $ and $ T$ such that $a \in S \cap T$. And because $S \cap T \subseteq R$, therefore $A \subseteq \bigcup_{X \in R}X$.
+	\item Next, as $X \in R$ and due to the definition of $R$, $X \subseteq A$. Hence, $\bigcup_{X \in R}X \subseteq A$.
+	\item Therefore, $\bigcup_{X \in R}X = A$.
+	\item Now, let $U_1,U_2 \in R$. And $U_1 = S_1 \cap T_1, U_2 = S_2 \cap T_2$.
+	\item We have to prove that either $U_1\cap U_2 = \emptyset$ or $U_1 = U_2$.
+	\item Let's first assume that $U_1 \cap U_2 = \emptyset$, then we're done.
+	\item Now let's assume that $U_1 \cap U_2 \neq \emptyset$. Hence, $\exists x \in U_1 \cap U_2$. Then $x \in S_1,S_2,T_1,T_2$.
+	\item As $S_1,S_2 \in P, S_1$ must be equals to $S_2.$
+	\item Similarly to $T_1,T_2$, $T_1 = T_2$ must be satisfied.
+	\item Hence, $U_1 \cap U_2 \neq \emptyset$ therefore $U_1=U_2$.
+	\item Thus, we can conclude that $\bigcap_{X\in R}X = \emptyset$. Making $R$ a partition of $A$.
+\end{itemize}
+\item Let $E$ be a non-empty set and $x \in E$ be a fixed element of $E$. Consider the relation $\mathcal{R}$ on $\mathcal{P}(E)$ defined as 
+\begin{center}
+	$A \mathrel \mathcal{R} B \Longleftrightarrow(x \in A \cap B) \vee(x\in \overline{A} \cap \overline{B}), $
+\end{center}
+where for any set $S \subseteq E$, we write $\overline{S} = E - S$ for the compliment of $S$ in $E$. Prove or disprove that $\mathcal R$ is an equivalence relation.
+\begin{itemize}
+	\item Let $X \in \mathcal P(E),$ and $x \in X$. Then $x\in X \cap X$ showing us that $(x \in X\cap X) \vee (x \in \overline X \cap \overline X)$ is true. 
+	Hence, $X \mathrel \mathcal{R}X$ therefore $\mathcal{R}$ is reflexive.
+	\item  Let $X,Y \in \mathcal P(E) $ such that $X \mathrel \mathcal R Y$. Then $(x\in X \cap Y) \vee (x \in \overline{X} \cap \overline{Y})$ is true.
+	\item This is equivalent to $(x \in Y \cap X) \vee (x \in \overline{Y} \cap \overline{X})$, hence $Y \mathrel \mathcal R X$. Therefore, $\mathcal R $ is symmetric.
+	\item Let $X,Y,Z \in \mathcal P(E)$ such that $X \mathrel \mathcal R Y$ and $Y \mathrel \mathcal R Z$.
+	\item Then $(x \in X \cap Y) \vee (x \in \overline X \cap \overline Y)$ and $(x \in Y \cap Z ) \vee (x \in \overline Y \cap \overline Z)$ are both true statements.
+	\item There are only two possible cases that can exists.
+	\item Case 1: $(x \in X \cap Y)$ and $(x \in Y \cap Z ).$
+	\item In this case, $x \in X \cap Z$.
+	\item Case 2: $(x \in \overline X \cap \overline Y)$ and $(x \in \overline Y \cap \overline Z)$.
+	\item In other words, $x \in E - (X \cup Y) $ and $x\in E-(Y \cup Z)$.
+	\item This clarifies that $x \in E -(X \cup Z)$, hence $x \in (\overline X \cap  \overline Z)$.
+	\item By these two cases we can prove that $(x \in X \cap Z) \vee (x \in \overline X \cap \overline Z)$ is true.
+	\item Hence, $X \mathrel \mathcal R Z$ thus showing that $\mathcal R $ is transitive.
+\end{itemize}
+\item Let $n \geq 2$ and $i$ be integers. For $0 \leq i \leq n-1$, define
+\begin{center}
+$X_i= \{ x \in \mathbb{Z} |x=nk+i,$for some $k \in \mathbb{Z}\}$ and\\
+$R = \{(a,b) \in \mathbb{Z} \times \mathbb{Z}|a,b\in X_i$ for some $ i\}$.
+\end{center}
+Show that 
+\begin{itemize}
+	\item (a) $S = \{X_0,\dots,X_{n-1}\}$ forms a partition of $\mathbb{Z}$.
+	\begin{itemize}
+	\item We have to prove that $\bigcap_{i=0}^{n-1}X_i = \emptyset$ and $\bigcup_{i=0}^{n-1}X_i=\mathbb{Z}$.
+	\item First let's prove that $\bigcap_{i=0}^{n-1}X_i = \emptyset$.
+	\item Let's $X_p,X_q \in S$. If we assume that $X_p \cap X_q = \emptyset$ we're done.
+	\item Now let's assume that $X_p \cap X_q \neq \emptyset$.
+	\item Let's assume that an element $\alpha $ exists such that $\alpha \in X_p,X_q$.
+	\item Then $\alpha \equiv p(\mod n) \equiv q(\mod n)$. And $p=q$ must be satisfied since $0 \leq p,q \leq n-1$.
+	\item Hence, $X_p \cap X_q \neq \emptyset$ therefore $X_p = X_q$.
+	\item Now let's prove that $\bigcup_{i=0}^{n-1}X_i=\mathbb{Z}$.
+	\item Let's choose an element $x$ $\in$ $\bigcup_{i=0}^{n-1}X_i$, then $x \in \mathbb{Z}$.
+	\item Hence, $\bigcup_{i=0}^{n-1}X_i \subseteq \mathbb{Z}$.
+	\item Now let's choose an element $y \in \mathbb{Z}$.
+	\item From Euclidean division, we can express any integer(including $y$) in the form of $y = a\cdot n +b$ where $a,b,n \in \mathbb{Z}$ and $ b \in [0,n-1]$.
+	\item This is equivalent to some $X_b$ then $y \in X_b$.
+	\item Hence, $\mathbb{Z} \subseteq \bigcup_{i=0}^{n-1}X_i $.
+	\item Therefore, $S$ is a partition of $\mathbb{Z}$.
+	\end{itemize}
+	\item (b) $R$ is an equivalence relation on $\mathbb{Z}$.
+	\begin{itemize}
+	\item Let $a\in \mathbb{Z},$ then $ a\in X_i$ for some $i\in[0,n-1]$.
+	\item If $a\in X_i$ then $a\in X_i$ therefore for $(a,a)\in \mathbb{Z} \times \mathbb{Z}$, $a,a \in X_i$ hence $a \mathrel R a$ so $R$ is reflexive.
+	\item Now let $a,b \in \mathbb{Z}$ such that $a,b \in X_i$ for some $i \in [0,n-1]$.
+	\item Then $b,a \in \mathbb{Z},X_i$ thus $b \mathrel R a$ thus $R$ is symmetric.
+	\item Let $a,b,c \in \mathbb{Z}$ such that $a \mathrel R b $ and $b \mathrel R c$.
+	\item Then we can say $a,b \in X_i$ and $b,c \in X_j$ for $i,j \in [0,n-1].$
+	\item Because $S$ is  a partition of $\mathbb{Z}$, $X_i \cap X_j = \emptyset$ or $X_i =X_j$.
+	\item And we can see that $X_i \cap X_j =b\neq \emptyset$ hence $X_i = X_j$.
+	\item Thus, we can conclude that $c \in X_i=X_j$. Therefore  $a,c \in X_i,X_j$.
+	\item Then we can conclude that $a \mathrel R c$ thus $R$ is transitive.
+	\item As $R$ is reflexive, symmetric and transitive, $R$ is an equivalence relation.
+	\end{itemize}
+	\item (c) $S$ equals  the set of the equivalence classes of $R$.
+	\begin{itemize}
+	\item Let's choose $X_m \in S$, we know that $S$ is  a partition hence $X_m$ is a non-empty set.
+	\item So let's choose an element $x \in X_m$, we know that $R$ is reflexive. Hence, $x \in [x]$. Then $X_m \subseteq [x]$.
+	\item Now we choose $x \in [x]$, then $x\in X_n$. As we proved above then $X_n =X_m$. Hence, $[x] \subseteq X_m$.
+	\item Therefore, $X_m =[x]$ which shows that an element of $S$ is an equivalence class.
+	\item Now let's choose an equivalence class from $R$, $[y]$,
+	\item Since $R$ is reflexive, $y \in [y]$ then $y \in X_f$. Therefore, $[y] \subseteq X_f$.
+	\item Let's choose an element $y \in X_g$, we know by fact that $y\in [y]$.
+	\item As $X_g,X_f \in S$ which is a partition of $\mathbb{Z}$. Therefore, $X_g = X_f$.
+	\item Thus, $X_g = X_f \subseteq [y]$. Therefore, $[y]= X_f $.
+	\item Therefore $S$ is the set of equivalence classes of $R$.
+	\end{itemize}
+\end{itemize}
+\item Suppose that $n \in \mathbb{N}$ and $\mathbb{Z}_n$ is the set of equivalence classes of congruence modulo $n$ on $\mathbb{Z}$. In this question we will call an element $[u]_n$ if there is another class $[v]_n$ so that 
+\begin{center}
+$[u]_n \cdot [v]_n = [u \cdot v]_n = [1]_n$.	
+\end{center}
+That is, $[u]_n$ has a multiplicative inverse. For example, since $[3]_7 \cdot [5]_7 = [15]_7 = [1]_7$, we say that $[3]_7$ is invertible. However, $[2]_4$ is not invertible (you can check!).\\
+Now, define a relation $R$ on $\mathbb{Z}_n$ by $x \mathrel R y$ iff $xu =y$ for some invertible $[u]_n \in \mathbb{Z}_n$.
+\begin{itemize}
+	\item (a) Show that $R$ is an equivalence relation.
+	\begin{itemize}
+	\item First, let $[a]_n \in \mathbb{Z}_n$ then $[a]_n \cdot [1]_n = [a \cdot 1]_n = [a]_n$.
+	\item Now let's prove that $[1]_n$ is an invertible class.
+	\begin{align}
+	[1]_n \cdot [1]_n &= [1\cdot 1]_n \\&=[1]_n.	
+	\end{align}
+	\item Hence, as $[1]_n$ is an invertible class $[a]_n \mathrel R [a]_n$ so $R$ is reflexive.
+	\item Let $[a]_n,[b]_n \in \mathbb{Z}_n$ such that $[a]_n \mathrel R [b]_n$.
+	\item Then there exists some invertible class $[u]_n \in \mathbb{Z}_n$ so that $[a]_n \cdot [u]_n = [b]_n$.
+	\item We know that $[u]_n$ is invertible, hence there exists some class $[v]_n \in \mathbb{Z}_n$ such that $[u]_n \cdot [v]_n = [1]_n$.
+	\item Then 
+	\begin{align}
+		[a]_n \cdot [u]_n \cdot [v]_n &= [b]_n \cdot [v]_n \\
+		[a]_n &= [b]_n \cdot [v]_n
+	\end{align} 
+	\item We know that as $[u]_n$ is invertible hence $[v]_n$ is invertible.
+	\item Therefore, $[b]_n \mathrel R [a]_n$ showing that $R$ is symmetric.
+	\item Finally, let $[a]_n,[b]_n,[c]_n \in \mathbb{Z}_n$ such that $[a]_n \mathrel R [b]_n $ and $[b]_n R [c]_n$.
+	\item Then there exists invertible $[p]_n,[q]_n \in \mathbb {Z}$ such that $[a]_n \cdot [p]_n = [b]_n,[b]_n \cdot [q]_n = [c]_n$.
+	\begin{align}
+	[a]_n \cdot [p]_n &= [b]_n \\ [a]_n \cdot [p]_n \cdot [q]_n &= [b]_n \cdot [q]_n \\ &= [c]_n	
+	\end{align}
+	\item We know that $[p]_n,[q]_n$ are invertible, thus we can see that $[p]_n \cdot [q]_n $ is also invertible. Thus $[a]_n \mathrel R [c]_n$ so $R$ is transitive.
+	\item Therefore, $R$ is an equivalence relation.
+\end{itemize}
+\item (b) Compute the equivalence classes of this relation for $n=6$.
+\begin{itemize}
+\item The only possible invertible classes are $[1]_n,[5]_n$.
+\item If we compute each equivalence class for $\mathbb{Z}_6$.
+\item $[[0]_6] = \{[0]_6\}$,$ [[1]_6] = \{[1]_6,[5]_6\}$,$[[2]_6]=\{[2]_6,[4]_6\}$ and $[[3]_6] = \{[3]_6\}.$
+\item These for equivalent classes cover all elements in $\mathbb{Z}_6$, hence these classes are the equivalence classes for $\mathbb{Z}_6$.
+\end{itemize}
+\end{itemize}
+
+\end{enumerate}
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.	

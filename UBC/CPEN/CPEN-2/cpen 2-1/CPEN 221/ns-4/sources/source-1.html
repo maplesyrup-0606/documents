@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DelaunayTriangulation</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.initialization</a>
+</div>
+
+<h1>Coverage Summary for Class: DelaunayTriangulation (cpen221.mp2.initialization)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DelaunayTriangulation</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/43)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DelaunayTriangulation$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/46)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.initialization;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance creates a Delaunay triangulation represented by
+&nbsp; * immutable vertex and edge sets.
+&nbsp; */
+&nbsp;public class DelaunayTriangulation {
+&nbsp;    /* The set of Points representing vertices in this triangulation */
+&nbsp;    private Set&lt;Point&gt; vertices;
+&nbsp;
+&nbsp;    /* The set of UEdges representing the final triangulation */
+&nbsp;    private Set&lt;UEdge&gt; edges;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a Delaunay Triangulation with n Points, placed using RNG r,
+&nbsp;     * where the Points are bound by a rectangle with lower-left point (0, 0)
+&nbsp;     * parallel to the x- and y-axes with dimensions w x h.
+&nbsp;     */
+<b class="nc">&nbsp;    public DelaunayTriangulation(int n, Random r, int w, int h) {</b>
+<b class="nc">&nbsp;        Iterator&lt;Point&gt; iter = new Iterator&lt;Point&gt;() {</b>
+&nbsp;            @Override
+&nbsp;            public boolean hasNext() {
+<b class="nc">&nbsp;                return vertices.size() &lt; n;</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public Point next() {
+<b class="nc">&nbsp;                return new Point(r.nextInt(w + 1), r.nextInt(h + 1));</b>
+&nbsp;            }
+&nbsp;        };
+<b class="nc">&nbsp;        triangulate(iter, new Point(0, 0), new Point(w, h));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a Delaunay triangulation built from the Points
+&nbsp;     * in pts.
+&nbsp;     */
+<b class="nc">&nbsp;    public DelaunayTriangulation(Collection&lt;Point&gt; pts) {</b>
+&nbsp;        // The max Y, max X, min Y, min X values
+<b class="nc">&nbsp;        int t = Integer.MIN_VALUE, r = Integer.MIN_VALUE;</b>
+<b class="nc">&nbsp;        int b = Integer.MAX_VALUE, l = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;        for (Point p : pts) {</b>
+<b class="nc">&nbsp;			if (p.x &gt; r) {</b>
+<b class="nc">&nbsp;				r = p.x;</b>
+&nbsp;			}
+<b class="nc">&nbsp;			if (p.x &lt; l) {</b>
+<b class="nc">&nbsp;				l = p.x;</b>
+&nbsp;			}
+<b class="nc">&nbsp;			if (p.y &gt; t) {</b>
+<b class="nc">&nbsp;				t = p.y;</b>
+&nbsp;			}
+<b class="nc">&nbsp;			if (p.y &lt; b) {</b>
+<b class="nc">&nbsp;				b = p.y;</b>
+&nbsp;			}
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        triangulate(pts.iterator(), new Point(l, b), new Point(r, t));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a Delaunay triangulation built from Points in iterator pts
+&nbsp;     * bound in the axis-aligned rectangle with bottom-left coordinate bl and
+&nbsp;     * top-right coordinate tr. Points outside of this area are omitted.
+&nbsp;     */
+<b class="nc">&nbsp;    public DelaunayTriangulation(Iterator&lt;Point&gt; pts, Point bl, Point tr) {</b>
+<b class="nc">&nbsp;        triangulate(pts, bl, tr);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a set of all unique edges in the triangulation set ts.
+&nbsp;     * Edges are represented as UEdges to avoid redundancy.
+&nbsp;     */
+&nbsp;    private static Set&lt;UEdge&gt; allUndirectedEdges(HashSet&lt;Triangle&gt; ts) {
+<b class="nc">&nbsp;        HashSet&lt;UEdge&gt; edges = new HashSet&lt;UEdge&gt;();</b>
+<b class="nc">&nbsp;		for (Triangle t : ts) {</b>
+<b class="nc">&nbsp;			t.addUEdgesToSet(edges);</b>
+<b class="nc">&nbsp;		}</b>
+<b class="nc">&nbsp;        return edges;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Use iterator pts to make a Delaunay triangulation within the
+&nbsp;     * axis-aligned rectangle with bottom-left coordinate bl and top-right
+&nbsp;     * coordinate tr. Points outside this area are omitted.
+&nbsp;     */
+&nbsp;    private void triangulate(Iterator&lt;Point&gt; pts, Point bl, Point tr) {
+<b class="nc">&nbsp;        vertices = new HashSet&lt;Point&gt;();</b>
+&nbsp;
+&nbsp;        /* Triangulation set: set of all final Triangles */
+<b class="nc">&nbsp;        HashSet&lt;Triangle&gt; triangles = new HashSet&lt;Triangle&gt;();</b>
+&nbsp;
+&nbsp;        /* set up initial Triangle - these TEMPORARY points allow the
+&nbsp;         * triangulation to span the entire cpen221.mp2.graph */
+<b class="nc">&nbsp;        int OUTER_BOUND = Math.max(tr.x - bl.x, tr.y - bl.y);</b>
+<b class="nc">&nbsp;        Point p1 = new Point(-OUTER_BOUND + bl.x, -OUTER_BOUND + bl.y);</b>
+<b class="nc">&nbsp;        Point p2 = new Point(-OUTER_BOUND + bl.x, 3 * OUTER_BOUND + bl.y);</b>
+<b class="nc">&nbsp;        Point p3 = new Point(3 * OUTER_BOUND + bl.x, -OUTER_BOUND + bl.y);</b>
+<b class="nc">&nbsp;        Triangle outer = new Triangle(p1, p2, p3);</b>
+<b class="nc">&nbsp;        triangles.add(outer);</b>
+&nbsp;
+&nbsp;        // add Points until none are left
+<b class="nc">&nbsp;        while (pts.hasNext()) {</b>
+<b class="nc">&nbsp;            Point p = pts.next();</b>
+<b class="nc">&nbsp;			if (outer.addPoint(p, triangles)) {</b>
+<b class="nc">&nbsp;				vertices.add(p);</b>
+&nbsp;			}
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // remove the bounding Triangle from the triangulation set
+<b class="nc">&nbsp;        triangles.remove(outer);</b>
+&nbsp;
+<b class="nc">&nbsp;        edges = allUndirectedEdges(triangles);</b>
+&nbsp;
+&nbsp;        // remove any edges to the bounding Triangle
+<b class="nc">&nbsp;        edges.removeIf(</b>
+<b class="nc">&nbsp;                (UEdge e) -&gt; e.contains(p1) || e.contains(p2) || e.contains(p3));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return this triangulation&#39;s immutable vertex set.
+&nbsp;     */
+&nbsp;    public Set&lt;Point&gt; getVertices() {
+<b class="nc">&nbsp;        return Collections.unmodifiableSet(vertices);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return this triangulation&#39;s immutable edge set.
+&nbsp;     */
+&nbsp;    public Set&lt;UEdge&gt; getEdges() {
+<b class="nc">&nbsp;        return Collections.unmodifiableSet(edges);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

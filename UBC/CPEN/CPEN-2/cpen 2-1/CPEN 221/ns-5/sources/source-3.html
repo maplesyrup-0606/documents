@@ -1,0 +1,247 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Link</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: Link (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Link</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;import cpen221.mp2.graph.Edge;
+&nbsp;import cpen221.mp2.util.Util;
+&nbsp;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Links are weighted undirected connections between two planets.
+&nbsp; * The length of a link is the rounded distance between both planets,
+&nbsp; * but always &gt; 0.
+&nbsp; * &lt;p&gt;
+&nbsp; * Link implements GameElement, indicating that it is a component of
+&nbsp; * a game universe and has some user-facing representation.
+&nbsp; * &lt;p&gt;
+&nbsp; * An instance represents a link between two planets.
+&nbsp; */
+&nbsp;public class Link extends Edge&lt;Planet&gt; implements GameElement {
+&nbsp;
+&nbsp;    private int visits; // The number of times this cpen221.mp2.graph.Edge has been visited.
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: An edge with end planets pl1 and pl2.
+&nbsp;     * Precondition: pl1 and pl2 are non-null, non-equal Nodes. length &gt; 0.
+&nbsp;     */
+&nbsp;    Link(Planet pl1, Planet pl2, int length) {
+<b class="nc">&nbsp;        super(pl1, pl2, length);</b>
+<b class="nc">&nbsp;        visits = 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * A method to create a new link after verifying the correctness of arguments and
+&nbsp;     * computing the link distance.
+&nbsp;     *
+&nbsp;     * @param p1 represents one end of the link
+&nbsp;     * @param p2 the other end of the link
+&nbsp;     * @return a link between p1 and p2
+&nbsp;     */
+&nbsp;    public static Link createLink(Planet p1, Planet p2) {
+<b class="nc">&nbsp;        if (Util.anyNull(p1, p2)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;End points cannot be null&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        double distance = Util.distance(p1.x(), p1.y(), p2.x(), p2.y());</b>
+<b class="nc">&nbsp;        int length = distance &lt;= 1 ? 1 : (int) distance;</b>
+<b class="nc">&nbsp;        return new Link(p1, p2, length);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff this link and e share a planet.
+&nbsp;     */
+&nbsp;    public boolean intersects(Link e) {
+<b class="nc">&nbsp;        return intersection(e) != null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the amount of fuel needed to travel on this link.
+&nbsp;     *
+&nbsp;     * @return the amount of fuel needed to travel on this link.
+&nbsp;     */
+&nbsp;    public int fuelNeeded() {
+<b class="nc">&nbsp;        return super.length();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff: this edge and ob are the same object, or
+&nbsp;     * if this edge and ob connect the same two Nodes.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object obj) {
+<b class="nc">&nbsp;        if (obj == this) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (obj == null || getClass() != obj.getClass()) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return super.equals(obj);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return Objects.hash(super.v1(), super.v2());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the names of the planets connected to this link, delimited by the
+&nbsp;     * String &quot;---&quot;.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return super.v1().name() + &quot;---&quot; + super.v2().name();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a String to print when this object is drawn on a GUI.
+&nbsp;     *
+&nbsp;     * @return a name to use with this link.
+&nbsp;     */
+&nbsp;    public String name() {
+<b class="nc">&nbsp;        return String.valueOf(super.length());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the x location of the center of this link.
+&nbsp;     *
+&nbsp;     * @return the x coordinate of the center of this link.
+&nbsp;     */
+&nbsp;    public int x() {
+<b class="nc">&nbsp;        int x1 = super.v1().x();</b>
+<b class="nc">&nbsp;        int x2 = super.v2().x();</b>
+<b class="nc">&nbsp;        return (int) (((x1 + x2) / 2.0) + 0.5);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the y location of the center of this link.
+&nbsp;     *
+&nbsp;     * @return the y coordinate for the center of this link.
+&nbsp;     */
+&nbsp;    public int y() {
+<b class="nc">&nbsp;        int y1 = super.v1().y();</b>
+<b class="nc">&nbsp;        int y2 = super.v2().y();</b>
+<b class="nc">&nbsp;        return (int) (((y1 + y2) / 2.0) + 0.5);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Increase the amount of times this link has been visited by 1.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * modifies clause: the number of times this link has been visited is increase by 1.
+&nbsp;     * &lt;/p&gt;
+&nbsp;     */
+&nbsp;    void visit() {
+<b class="nc">&nbsp;        ++visits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the number of times this link has been visited.
+&nbsp;     *
+&nbsp;     * @return the number of times think link has been visited.
+&nbsp;     */
+&nbsp;    public int getVisits() {
+<b class="nc">&nbsp;        return visits;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,125 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GathererStage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: GathererStage (cpen221.mp2.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GathererStage</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.controllers;
+&nbsp;
+&nbsp;import cpen221.mp2.graph.ImGraph;
+&nbsp;import cpen221.mp2.models.Link;
+&nbsp;import cpen221.mp2.models.Planet;
+&nbsp;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * Return to Earth on time while collecting as much spice as possible.
+&nbsp; * The rescued spaceship has information on the entire galaxy.
+&nbsp; * Spice on a planet is collected automatically when the planet is reached.
+&nbsp; * &lt;p&gt;
+&nbsp; * N.B.: There are many other methods in other classes that you will also
+&nbsp; * probably want to use, such as those in Graph.
+&nbsp; * &lt;p&gt;
+&nbsp; * An instance provides all the necessary methods to move through the galaxy,
+&nbsp; * collect speed upgrades, and reach Earth.
+&nbsp; */
+&nbsp;public interface GathererStage {
+&nbsp;    /**
+&nbsp;     * Return the Node on which the ship is.
+&nbsp;     */
+&nbsp;    public Planet currentPlanet();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return node Earth Node. You MUST return at this planet to succeed.
+&nbsp;     */
+&nbsp;    public Planet earth();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the set of all planets.
+&nbsp;     */
+&nbsp;    public Set&lt;Planet&gt; planets();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Move the space ship to a planet
+&nbsp;     * An exception occurs if the ship&#39;s current planet is not adjacent to planet.
+&nbsp;     *
+&nbsp;     * @throws Exception if the ship cannot move to **planet** in one step.
+&nbsp;     */
+&nbsp;    public void moveTo(Planet planet);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the remaining amount of distance that your ship can travel.
+&nbsp;     * Your solution must end before this becomes negative.
+&nbsp;     *
+&nbsp;     * @return the amount of fuel that remains in the ship
+&nbsp;     */
+&nbsp;    public int fuelRemaining();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return an immutable graph representation of the universe.
+&nbsp;     *
+&nbsp;     * @return the immutable graph representation of the universe.
+&nbsp;     */
+&nbsp;    public ImGraph&lt;Planet, Link&gt; planetGraph();
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

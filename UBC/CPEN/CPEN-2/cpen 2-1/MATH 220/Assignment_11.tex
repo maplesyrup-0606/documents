@@ -1,0 +1,205 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{11} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 11:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Determine if the following sets are countable, and prove your answers.
+\begin{itemize}
+	\item (a) The set of all functions $f:\{0,1\} \rightarrow \mathbb{N}$.
+	\begin{itemize}
+	\item Let $G : S \rightarrow \mathbb{N} \times \mathbb{N}$ and be defined as $G(f) = \{ f(0) = a, f(1)=b:(a,b) \in \mathbb{N} \times \mathbb{N}\}.$
+	\item Let $f,h \in S$ be functions such that $G(f) = G(h)$ then $G(f) = \{ f(0) = a, f(1)=b:(a,b) \in \mathbb{N} \times \mathbb{N}\} = \{ h(0) = a, h(1)=b:(a,b) \in \mathbb{N} \times \mathbb{N}\} = G(h).$
+	\item This means that both $f,h$ have the same inputs for outputs $a,b$ hence $f=h$ due to the fact that the only possible inputs are 0 and 1.
+	\item Which shows that $f$ is an injection.
+	\item Now let $(c,d) \in \mathbb{N} \times \mathbb{N},$ and let's define a function $p$ so that $p(0) = c, p(1) = d$.
+	\item Therefore by definition, $G(p) = (c,d)$ showing us that $p \in S$ this a surjection.
+	\item Hence as $G$ forms a bijection with $|S| = |\mathbb{N} \times \mathbb{N}| = |\mathbb{N}|$ and $S$ is countable.
+ 	\end{itemize}
+	\item (b) The set of all functions $f: \mathbb{N} \rightarrow \{0,1\}.$
+	\begin{itemize}
+	\item Let $G : S \rightarrow \mathcal{P}(\mathbb{N})$ and be defined as $G(f) = \{n:f(n) = 1\}$.
+	\item Let $f,h \in S$ be functions such that $G(f) = G(h).$
+	\item This implies that $G(f) = \{n:f(n) =1 \} = \{n : h(n) = 1\} = G(h).$
+	\item This means that both $f,h$ have outputs 1 and 0 for the same inputs, therefore showing us that $f=h$.
+	\item Therefore $G$ is an injection.
+	\item Now let $X \in  \mathcal{P}(\mathbb{N})$ thus $X \subseteq \mathbb{N}$ and define a function $g : \mathbb{N} \rightarrow \{0,1\}$ as $g(x) = 1$ when $x\in X$ otherwise $g(x) = 0.$
+	\item Hence by definition, $G(g)=X$ showing us that $G$ is a surjection.
+	\item Therefore $G$ a bijection showing us that $|S| = |\mathcal{P}(\mathbb{N}) | = |\mathbb{R}|$. Thus $S$ is uncountable.
+\end{itemize}
+\end{itemize}
+\item Prove the following statements
+\begin{itemize}
+	\item (a) If $A$ is countable but $B$ is uncountable, then $B-A$ is uncountable.
+	\begin{itemize}
+	\item Let's assume, to the contrary, that $B-A$ is countable.
+	\item Then $(B-A) \cup A = (A\cup B)$ is countable.
+	\item Therefore $B$ is countable, however this contradicts with out assumption.
+	\item Hence, $B-A$ is uncountable.
+	\end{itemize}
+	\item (b) Between any real numbers $a,b$ such that $a<b$ there are uncountably many irrationals.
+	\begin{itemize}
+	\item We can see that we can represent this set of numbers as $S = \{x: a<x<b, x\in \mathbb{I}\}$.
+	\item We can rephrase this expression to $S = \mathbb{R} - \{x:a<x<b, x\in \mathbb{Q}\}.$
+	\item We know that the set $\mathbb{R}$ is uncountable and $\mathbb{Q}$ is countable.
+	\item Therefore, any subset of $\mathbb{Q}$ is countable hence $\{x:a<x<b,x\in \mathbb{Q}\}$ is therefore countable.
+	\item The original set $S = \mathbb{R} - \{x : a<x<b,x\in \mathbb{Q}\}$ is therefore uncountable. 
+	\end{itemize}
+\end{itemize}
+\item Prove that $\mathbb{R}$ and $\mathbb{R}^{+} = \{x \in \mathbb{R} \mid x>0\}$ are equinumerous.
+\begin{itemize}
+\item Let's consider a function $f:\mathbb{R} \rightarrow \mathbb{R}^{+}$.
+\item We define the function $f(x) = e^x$ for $x\in \mathbb{R}$.
+\item Let $a,b \in \mathbb{R}$ such that $f(a)=f(b).$ Then 
+\begin{align}
+e^a &= e^b \\ e^a-e^b &=0 \\ e^b \cdot (e^{a-b} -1) &=0	
+\end{align}
+\item We know that $\forall n\in \mathbb{R},$ $e^n \geq 0.$ Hence $a-b=0$ showing that $a=b$.
+\item Thus $f $ forms an injection and $|\mathbb{R}| \leq  |\mathbb{R}^{+}|$.
+\item Now let's consider a function $g: \mathbb{R}^{+} \rightarrow \mathbb{R}$ and this function is defined as $g(x) =x$ for $x\in \mathbb{R}.$
+\item Now let $c,d \in \mathbb{R}^{+}$ so that $g(c) =g(d)$.
+\item Then, $g(c)=c=d=g(d)$ and thus shows us that $g$ forms an injection. 
+\item Hence, $|\mathbb{R}^{+} | \leq |\mathbb{R}|.$ And as we proved from earlier that $|\mathbb{R}| \leq |\mathbb{R}^{+}|$ by CSB $\mathbb{R}$ and $\mathbb{R}^{+}$ are equinumerous.
+\end{itemize}
+
+\item Let $S,T$ be sets. Prove the following
+\begin{itemize}
+	\item (a) If $|S| \leq |T|$ then $|\mathcal{P}(S)| \leq |\mathcal{P}(T)|.$
+	\begin{itemize}
+	\item Let $f : S \rightarrow T$ be a well-defined function  that is an injection.
+	\item Now let $g:\mathcal{P}(S) \rightarrow \mathcal{P}(T)$ be defined as $g(f)=\{f(A) =B : A \subseteq S, B \subseteq T\}.$
+	\item Let $P,Q \in \mathcal{P}(S), X \in \mathcal{P}(T)$ such that $g(P) = g(Q) = X.$
+	\item Then this implies that $g(P) = \{f(P)= X:P \subseteq S, X \subseteq T\} = \{f(Q) = X:Q\subseteq S, X \subseteq T\}=g(Q).$
+	\item Hence by definition $P=Q$ showing that $g$ is an injection as we know that $f$ is also an injection therefore $|\mathcal{P}(S)| \leq |\mathcal{P}(T)|.$
+	\end{itemize}
+	\item (b) If $|S| = |T|$ then $|\mathcal{P}(S)| = |\mathcal{P}(T)|.$
+	\begin{itemize}
+	\item Let $h:S \rightarrow T$ form a bijection.
+	\item Now let $g:\mathcal{P}(S) \rightarrow \mathcal{P}(T)$ be defined as $g(h)=\{h(A) =B : A \subseteq S, B \subseteq T\}.$
+	\item As we proved in (a) we know that $g$ forms an injection.
+	\item Now let's prove that $g$ forms a surjection.
+	\item Let $X \subseteq S, Y\subseteq T$ such that $f(X) =Y$.
+	\item Then by definition $g(f) = \{f(X) = Y: X \subseteq S, Y \subseteq T\}$.
+	\item Hence is a surjection as required.
+	\item Therefore, $g$ is a bijection hence $|\mathcal{P}(S)| = |\mathcal{P}(T)|.$.
+	\end{itemize}
+\end{itemize}
+\item Show that there exist infinitely many pairs of distinct natural numbers $a,b$ such that $17^a-17^b$ is divisible by 2022.
+\begin{itemize}
+	\item Consider a sequence of 2023 numbers $17^1,17^2,17^3,\cdots,17^{2023}$.
+	\item There are at most 2022 remainders when divided by 2022.
+	\item However there exists 2023 numbers in the sequence.
+	\item Thus there must exists two numbers with the same remainder when divided by 2022. 
+	\item Then $\exists a,b \in \mathbb{N}$ where $17^a = 2022k+r,17^b=2022\ell + r$ where $r \in \mathbb{N}$ and $k,\ell \in \mathbb{Z} , k,\ell \geq 0.$
+	\begin{align}
+		17^b-17^a &= (2022\ell + r) - (2022k+r) \\&=2022(\ell-k)
+	\end{align}
+	\item Hence, $2022 \mid (17^b-17^a).$
+	\item In the previous example, we considered the sequence with the interval $[17^1,17^{2023}]$.
+	\item However this relation will still be satisfied for other intervals too.
+	\item To generalize, there will always exist two natural numbers $a,b$ where $2022 \mid (17^b-17^a)$ for all intervals $[17^n,17^{n+2022}],n\in \mathbb{N}.$
+	\item We know that $\mathbb{N}$ is an infinite set hence there are infinitely many pairs that exist.
+\end{itemize}
+\item Prove that $(-\infty,-\sqrt{29})$ and $\mathbb{R}$ are equinumerous by constructing an explicit bijection.
+\begin{itemize}
+	\item Let $f:(-\infty,-\sqrt{29}) \rightarrow \mathbb{R}$ be defined as $f(x) = \log(-x-\sqrt{29})$
+	\item And also let $g:\mathbb{R} \rightarrow(-\infty,-\sqrt{29})$ be defined as $g(y)=-e^y-\sqrt{29}.$
+	\item Then 
+	\begin{align}
+		f(g(y)) &= \log(-(-e^y-\sqrt{29})-\sqrt{29}) \\ &=\log(e^y) \\&=y \\ g(f(x))&=-e^{\log(-x-\sqrt{29})}-\sqrt{29} \\&=-(-x-\sqrt{29}) -\sqrt{29} \\&=x
+	\end{align}
+	\item We can see that $f\circ g$ and $g \circ f$ are both identity functions.
+	\item Thus $f$ has a two side inverse which is $g$.
+	\item Therefore $|(-\infty,-\sqrt{29})| = |\mathbb{R}|$. Thus equinumerous as required.
+\end{itemize}
+\item Prove or disprove: for any non-empty sets $A,B,C$ if $| A \times B| = |A \times C|$ then $|B|  = |C| $.
+\begin{itemize}
+	\item First, let $f:|A \times B| \rightarrow |A \times C|$ be defined as $f((a_k,b_n))=\{(a_k,c_n) : k,n \in \mathbb{N}\}$.
+	\item We know that $|A\times B|=|A \times C|$ hence we can see that $f$ is a bijection.
+	\item Now let $g:B \rightarrow C$ be defined as $g(b_k)=\{c_k : f((a_1,b_k)) =(a_1,c_k)\}.$
+	\item Let's prove whether $g$ is a bijection.
+	\item Let $b_i,b_j$ such that $g(b_i)=g(b_j)$,  then $g(b_i) = \{c_i : f((a_1,b_i))=(a_1,c_i)\} = \{c_j : f((a_1,b_j)) = (a_1,c_j)\} = g(b_j).$
+	\item We know that $f$ is a bijection hence $c_i = c_j$, therefore showing us that $g$ is an injection.
+	\item Now let $c_\ell \in C$, since $f$ is a surjection $\exists (a_1,b_\ell) \in A \times B$ such that $f((a_1,b_\ell)) = (a_1,c_\ell)$.
+	\item Therefore, by the definition of $g$ $\exists b_k \in B$ where $g(b_k)=c_k$.
+	\item Thus, $g$ is also a surjection showing us that $g$ is a bijection.
+	\item Since we proved that $g$ is a bijection, $|B|=|C|.$
+\end{itemize}
+\item Let $A$ be a finite set and $f: \mathbb{R} \rightarrow A.$ Show that there exists some $a \in A$ such that $f^{-1}(\{a\})$ is uncountable.
+\begin{itemize}
+	\item Let's assume, to the contrary, that $f^{-1}(\{a\})$ is countable.
+	\item Then we $\mathbb{R}$ can be expressed with $f^{-1}(\{a\})$ as
+	\begin{center}
+	$\mathbb{R} = \bigcup_{a \in A} f^{-1}(\{a\}), \forall a \in A$.	
+	\end{center}
+	\item As we know that $A$ is a finite set, then $\mathbb{R}$ is the union of a finite amount of sets, therefore shows us that $\mathbb{R}$ is finite.
+	\item However, this contradicts with the fact that $\mathbb{R}$ is an infinite set.
+	\item Hence, by contradiction we can declare that $f^{-1}(\{a\})$ is uncountable.
+
+\end{itemize}
+\end{enumerate}
+
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > PlanetStatus</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: PlanetStatus (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PlanetStatus</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance contains the ID and name of a Node and the signal
+&nbsp; * strength at this Node. Used in SearchPhase in lieu of Nodes.
+&nbsp; */
+&nbsp;public class PlanetStatus implements Comparable&lt;PlanetStatus&gt; {
+&nbsp;
+&nbsp;    private final int id; // The ID of this Node.
+&nbsp;    private final String name; // The name of this Node.
+&nbsp;    private final double signal; // The signal strength at this Node.
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: an instance with ID nodeId, name nodeName,
+&nbsp;     * and signal signalStrength.
+&nbsp;     */
+<b class="nc">&nbsp;    PlanetStatus(int nodeId, String nodeName, double signalStrength) {</b>
+<b class="nc">&nbsp;        id = nodeId;</b>
+<b class="nc">&nbsp;        name = nodeName;</b>
+<b class="nc">&nbsp;        signal = signalStrength;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the ID of this NodeStatus.
+&nbsp;     */
+&nbsp;    public int id() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the name of the Node that corresponds to this NodeStatus.
+&nbsp;     */
+&nbsp;    public String name() {
+<b class="nc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the signal strength at this NodeStatus.
+&nbsp;     */
+&nbsp;    public double signal() {
+<b class="nc">&nbsp;        return signal;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return an int n, where if this&#39;s ping is less than, equal to, greater
+&nbsp;     * than other&#39;s ping; then n &lt; 0, n = 0, n &gt; 0, respectively.
+&nbsp;     * &lt;p&gt;
+&nbsp;     * N.B. pings are inversely proportional to distance! If a ping is LOWER,
+&nbsp;     * then what does this mean about its position relative to the target?
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int compareTo(PlanetStatus other) {
+<b class="nc">&nbsp;        return Double.compare(signal, other.signal);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff ob and this point to the same NodeStatus, or if
+&nbsp;     * ob is a NodeStatus with the same ID as this.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object ob) {
+<b class="nc">&nbsp;        if (ob == this) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ob == null || getClass() != ob.getClass()) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return id == ((PlanetStatus) ob).id;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return id;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

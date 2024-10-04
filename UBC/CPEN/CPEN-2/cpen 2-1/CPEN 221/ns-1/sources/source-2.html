@@ -1,0 +1,124 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Controller</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: Controller (cpen221.mp2.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Controller</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.controllers;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance controls a Game and can access its status.
+&nbsp; */
+&nbsp;public interface Controller {
+&nbsp;
+&nbsp;    public static final int TICKTIME = 10; // time per update, in milliseconds
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Start the current game. If a game has already started, this will print
+&nbsp;     * an error message and return.
+&nbsp;     */
+&nbsp;    public void start();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reset the current game to its initial state.
+&nbsp;     */
+&nbsp;    public void reset();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff the search stage ended successfully.
+&nbsp;     *
+&nbsp;     * @return true if the hunt stage was successful and false otherwise
+&nbsp;     */
+&nbsp;    public boolean huntSucceeded();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff the rescue stage ended successfully.
+&nbsp;     *
+&nbsp;     * @return true if the gather stage was successful and false otherwise
+&nbsp;     */
+&nbsp;    public boolean gatherSucceeded();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update the model by one tick.
+&nbsp;     */
+&nbsp;    public void update();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create (but don&#39;t start) a new game with the long value of str
+&nbsp;     * as a seed, or a random seed of str is not a valid long.
+&nbsp;     *
+&nbsp;     * @param seed is a seed for the random number generator that is used to
+&nbsp;     *             build the game universe
+&nbsp;     */
+&nbsp;    public void newGame(String seed);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Create (but don&#39;t start) a new game with seed s.
+&nbsp;     *
+&nbsp;     * @param seed is a seed for the random number generator that is used to
+&nbsp;     *             build the game universe
+&nbsp;     */
+&nbsp;
+&nbsp;    public void newGame(long seed);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

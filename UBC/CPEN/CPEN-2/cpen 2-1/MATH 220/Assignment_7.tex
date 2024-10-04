@@ -1,0 +1,233 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{4} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework 7} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 7:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item We define a relation $\mathcal{R}$ on $\mathcal{P}(\{1,2\})$(the power set of $\{1,2\}$) by 
+\begin{center} 
+$S\mathcal{R}T \Longleftrightarrow S \cap T = \emptyset.$	
+\end{center}
+Write down all the elements in $\mathcal{R}$.
+\begin{itemize}
+	\item $\mathcal{P}(\{1,2\}) = \{\emptyset,\{1\},\{2\},\{1,2\}\}$
+	\item Therefore, $\mathcal{R} = \{(\emptyset,\{1\}),(\{1\},\emptyset),(\emptyset,\{2\}),(\{2\},\emptyset),(\emptyset,\{1,2\}),(\{1,2\}, \emptyset),(\{1\},\{2\}) (\{2\},\{1\})\}$
+\end{itemize} 
+\item Let $R$ be a relation on a nonempty set $A$. Then $\overline R = (A \times A)-R$ is also a relation on $A$. Prove or disprove each of the following statements.
+\begin{itemize}
+\item If $R$ is reflexive, then $\overline R$ is reflexive.
+\begin{itemize}
+\item Let's assume that $R$ is reflexive, then $\forall a \in A$ , $a \mathrel R a$.
+\item Then $\forall a \in A$, $(a,a) \in R$.
+\item Therefore, $(a,a) \notin \overline R$ and this shows that $\overline R$ is not reflexive.
+\end{itemize}	
+\item If $R$ is symmetric, then $\overline R $ is symmetric.
+\begin{itemize}
+\item Let's prove by the contrapositive.
+\item Then if $\overline R $ is not symmetric, then $R$ is not symmetric.
+\item Let's say for $a,b \in A$, $(a,b) \in \overline R$.
+\item As $\overline R $ is not symmetric we can conclude that $(b,a) \notin \overline R$.
+\item This is equivalent to saying that $(b,a) \in R $ however $(a,b) \notin R$.
+\item Therefore, $R$ is also not symmetric.
+\item Thus as the contrapositive is true, the original statement is true.
+\end{itemize}
+\item If $R$ is transitive, then $\overline R$ is transitive.
+\begin{itemize}
+\item Let's prove by the contrapositive.
+\item If $\overline R$ is not transitive, then $R$ is not transitive.
+\item Let's $(a,b),(b,c),(a,c)\notin \overline R$ for $a,b,c \in A$, thus proving that $\overline R$ is not transitive.
+\item However, $(a,b),(b,c),(a,c) \notin \overline R$ shows us that $(a,b),(b,c),(a,c) \in R$.
+\item Therefore, $a \mathrel R b,b\mathrel R c $ and $a \mathrel R c.$
+\item We can re-express this to if $(a \mathrel R b) \wedge (b \mathrel R c) \implies a \mathrel R c$.
+\item Thus, $R$ is transitive.
+\item As the contrapositive is false the original statement is false.
+\end{itemize}
+\end{itemize}
+\item Let $R$ be a relation on a set $A$. Suppose that $R$ is reflexive and satisfy $(a\mathrel R c \wedge b\mathrel R c) \implies a \mathrel R b $ for any $a,b,c \in A.$ Prove that $R$ is symmetric and transitive.
+\begin{itemize}
+\item Let $a,b \in A$ such that $b \mathrel R a$.
+\item As $R$ is reflexive we know that $a \mathrel R a$.
+\item By the given implication, $(a \mathrel R a) \wedge (b \mathrel R a) \implies a \mathrel R b$.
+\item As $a \mathrel R b$ and $b \mathrel R a$, we can conclude that $R$ is symmetric.
+\item Now let $a,b,c \in A$ such that $a \mathrel R c, c \mathrel R b$.
+\item As $R$ is reflexive, $b \mathrel R c$.
+\item By the given implication, $(a\mathrel R c \wedge b \mathrel R c) \implies a \mathrel R b.$
+\item Thus, $a \mathrel R b ,b \mathrel R c$ and $a \mathrel R c $ co-exist. $R$ is transitive. 
+\end{itemize}
+ 
+\item Let $R$ be a relation on set $A$ and $f: A \rightarrow B$ a function. We define a relation $\mathcal{R'}$ on $B$ as 
+\begin{center}
+	$\mathcal{R'} = \{(f(x),f(y)) : (x,y) \in \mathcal{R}\}$
+\end{center}
+Determine (with proof) whether the following are true.
+\begin{itemize}
+	\item (a) If $\mathcal{R}$ is reflexive then $\mathcal{R'}$ is reflexive.
+	\begin{itemize}
+	\item Define $f(x)=x+1$, and let $A=\{1\},B=\{2,3\}$.
+	\item And let $\mathcal{R}=\{1,1\}$ such that $\mathcal{R}$ is reflexive.
+	\item Then $(2,2) \in \mathcal{R'}$, however $(3,3) \notin \mathcal{R'}$ therefore $\mathcal{R'}$ is not reflexive.
+	\end{itemize}
+	\item (b) If $\mathcal{R}$ is symmetric then $\mathcal{R'}$ is symmetric.
+	\begin{itemize}
+	\item Let $a,b \in A$, such that $a \mathrel \mathcal{R} b$ and $b \mathrel \mathcal{R} a$.
+	\item Therefore, $(a,b),(b,a) \in \mathcal{R}$.
+	\item When $(a,b),(b,a) \in \mathcal{R}$, $(f(a),f(b)),(f(b),f(a)) \in \mathcal{R'}$.
+	\item This shows that $f(a) \mathrel \mathcal R' f(b) $ and $f(b) \mathrel \mathcal R' f(a)$.
+	\item Thus, $\mathcal R' $ is symmetric.
+	\end{itemize}
+\end{itemize}
+
+\item We define a relation $\mathcal{R}$ on the real number as 
+\begin{center}
+	$\mathcal{R} = \{ (x,x+n):x\in \mathbb{R},n \in \mathbb{N}\}.$
+\end{center}
+Determine (with proof) whether the following holds:
+\begin{itemize}
+	\item (a) If $x_1 \mathrel \mathcal{R} y_1 $ and $ x_2 \mathrel \mathcal{R} y_2$ then $(x_1+x_2) \mathrel \mathcal{R} (y_1+y_2).$
+	\begin{itemize}
+	\item Let $x_1 \mathrel \mathcal{R} y_1 $ and $ x_2 \mathrel \mathcal{R} y_2$ then $y_1 = x_1 +n_1$ and $y_2 = x_2 + n_2$.
+	\item Then we can figure that $y_1 + y_2 = x_1 + x_2 + n_1 + n_2$.
+	\item As $n \in \mathbb{N}$, we can choose a new $n_3$ such that $n_ 3 = n_1 + n_2 $.
+	\item Thus we can see that $y_1+y_2 = x_1+x_2 +n_3 = x_1 + x_2 +n_1 + n_2$.
+	\item Therefore, $(x_1+x_2) \mathrel \mathcal{R} (y_1+y_2)$.
+	\end{itemize}
+	\item (b) If $x_1 \mathrel \mathcal{R} y_1 $ and $ x_2 \mathrel \mathcal{R} y_2$ then $(x_1\cdot y_1) \mathrel \mathcal{R} (x_2\cdot y_2).$
+	\begin{itemize}
+	\item Let $x_1 \mathrel \mathcal{R} y_1 $ and $ x_2 \mathrel \mathcal{R} y_2$ then $y_1 = x_1 + n$ and $ y_2 = x_2+n$.
+	\item $y_2 \cdot x_2 = (x_2+n) \cdot x_2$ and $y_1\cdot x_1 = (x_1+n)\cdot x_1$
+	\item We can see that $x_2^2+n\cdot x_2 \neq x_1^2+n\cdot x_1 + n $.
+	\item Hence, $(x_1\cdot y_1) \not{\mathcal{R}} (x_2 \cdot y_2)$.
+	\end{itemize}
+\end{itemize}
+
+\item We define a relation $T$ on $\mathbb{R} - \{0\}$ by 
+\begin{center}
+$a \mathrel T b \Longleftrightarrow \frac{a}{b} \in \mathbb{Q}$	
+\end{center}
+Show that $T$ is symmetric, reflexive and transitive.
+\begin{itemize}
+	\item Let $a \in \mathbb{R} - \{0\}, $ then $\frac{a}{a} = 1 \in \mathbb{Q}$.
+	\item Thus, we can see that $a \mathrel T a$.
+	\item Therefore $T$ is reflexive.
+	\item Now let $a,b \in \mathbb{R} - \{0\}$, such that $a \mathrel Tb$.
+	\item Thus $\frac{a}{b} \in \mathbb{Q}$.
+	\item As $a,b \in \mathbb{R} - \{0\}$, We can also conclude that $\frac{b}{a} \in \mathbb{Q}$.
+	\item Which shows that $b \mathrel T a$, thus $T$ is symmetric.
+	\item Lastly, let $a,b,c \in \mathbb{R} - \{0\}$, such that $a \mathrel T b$ and $ b \mathrel T c$.
+	\item Then, $\frac{a}{b}$,$\frac{b}{c} \in \mathbb{Q}$. $\frac{a}{b} \cdot \frac{b}{c} = \frac{a}{c}$, and because $c\in \mathbb{R} - \{0\}$ $\frac{a}{c}\in \mathbb{Q}$.
+	\item Therefore, $(a \mathrel T b )\wedge (b \mathrel T c )\implies a \mathrel T c$. Making $T$ transitive.
+\end{itemize}
+\item Let a relation $\mathcal{R}$ on $\{0,1,2,3\}$ be such that $x \mathrel \mathcal{R} y$ if $(x+y)$ is a multiple of 3.
+\begin{itemize}
+	\item (a) Write out $\mathcal{R}$ as a set.
+	\begin{itemize}
+	\item $\mathcal{R} = \{(0,0),(0,3),(1,2),(2,1),(3,0),(3,3)\}$. 
+	\end{itemize}
+	\item (b) Is this relation reflexive?
+	\begin{itemize}
+	\item In order to be reflexive, $\forall a \in \{0,1,2,3\} $, $a \mathrel \mathcal{R}a$.
+	\item However, this is only satisfied when $a =0$ or $a=3$. 
+	\item And because $(1,1),(2,2) \notin \mathcal{R}$, $\mathcal R $ is not reflexive.
+	\end{itemize}
+	\item (c) Is it symmetric?
+	\begin{itemize}
+	\item Let $a,b \in \{0,1,2,3\}$, then if $a \mathrel \mathcal{R} b$ then $b \mathrel \mathcal{R} a$.
+	\item For $(a,b) = (0,0) $, both $ 0 \mathrel \mathcal{R} 0$ and $ 0 \mathrel \mathcal{R} 0$ exist.
+	\item For $(a,b) = (1,2)$, and as $(2,1) \in \mathcal{R}$, both $1 \mathrel \mathcal{R} 2$ and $2 \mathrel \mathcal{R} 1$ exist.
+	\item For $(a,b) = (0,3)$, and as $(3,0) \in \mathcal{R}$, both $0 \mathrel \mathcal{R} 3$ and $3 \mathrel \mathcal{R} 0$ exist.
+	\item For $(a,b) = (3,3)$, both $ 3 \mathrel \mathcal{R} 3$ and $ 3 \mathrel \mathcal{R} 3$ exist.
+	\item Therefore, $\mathcal{R}$ is symmetric.
+	\end{itemize}
+	\item (d) What is the fewest number of elements that you need to add to $\mathcal{R}$ so as to obtain a transitive relation?
+	\begin{itemize}
+	\item We only need to add $(1,1)$ and $(2,2)$ to satisfy a transitive relation.
+	\item Then $1 \mathrel \mathcal{R} 1$ and $2 \mathrel \mathcal{R} 2$ exist.
+	\item Thus when $(1 \mathrel \mathcal R 2) $ and $ (2 \mathrel \mathcal R 1)$, $1 \mathrel \mathcal R 1$.
+	\item Also when $ (2 \mathrel \mathcal R 1)$ and $(1 \mathrel \mathcal R 2) $, $2 \mathrel \mathcal R 2$.
+	\item Satisfying a transtive relation.
+	\end{itemize}
+\end{itemize}
+\item A relation on a set $A$ is called $\bold{circular}$ if for all $a,b,c \in A$, $a \mathrel R b$ and $b \mathrel R c$ imply $c \mathrel R a$. Prove that a relation is an equivalence relation if and only if it is reflexive and circular.
+\begin{itemize}
+\item Let $R$ be an equivalence relation.
+\item Then $R$ is automatically reflexive.
+\item Now let $a,b,c \in A$ such that $a \mathrel R b$ and $ b \mathrel R c$.
+\item As $R$ is an equivalence relation, $R$ is transitive.
+\item Thus $a \mathrel R c$, also, $R$ is transitive so $c \mathrel R a$.
+\item Showing us that $R$ is circular.
+\item Now let's assume that $R$ is reflexive and circular.
+\item Now let $a,b \in A$ such that $a \mathrel R b $ and $b \mathrel R b$ as $R$ is reflexive.
+\item As we know that $R$ is circular $(a \mathrel R b) \wedge (b \mathrel R b) \implies b \mathrel R a $.
+\item Therefore, we can see that $R$ is symmetric.
+\item Also, by the circular implication we can see that when $a \mathrel R b$ and $b \mahtrel R c$ then $c \mathrel R a$.
+\item We know that $R$ is reflexive, therefore $a \mathrel R c$.
+\item Thus, we can conclude that $R$ is transitive.
+\item To conclude, we know that $R$ is reflexive, symmetric and transitive, thus $R$ is an equivalence relation.
+\end{itemize}	
+\end{itemize}
+
+\end{enumerate}
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

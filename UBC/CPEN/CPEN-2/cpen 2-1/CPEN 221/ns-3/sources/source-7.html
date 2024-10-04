@@ -1,0 +1,579 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SpacePanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: SpacePanel (cpen221.mp2.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SpacePanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/99)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SpacePanel$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SpacePanel$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/14)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SpacePanel$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SpacePanel$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SpacePanel$Direction</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/30)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/140)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.gui;
+&nbsp;
+&nbsp;import cpen221.mp2.models.Link;
+&nbsp;import cpen221.mp2.models.Model;
+&nbsp;import cpen221.mp2.models.Planet;
+&nbsp;import cpen221.mp2.util.Util;
+&nbsp;
+&nbsp;import javax.imageio.ImageIO;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.LineBorder;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.*;
+&nbsp;import java.awt.geom.Point2D;
+&nbsp;import java.awt.geom.Rectangle2D;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.Random;
+&nbsp;import java.util.concurrent.ConcurrentHashMap;
+&nbsp;import java.util.concurrent.ConcurrentMap;
+&nbsp;import java.util.function.Consumer;
+&nbsp;
+&nbsp;import static java.awt.event.KeyEvent.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance is a JPanel where the game&#39;s cpen221.mp2.graph is drawn.
+&nbsp; */
+&nbsp;@SuppressWarnings(&quot;serial&quot;)
+&nbsp;public class SpacePanel extends JPanel {
+&nbsp;
+&nbsp;    /* The font used to render all text in this panel. */
+<b class="nc">&nbsp;    private static final Font FONT = new Font(Font.SANS_SERIF, Font.PLAIN, 12);</b>
+&nbsp;    /* The distance that the camera moves per frame, if it is moving. */
+&nbsp;    private static final int CAMERA_SPEED = 50;
+&nbsp;    /* The background of this panel. */
+&nbsp;    private Image backgroundImage;
+&nbsp;    /* The current Model being viewed by this SpacePanel. */
+&nbsp;    private Model model;
+&nbsp;    /* The area of the Model drawn by this SpacePanel at a zoom of 1. */
+&nbsp;    private Rectangle2D.Double baseArea;
+&nbsp;    /* The current area of the Model drawn by this SpacePanel. */
+&nbsp;    private Rectangle2D.Double area;
+&nbsp;    /* The current zoom level of the camera. zoom 1: default. zoom &gt; 0. */
+&nbsp;    private int zoom;
+&nbsp;    /* The Ship traveling around on this Board. */
+&nbsp;    private Ship ship;
+&nbsp;    /* A map of all Nodes to the Planets on this SpacePanel. */
+&nbsp;    private ConcurrentMap&lt;Planet, cpen221.mp2.gui.Planet&gt; nToP;
+&nbsp;    /* A map of all Edges to the Lines on this SpacePanel. */
+&nbsp;    private ConcurrentMap&lt;Link, Line&gt; eToL;
+&nbsp;    /* The direction in which the camera is moving. */
+&nbsp;    private Direction cameraDir;
+&nbsp;    /* True iff the camera follows the ship. */
+&nbsp;    private boolean followShip;
+&nbsp;    /* When attached to a component with focus, allows the camera to move. */
+<b class="nc">&nbsp;    private KeyListener keyListener = new KeyListener() {</b>
+&nbsp;        @Override
+&nbsp;        public void keyPressed(KeyEvent e) {
+<b class="nc">&nbsp;            switch (e.getKeyCode()) {</b>
+&nbsp;                case VK_UP:
+&nbsp;                case VK_W:
+&nbsp;                case VK_K:
+<b class="nc">&nbsp;                    cameraDir = Direction.UP;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case VK_RIGHT:
+&nbsp;                case VK_D:
+&nbsp;                case VK_L:
+<b class="nc">&nbsp;                    cameraDir = Direction.RIGHT;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case VK_DOWN:
+&nbsp;                case VK_S:
+&nbsp;                case VK_J:
+<b class="nc">&nbsp;                    cameraDir = Direction.DOWN;</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case VK_LEFT:
+&nbsp;                case VK_A:
+&nbsp;                case VK_H:
+<b class="nc">&nbsp;                    cameraDir = Direction.LEFT;</b>
+&nbsp;                    break;
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public void keyReleased(KeyEvent e) {
+<b class="nc">&nbsp;            switch (e.getKeyCode()) {</b>
+&nbsp;                case VK_UP:
+&nbsp;                case VK_W:
+&nbsp;                case VK_K:
+<b class="nc">&nbsp;                    if (cameraDir == Direction.UP) {</b>
+<b class="nc">&nbsp;                        cameraDir = Direction.NONE;</b>
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                case VK_RIGHT:
+&nbsp;                case VK_D:
+&nbsp;                case VK_L:
+<b class="nc">&nbsp;                    if (cameraDir == Direction.RIGHT) {</b>
+<b class="nc">&nbsp;                        cameraDir = Direction.NONE;</b>
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                case VK_DOWN:
+&nbsp;                case VK_S:
+&nbsp;                case VK_J:
+<b class="nc">&nbsp;                    if (cameraDir == Direction.DOWN) {</b>
+<b class="nc">&nbsp;                        cameraDir = Direction.NONE;</b>
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                case VK_LEFT:
+&nbsp;                case VK_A:
+&nbsp;                case VK_H:
+<b class="nc">&nbsp;                    if (cameraDir == Direction.LEFT) {</b>
+<b class="nc">&nbsp;                        cameraDir = Direction.NONE;</b>
+&nbsp;                    }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public void keyTyped(KeyEvent e) {
+<b class="nc">&nbsp;        }</b>
+&nbsp;    };
+&nbsp;    /* Function that should be called every time a Node is clicked. */
+&nbsp;    private Consumer&lt;Planet&gt; whenClicked;
+&nbsp;    /* Used to find Nodes that are being clicked */
+<b class="nc">&nbsp;    private MouseListener clickListener = new MouseListener() {</b>
+&nbsp;        @Override
+&nbsp;        public void mouseClicked(MouseEvent arg0) {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public void mouseEntered(MouseEvent arg0) {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public void mouseExited(MouseEvent arg0) {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public void mousePressed(MouseEvent arg0) {
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        @Override
+&nbsp;        public void mouseReleased(MouseEvent arg0) {
+<b class="nc">&nbsp;            Point clicked = arg0.getPoint();</b>
+<b class="nc">&nbsp;            Rectangle2D bounds = getBounds();</b>
+&nbsp;            // translate drawn area to &quot;actual&quot; area
+<b class="nc">&nbsp;            clicked.x = (int) (clicked.x * area.width / bounds.getWidth() + area.x</b>
+&nbsp;                    + 0.5);
+<b class="nc">&nbsp;            clicked.y = (int) (clicked.y * area.height / bounds.getHeight() + area.y</b>
+&nbsp;                    + 0.5);
+<b class="nc">&nbsp;            Planet n = model.closestNode(clicked);</b>
+&nbsp;
+&nbsp;            // see if the Node was actually clicked
+<b class="nc">&nbsp;            if (n != null &amp;&amp; (nToP.get(n).radius() * 3) &gt;= Util.distance(n.x(),</b>
+<b class="nc">&nbsp;                    n.y(), clicked.x, clicked.y)) {</b>
+<b class="nc">&nbsp;                whenClicked.accept(n);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                whenClicked.accept(null);</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    };
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: an instance with dimensions (width, height).
+&nbsp;     */
+<b class="nc">&nbsp;    public SpacePanel(int width, int height) {</b>
+&nbsp;        try {
+<b class="nc">&nbsp;            backgroundImage = ImageIO</b>
+<b class="nc">&nbsp;                    .read(new File(Util.DIRECTORY + &quot;/data/images/horsehead.jpg&quot;));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        catch (IOException e) {</b>
+<b class="nc">&nbsp;            System.err.println(&quot;Failed to set background image; &quot;</b>
+&nbsp;                    + &quot;defaulting to a black background&quot;);
+<b class="nc">&nbsp;            setBackground(Color.BLACK);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        setBorder(new LineBorder(Color.LIGHT_GRAY));</b>
+<b class="nc">&nbsp;        setPreferredSize(new Dimension(width, height));</b>
+<b class="nc">&nbsp;        setLayout(null);</b>
+<b class="nc">&nbsp;        setFont(FONT);</b>
+<b class="nc">&nbsp;        setDoubleBuffered(true);</b>
+&nbsp;
+<b class="nc">&nbsp;        nToP = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        eToL = new ConcurrentHashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        addMouseListener(clickListener);</b>
+&nbsp;
+<b class="nc">&nbsp;        followShip = false;</b>
+<b class="nc">&nbsp;        zoom = 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialize this SpacePanel to display Model m.
+&nbsp;     * The Ship will be placed on the starting Node.
+&nbsp;     */
+&nbsp;    public void init(Model m) {
+&nbsp;        // clear the old Board stuff, if necessary
+<b class="nc">&nbsp;        nToP.clear();</b>
+<b class="nc">&nbsp;        eToL.clear();</b>
+&nbsp;
+<b class="nc">&nbsp;        model = m;</b>
+<b class="nc">&nbsp;        cameraDir = Direction.NONE;</b>
+<b class="nc">&nbsp;        FontMetrics fm = getFontMetrics(FONT);</b>
+&nbsp;
+<b class="nc">&nbsp;        Rectangle2D bounds = getBounds();</b>
+<b class="nc">&nbsp;        double padding = Math.min(m.width(), m.height()) * 0.02;</b>
+<b class="nc">&nbsp;        double w = m.width() + 2 * padding;</b>
+<b class="nc">&nbsp;        double h = m.height() + 2 * padding;</b>
+<b class="nc">&nbsp;        baseArea = new Rectangle2D.Double(-padding, -padding, w, h);</b>
+<b class="nc">&nbsp;        area = new Rectangle2D.Double(-padding, -padding, w, h);</b>
+&nbsp;
+&nbsp;        // add the Nodes
+<b class="nc">&nbsp;        Random r = new Random(m.seed());</b>
+<b class="nc">&nbsp;        for (Planet n : m.planets()) {</b>
+<b class="nc">&nbsp;            cpen221.mp2.gui.Planet p = cpen221.mp2.gui.Planet.make(n.name(), new Point(n.x(), n.y()), area, bounds,</b>
+&nbsp;                    fm, r);
+<b class="nc">&nbsp;            nToP.put(n, p);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // add the Edges
+<b class="nc">&nbsp;        for (Link e : m.edges()) {</b>
+<b class="nc">&nbsp;            Line l = new Line(nToP.get(e.v1()), nToP.get(e.v2()));</b>
+<b class="nc">&nbsp;            eToL.put(e, l);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+&nbsp;        // add the Ship
+<b class="nc">&nbsp;        ship = new Ship(m.shipLocation(), area, bounds, SidePanel.INITIAL_SPEED,</b>
+&nbsp;                fm);
+&nbsp;
+&nbsp;        // Add a listener for resize events
+<b class="nc">&nbsp;        addComponentListener(new ComponentListener() {</b>
+&nbsp;            @Override
+&nbsp;            public void componentResized(ComponentEvent e) {
+<b class="nc">&nbsp;                changeBounds();</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public void componentMoved(ComponentEvent e) {
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public void componentShown(ComponentEvent e) {
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            @Override
+&nbsp;            public void componentHidden(ComponentEvent e) {
+<b class="nc">&nbsp;            }</b>
+&nbsp;        });
+&nbsp;
+<b class="nc">&nbsp;        setZoom(zoom);</b>
+<b class="nc">&nbsp;        repaint();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the Planet corresponding to Node n.
+&nbsp;     */
+&nbsp;    public cpen221.mp2.gui.Planet getPlanet(Planet n) {
+<b class="nc">&nbsp;        return nToP.get(n);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update the displayed Drawables on this SpacePanel.
+&nbsp;     */
+&nbsp;    public void update() {
+<b class="nc">&nbsp;        if (followShip) {</b>
+<b class="nc">&nbsp;            Point2D p = ship.location();</b>
+<b class="nc">&nbsp;            area.x = p.getX() - area.getWidth() / 2.0;</b>
+<b class="nc">&nbsp;            area.y = p.getY() - area.getHeight() / 2.0;</b>
+<b class="nc">&nbsp;            updateArea();</b>
+<b class="nc">&nbsp;        } else {</b>
+<b class="nc">&nbsp;            switch (cameraDir) {</b>
+&nbsp;                case UP:
+<b class="nc">&nbsp;                    area.y -= CAMERA_SPEED;</b>
+<b class="nc">&nbsp;                    updateArea();</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case RIGHT:
+<b class="nc">&nbsp;                    area.x += CAMERA_SPEED;</b>
+<b class="nc">&nbsp;                    updateArea();</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case DOWN:
+<b class="nc">&nbsp;                    area.y += CAMERA_SPEED;</b>
+<b class="nc">&nbsp;                    updateArea();</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case LEFT:
+<b class="nc">&nbsp;                    area.x -= CAMERA_SPEED;</b>
+<b class="nc">&nbsp;                    updateArea();</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                case NONE:
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        repaint();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * If follows is true, this SpacePanel&#39;s view follows the ship.
+&nbsp;     * Otherwise, the view remains fixed.
+&nbsp;     */
+&nbsp;    public void setFollowShip(boolean follows) {
+<b class="nc">&nbsp;        followShip = follows;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adjust the position of all Drawables on this SpacePanel, to be used
+&nbsp;     * if this SpacePanel&#39;s bounds have changed.
+&nbsp;     */
+&nbsp;    private void changeBounds() {
+<b class="nc">&nbsp;        Rectangle2D bounds = getBounds();</b>
+<b class="nc">&nbsp;        for (cpen221.mp2.gui.Planet p : nToP.values()) {</b>
+<b class="nc">&nbsp;            p.setBounds(bounds);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        ship.setBounds(bounds);</b>
+<b class="nc">&nbsp;        repaint();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    ;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the current zoom of the camera to the given level.
+&nbsp;     */
+&nbsp;    public void setZoom(int z) {
+<b class="nc">&nbsp;        double w = area.width;</b>
+<b class="nc">&nbsp;        double h = area.height;</b>
+<b class="nc">&nbsp;        area.width = baseArea.width / z;</b>
+<b class="nc">&nbsp;        area.height = baseArea.height / z;</b>
+<b class="nc">&nbsp;        area.x += (w - area.width) / 2;</b>
+<b class="nc">&nbsp;        area.y += (h - area.height) / 2;</b>
+<b class="nc">&nbsp;        updateArea();</b>
+<b class="nc">&nbsp;        zoom = z;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adjust all Drawable positions based on this panel&#39;s drawn area.
+&nbsp;     */
+&nbsp;    private void updateArea() {
+<b class="nc">&nbsp;        for (cpen221.mp2.gui.Planet p : nToP.values()) {</b>
+<b class="nc">&nbsp;            p.setArea(area);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        ship.setArea(area);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public KeyListener spacePanelCameraMover() {
+<b class="nc">&nbsp;        return keyListener;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set this SpacePanel to call fun every time a Node is clicked.
+&nbsp;     * Calling this more than once will overwrite the previous function.
+&nbsp;     */
+&nbsp;    public void callWhenClicked(Consumer&lt;Planet&gt; fun) {
+<b class="nc">&nbsp;        whenClicked = fun;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    protected void paintComponent(Graphics g) {
+<b class="nc">&nbsp;        super.paintComponent(g);</b>
+&nbsp;
+<b class="nc">&nbsp;        Graphics2D g2d = (Graphics2D) g;</b>
+<b class="nc">&nbsp;        g2d.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);</b>
+&nbsp;
+<b class="nc">&nbsp;        for (cpen221.mp2.gui.Planet p : nToP.values()) {</b>
+<b class="nc">&nbsp;            p.draw(g2d);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        for (ConcurrentMap.Entry&lt;Link, Line&gt; el : eToL.entrySet()) {</b>
+<b class="nc">&nbsp;            Line l = el.getValue();</b>
+<b class="nc">&nbsp;            l.setVisits(el.getKey().getVisits());</b>
+<b class="nc">&nbsp;            l.draw(g2d);</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        if (ship != null) {</b>
+<b class="nc">&nbsp;            ship.draw(g2d);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * An instance represents a direction (or lack thereof) in a 2D plane.
+&nbsp;     */
+<b class="nc">&nbsp;    private static enum Direction {</b>
+<b class="nc">&nbsp;        UP, RIGHT, DOWN, LEFT, NONE</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

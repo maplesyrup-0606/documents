@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HistoryEvent</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.initialization</a>
+</div>
+
+<h1>Coverage Summary for Class: HistoryEvent (cpen221.mp2.initialization)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">HistoryEvent</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.initialization;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Used to represent events occurring during incremental Delaunay
+&nbsp; * triangulation. By tracing through events, a particular Triangle containing an
+&nbsp; * arbitrary Point can be found in logarithmic time, instead of linear time.
+&nbsp; * Events consist of Point addition events or flip events.
+&nbsp; * &lt;p&gt;
+&nbsp; * An instance maintains Triangles resulting from an event, and can select a
+&nbsp; * Triangle containing an arbitrary Point.
+&nbsp; */
+&nbsp;public class HistoryEvent {
+&nbsp;    /* The Triangles associated with this event. There are either 3 (for an
+&nbsp;     * addition) or 2 (for a flip). */
+&nbsp;    private Triangle[] ts;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: an array of 3 Triangles (for an add event) or 2 Triangles
+&nbsp;     * (for a flip event).
+&nbsp;     */
+<b class="nc">&nbsp;    public HistoryEvent(Triangle[] ts) {</b>
+<b class="nc">&nbsp;		if (ts.length != 3 &amp;&amp; ts.length != 2) {</b>
+<b class="nc">&nbsp;			throw new IllegalArgumentException(&quot;Illegal event: &quot; + ts.length);</b>
+&nbsp;		}
+<b class="nc">&nbsp;        this.ts = ts;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns a PointLocation for p based on the Triangles in this event.
+&nbsp;     */
+&nbsp;    public PointLocation select(Point p) {
+<b class="nc">&nbsp;        for (Triangle t : ts) {</b>
+<b class="nc">&nbsp;            PointLocation pLoc = t.pointLocation(p);</b>
+<b class="nc">&nbsp;			if (pLoc.isNotOut()) {</b>
+<b class="nc">&nbsp;				return pLoc;</b>
+&nbsp;			}
+&nbsp;        }
+<b class="nc">&nbsp;        return PointLocation.makeOut();</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

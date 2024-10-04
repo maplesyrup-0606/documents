@@ -1,0 +1,239 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{4} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 4:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Prove that for every integer $n\geq 0$, the sum $n^3+(n+1)^3+(n+2)^3$ is divisible by 9.
+\begin{itemize}
+	\item By Euclidean division $n=3k, n=3p+1, n=3q+2 $ when $k,p,q \in \mathbb{Z}$. And let $k,q,p \geq 0$.
+	\item Case 1: $n=3k$,
+	\begin{align}
+		n^3+(n+1)^3+(n+2)^3 &=(3k)^3+(3k+1)^3+(3k+2)^3 \\ 
+		&= 81k^3+81k^2+45k+9 \\ &=9(9k^3+9k^2+5k+1)
+	\end{align}
+	\item We know that $9k^3+9k^2+5k+1 \in \mathbb{Z}$, thus $9 \mid \bigl(n^3+(n+1)^3+(n+2)^3\bigr)$.
+	\item Case 2: $n=3p+1$,
+	\begin{align}
+		n^3+(n+1)^3+(n+2)^3 &= (3p+1)^3+(3p+2)^3+(3p+3)^3 \\
+		&=81p^3+162p^2+126p+36 \\ &= 9(9p^3+18p^2+14p+4)
+	\end{align}
+	\item $9p^3+18p^2+14p+4 \in \mathbb{Z}$, therefore $9 \mid \bigl(n^3+(n+1)^3+(n+2)^3\bigr)$.
+	\item Case 3: $n=3q+2$,
+	\begin{align}
+	n^3+(n+1)^3	+(n+2)^3 &= (3q+2)^3+(3q+3)^3+(3q+4)^3 \\
+	&= 81q^3+243q^2+261q+99 \\ &=9(9q^3+27q^2+29q+11) 
+	\end{align}
+	\item $9q^3+27q^2+29q+11 \in \mathbb{Z}$, therefore $9 \mid \bigl(n^3+(n+1)^3+(n+2)^3\bigr)$.
+
+\end{itemize}
+\item Recall B\'ezout's identity: Let $a,b \in \mathbb{Z}$ such that $a$ and $b$ are not both zero. Then there exists $x,y \in \mathbb{Z}$ such that $ax+by = $gcd($a,b$). \\Use this result to prove the following result. \\ Let $a,b,c \in  \mathbb{Z}$ such that gcd($a,b$) = 1. Then
+\begin{center}
+	$(a\mid bc) \implies (a \mid c)$
+\end{center}
+\begin{itemize}
+	\item Let's assume the hypothesis is true.
+	\item Then we know that $\exists x,y \in \mathbb{Z}$ such that $ax+by=1$.
+	\item Also we know that $bc = ak , \in \mathbb{Z}$.
+	\begin{align}
+		ax+by &= 1 \\ acx + bcy &= c \\ axc +aky &=c \\ a(cx+yk)&=c
+	\end{align}
+	\item We can notice that $cx+yk \in \mathbb{Z}$, therefore we can figure that $(a\mid c).$
+	\item Thus the result holds.
+	
+\end{itemize}
+\item Let $ P \subset \mathbb{N}$ be the set of prime numbers $P= \{2,3,5,7,11 ,\dots \}$. Determine whether the following statements are true or false. Prove your answers ("true" or "false" is not sufficient.)
+\begin{itemize}
+	\item (a) $\forall x \in P, \forall y \ \in P, x+y\in P$.
+	\begin{itemize}
+	\item Negation: $\exists x\in P, \exists y \in P, x+y \notin P$
+	\item If we choose $x=2,y=5$ then $x+y =7\in P$
+	\item Thus, the negation is false which shows that the original statement is true.
+	\end{itemize}
+	\item (b) $\forall x \in P, \exists y \in P$ such that $x+y \in P$.
+	\begin{itemize}
+	\item Negation: $\exists x \in P,\forall y \in P$ such that $x+y \notin P$.
+	\item Case 1: $x=2$
+	\item In this case, if we say $y\equiv 1(\mod3)$, then $y=3g+1, g\in \mathbb{Z}$
+	\item Then $x+y = 3(g+1)$, and we know that $g+1\in \mathbb{Z}$.
+	\item Thus we can conclude that $x+y \notin P$.
+	\item Case 2: $x \neq 2$
+	\item Case 2-(a): We can choose $y \in P$ such that $y\equiv 1(\mod3)$, $y=3q+1, q\in \mathbb{Z}$.
+	\item If we choose $x$ to be $x=3\ell+2$ s.t. $x \in P$.
+	\item Then $x+y =3(q+\ell + 1)$ and $q+\ell+1 \in \mathbb{Z}$.
+	\item Therefore we can conclude that $x+y \notin P$.
+	\item Case 2-(b): Let's choose $y \in P$ s.t. $y\equiv 2(\mod 3)$, $y=3m+2,m\in \mathbb{Z}$.
+	\item Then we can choose $x\in P$ s.t. $x=3n+1,n\in \mathbb{Z}$.
+	\item Thus $x+y = 3(m+n+1),m+n+1 \in \mathbb{Z}$.
+	\item Thus $x+y \notin P$.
+	\item As the negation is true, the original statement is false.
+	\end{itemize}
+	\item (c) $\exists x \in P $ such that $\forall y \in P, x+y \in P.$ Again, we leverage the fact that every number is odd \textit{except} 2.
+	\begin{itemize}
+	\item Let's negate the statement, $\forall x\in P$ s.t. $\exists y \in P, x+y \notin P.$
+	\item Case 1: $x \neq 2$
+	\item Case 1-(a): $x=3\ell+1$
+	\item Then we can choose $y=2$, so that $x+y = 3\ell+3=3(\ell+1)$.
+	\item As $\ell+1 \in \mathbb{Z}$, thus $3\mid (x+y)$ therefore $x+y \notin P$.
+	\item Case 1-(b): $x=3p+2$
+	\item Then we can choose $y=1$, so that $x+y=3p+3=3(p+1).$
+	\item We know that $p+1\in \mathbb{Z}$, thus $x+y \notin P.$
+	\item Case 2: $x=2$
+	\item Then we can just choose $y=7$, $x+y=9$.
+	\item As 9 is not a prime number, $x+y \notin P$.
+	\item Therefore as the negation is true the original statement is false.
+	\end{itemize}
+	\item (d) $\exists x \in p $ such that $\exists y \in P, x+y \in P$.
+	\begin{itemize}
+	\item Let's choose $x=2$ and $y=5$.
+	\item Then $x+y=7$
+	\item And $7 \in P$, so the statement is true. 
+	\end{itemize}
+\end{itemize}
+\item Prove the following statement: For every positive number $\epsilon$ there is a positive number $M$ such that
+\begin{center}
+	$|\frac{2x^2}{x^2+1}-2| < \epsilon$
+\end{center}
+Whenever $x \geq M$.
+\begin{itemize}
+	\item Let's rephrase the statement. Then we get $\forall \epsilon>0, \exists M>0$ such that \\ $(x\geq M) \implies |\frac{2x^2}{x^2+1}-2| < \epsilon$.
+	\item Let's then negate the statement. Then we will obtain that \\
+	$ \exists \epsilon>0, \forall M>0$ such that $(x \geq M) \wedge ( |\frac{2x^2}{x^2+1}-2| \geq \epsilon)$.
+	\begin{align}
+		|\frac{2x^2}{x^2+1}-2| &= |\frac{-2}{x^2+1}| \\&=\frac{2}{x^2+1} \leq2 \\
+		&=\frac{2}{x^2+1}>0
+	\end{align}
+	\item Therefore, if we choose an $\epsilon$ such that $\epsilon >2$ the negated statement becomes false.
+	\item Thus, the original statement is true.
+\end{itemize}
+
+\item We say that a function $f: \mathbb{R} \rightarrow \mathbb{R}$ is continuous at $ a \in \mathbb{R}$ if $\lim_x_\rightarrow _a f(x) =f(a)$. Let $f(x) = x^2\sin(\frac{1}{x})$ for $x \neq 0$ and $f(x)=0$ for $x=0$.
+
+Is $f$ continuous a $x=0$?
+\begin{itemize}
+	\item Let $\epsilon >0$ be given, and let's choose $\delta = \sqrt \epsilon$ such that $ 0<|x-0|< \delta = \sqrt \epsilon.$
+	\item Then $ |x| <\delta ,$ therefore $|x^2|<\delta^2 = (\sqrt \epsilon)^2= \epsilon$.
+	\item Also, we can notice that $|x^2$sin$(\frac{1}{x})-0|<\delta^2 = \epsilon$.
+	\item Then we can conclude that $ \lim_x_\rightarrow_0f(x) =0=f(0)$.
+	\item Making $f(x)$ continuous.
+\end{itemize}
+\item We say that the sequence $(x_n)$ is bounded if 
+\begin{center}
+	$\exists M \in \mathbb{R}$ s.t. $\forall n \in \mathbb{N},|x_n| \leq M$.
+\end{center}
+Prove that if a sequence $(x_n)$ converges to 0, then $(x_n)$ is bounded.
+\begin{itemize}
+	\item Let's assume that $(x_n)$ converges to 0.
+	\item Then we know that $\forall \epsilon>0, \exists N \in \mathbb{N}$ and $\forall n \geq N$ then $|x_n-0| < \epsilon$.
+	\item Case 1: consider the case where $n \geq N$, 
+	\item Then we know that $|x_n|< \epsilon$, thus $x_n$ is bounded by $\epsilon$.
+	\item Case 2: when $n < N$,
+	\item As we know that $n,N \in \mathbb{N}$, $x_n$ will always have a minimum or a maximum in that boundary.
+	\item Let's then say that $ A=max\{x_n\}$ and $B=min\{x_n\},$ Therefore, we can choose a $M$ such that $M=max\{|A|,|B|\}$ and thus $M$ bounds $x_n$.
+	
+\end{itemize}
+\item A function is said to be unbounded on the interval $(a,b)$ if 
+\begin{center}
+	$\forall M\in \mathbb{R}, \exists t\in (a,b)$ s.t. $|f(t)|>M.$
+\end{center}
+Prove that log $x$ is unbounded on (0,1).
+\begin{itemize}
+\item Let's negate the statement.
+\item Then a function is bounded when $\exists M \in \matbb{R}, \forall t\in (a,b)$ s.t. $|f(t)| \leq M$.
+\item As the given interval is (0,1), let's first choose $M$ to be 1.
+\item Then we can find a counter example when $t=e^-^2$, then $f(t)=$log$(e^-^2)=-2$.
+\item Then we can notice that $|f(t)|=2 > 1$.
+\item As the negation is false, the original statement it true. 
+\end{itemize}
+\item We say that a sequence $(x_n)_n_\in_\mathbb{N}$ converges to $L$ if 
+\begin{center}
+$\forall \epsilon>0,\exists N \in \mathbb{N}, \forall n \geq N, |x_n-L|<\epsilon.$
+\end{center}
+Using the definition, prove that the sequence $(x_n)$ with $x_n = (-1)^n+\frac{1}{n}$ does not converge to any $L \in \mathbb{R}$.
+\begin{itemize}
+	\item Let's negate the statement, $\exists \epsilon>0,\forall N \in \mathbb{N},\exists n \geq N,|x_n-L| \geq \epsilon$.
+	\item Case 1: $L \geq 0$.
+	\item Let's choose $\epsilon$ s.t $\epsilon = |L|$.
+	\item When $n$ is odd s.t. $n=2N+1$,
+	\begin{align}
+	x_n-L &= (-1)^n+\frac{1}{n}-L	 \\
+	&=-1+\frac{1}{n}-L \leq-L \\|-1+\frac{1}{n}-L| &\geq |-L|=L
+	\end{align}
+	\item Then for all $L$, $|x_n-L| \geq L=\epsilon$, for some $n > N$.
+	
+	\item Case 2: $L <0$.
+	\item Let's choose $\epsilon < 1$.
+	\item When $n$ is even s.t. $n=2N$,
+	\begin{align}
+		x_n-L &= (-1)^n+\frac{1}{n}-L \\ &=1+\frac{1}{n}-L > 1\\ |x_n-L| &> 1
+	\end{align}
+	\item For some $n >N$  and for all $L$, $|x_n-L|>1>\epsilon$.
+	\item Thus it doesn't converge for any $L$.
+\end{itemize}
+
+
+\end{enumerate}
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

@@ -1,0 +1,187 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UEdge</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.initialization</a>
+</div>
+
+<h1>Coverage Summary for Class: UEdge (cpen221.mp2.initialization)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UEdge</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/21)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.initialization;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * \ An instance is a unique undirected edge between two points.
+&nbsp; * Uniqueness: the segment (p1, p2) equals (p2, p1) for all Points.
+&nbsp; */
+&nbsp;public class UEdge {
+&nbsp;
+&nbsp;    /* The two endpoints of this segment. p1 is the &quot;smaller&quot; end,
+&nbsp;     * i.e. lower x and then y value. */
+&nbsp;    private Point p1, p2;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: two endpoints of a segment.
+&nbsp;     */
+<b class="nc">&nbsp;    public UEdge(Point p1, Point p2) {</b>
+<b class="nc">&nbsp;        if (p1.x &lt; p2.x || (p1.x == p2.x &amp;&amp; p1.y &lt; p2.y)) {</b>
+<b class="nc">&nbsp;            this.p1 = p1;</b>
+<b class="nc">&nbsp;            this.p2 = p2;</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            this.p1 = p2;</b>
+<b class="nc">&nbsp;            this.p2 = p1;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the first (leftmost, then bottom) Point of this segment.
+&nbsp;     */
+&nbsp;    public Point p1() {
+<b class="nc">&nbsp;        return p1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the second (rightmost, then top) Point of this segment.
+&nbsp;     */
+&nbsp;    public Point p2() {
+<b class="nc">&nbsp;        return p2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the endpoint other than p of this edge.
+&nbsp;     * Precondition: p is non-null and is an endpoint of this edge.
+&nbsp;     */
+&nbsp;    public Point getOther(Point p) {
+<b class="nc">&nbsp;		if (p.equals(p1)) {</b>
+<b class="nc">&nbsp;			return p2;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		if (p.equals(p2)) {</b>
+<b class="nc">&nbsp;			return p1;</b>
+&nbsp;		}
+<b class="nc">&nbsp;        throw new IllegalArgumentException(&quot;p is not in this edge&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff p is an endpoint of this segment.
+&nbsp;     */
+&nbsp;    public boolean contains(Point p) {
+<b class="nc">&nbsp;        return p1.equals(p) || p2.equals(p);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff: ob is this, or ob is an UndirectedSegment
+&nbsp;     * with the same endpoints (in any order).
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object obj) {
+<b class="nc">&nbsp;		if (obj == this) {</b>
+<b class="nc">&nbsp;			return true;</b>
+&nbsp;		}
+<b class="nc">&nbsp;		if (obj == null || !(obj instanceof UEdge)) {</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+<b class="nc">&nbsp;        UEdge seg = (UEdge) obj;</b>
+<b class="nc">&nbsp;        return p1 == seg.p1 &amp;&amp; p2 == seg.p2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return Objects.hash(p1, p2);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

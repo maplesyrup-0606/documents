@@ -1,0 +1,255 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{3} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 3:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Negate the following statement. For every positive number $\epsilon$ there is a positive number $M$ for which 
+\begin{center}
+	$|1-\frac{x^2}{x^2+1}| < \epsilon$,
+\end{center}
+whenever $x \geq M.$
+
+\begin{itemize}
+	\item There exists some positive number $\epsilon$ s.t. there exists some positive number $M$ that $x \geq M$ and $|1-\frac{x^2}{x^2+1} |\geq \epsilon$.
+\end{itemize}
+
+\item Write down the negation of the statement 
+\begin{center}
+	$ \forall x\in \mathbb{Z}, \exists y \in \mathbb{R}, \bigl((x\geq y)\Rightarrow(\frac{x}{y} = 1) \bigr)$
+\end{center}
+and determine whether the original is true or false.
+ 
+\begin{itemize}
+	\item Let's first negate the statement.
+	\item $\exists x \in \mathbb{Z},\forall y \in \mathbb{R}$ s.t. $(x \geq y) \wedge(\frac{x}{y} \neq 1)$.
+	\item If we choose an $x$ where $x=0$, there isn't always a $y$ that satisfies $x \geq y$, even though whether $y=0$ or $y \neq 0$, $\frac{x}{y} \neq 1$ is always satisfied.
+	\item Thus the negated statement is false, concluding that the original statement is true.
+\end{itemize}
+    
+\item Let $A = \{ n \in \mathbb{N} : 3\mid n $ or $4 \mid n \} \subset \mathbb{N}$. Note that all numbers in A are positive. Determine whether the following four statements are true or false --- explain your answers ("true" or "false" is not sufficient.)
+\begin{itemize}
+	\item (a) $\exists x \in A $ s.t. $\exists y \in A$ s.t. $x+y \in A$.
+	\begin{itemize}
+	\item Let's choose the case where $x=3$ and $y=6$. Both are divisible by three and positive thus there are in $A$.
+	\item Then $x+y = 3+6 = 9 = 3*3$, so $x+y$ is also positive and in $A$. So this statement is true.
+	\end{itemize}
+	\item (b) $\forall x \in A, \forall y \in A, x+y\in A$.
+	\begin{itemize}
+	\item  Let's negate the original statement, then we get $\exists x \in  A, \exists y \in A$ s.t. $x+y \notin A$.
+	\item Let's choose $x=3$ and $y=4$, then  
+	\begin{align}
+	x+y &= 3+4 \\ &= 7 \\ &=2*3+1 \\&=1*4+3	
+	\end{align}
+	\item Thus, we can see for this case $x+y \notin A$. 
+	\item Therefore, as the negation is false the original statement is true.
+	\end{itemize}
+	\item (c) $\exists x \in A$ s.t. $\forall y  \in A$, $x+y \in A$.
+	\begin{itemize}
+	\item Let's say that $x=24$, then consider three cases.
+	\item Case 1: $3\mid y$, $y=3k \in \mathbb{Z}$.
+	\item Then 
+	\begin{align}
+		x+y &= 24+3k \\&=3(8+k)
+	\end{align}
+	\item We can notice that $8+k  \in \mathbb{Z}$, therefore $x+y \in \mathbb{Z}$.
+	\item Case 2: $4\mid y$, $y=4\ell \in \mathbb{Z}$.
+	\item Then 
+	\begin{align}
+	x+y &= 24+4\ell \\ &=4(6+\ell)	
+	\end{align}
+	\item We know by fact that $6+\ell \in \mathbb{Z}$, $x+y \in A$.
+	\item Case 3: $3\mid y $ and $4\mid y$, We know from the previous project that $12 \mid y$.
+	\item Then we can express $y$ as $y=12m, m \in \mathbb{Z}$.
+	\item Therefore,
+	\begin{align}
+	x+y &= 24+12m	\\ &= 12(2+m)
+	\end{align}
+	\item As $2+m \in \mathbb{Z}$, therefore $x+y \in A$.
+	\item To conclude, this statement is true.
+
+\end{itemize}
+	
+	
+\end{itemize}
+\item Negate the following statements and determine whether the original statements  are true or false. Justify your answer.
+\begin{itemize}
+	\item (a) $\forall n \in \mathbb{Z},\exists y \in \mathbb{R}-\{0\}$ such that $y^n \leq y$.
+	\begin{itemize}
+	\item Let's negate the statement then we get $\exists n \in \mathbb{Z}, \forall y \in \mathbb{R} - \{0\}$ such that $y^n > y.$
+	\item Let's choose the case where $n=0$, then $y^n = y^0 = 1$.
+	\item Then in order for this statement to be true for then any $ y\in \mathbb{R} - \{0\},$ then $0>y.$
+	\item However in this domain $y$ is either a positive or negative number. Thus for cases when $y$ is  positive. This statement becomes false.
+	\item Thus, as the negation is false the original statement is true.
+	\end{itemize}
+	\item (b) $\exists y \in \mathbb{R} - \{0\}$ such that $\forall n \in \mathbb{Z}$, $y^n \leq y.$
+	\begin{itemize}
+	\item Let's choose the instance when $y=1$.
+	\item Then
+	\begin{align}
+		y^n &\leq y \\ 1^n &\leq 1
+	\end{align}
+	\item In this case, no matter what $n$ is the relationship is always true.
+	\item This is because for any $k\in \mathbb{R}$, $1^k=1$.
+	\item Therefore, the statement is true.
+	\end{itemize}
+	\item (c) $\forall x \in \mathbb{R}$ where $x \neq 0 $, we have $x\leq 1$ or $\frac{1}{x} \leq 1$.
+	\begin{itemize}
+	\item Let's negate this statement, then $\exists x \in \mathbb{R}$ where $x \neq 0$, $x>1 $ and $\frac{1}{x} >1$.
+	\item Choose $x=2$, then $2>1$ but $\frac{1}{2} <1.$ therefore the original is false.
+	\item Thus, the original statement is true.
+	\end{itemize}
+\end{itemize}
+
+\item After cleaning you basement, you find a set of keys $K$ and a set of locks $L$. For every one of the following statements (a), (b) and (c),
+\begin{itemize}
+	\item "At least one of the keys unlocks one of the locks."
+	\begin{itemize}
+	\item $\exists k \in K,$ $ \exists l \in L$ $k$ unlocks $l$.
+	\item negation : $\forall k \in K , \forall l \in L$. $k$ doesn't unlock $l$.
+	\item all keys don't unlock all locks.
+\end{itemize}
+\item "Some key  unlocks all the locks."
+\begin{itemize}
+\item $\exists k \in K , \forall l \in L$, $k$ unlocks $l$.
+\item negation : $\forall k \in K , \exists l  \in L$, $k$ doesn't unlock $l$.
+\item all keys don't unlock some lock.
+\end{itemize}
+\item "Some lock is not unlocked by any key."
+\begin{itemize}
+\item $\forall k \in K , \exists l \in L$, $k$ doesn't unlock $l$.
+\item negation : $\exists k \in K, \forall l \in  L$, $k$ unlocks $l$.
+\item at least one key unlocks  all locks.
+\end{itemize}
+\end{itemize}
+
+\item Prove that $\forall a \in \mathbb{Z}$, $\exists b \in \mathbb{Z}$, $a^2+b^2 \equiv 1 $ mod 3.
+\begin{itemize}
+	\item Let's choose some $a $ for $a \in \mathbb{Z}$, and let's choose some $b\in \mathbb{Z}$.
+	\item This $b$ satisfies the equation $b^2 = 2a^2+1$, as $a\in \mathbb{Z}$ therefore we can conclude that $2a^2+1$ $\in \mathbb{Z}$.
+	\item Thus we can notice that
+	\begin{align}
+		a^2+b^2 &= a^2 + (2a^2+1) \\&=3a^2+1
+	\end{align}
+	\item Thus, we can see that $a^2+b^2 \equiv 1 $ mod 3.
+\end{itemize}
+\item Prove or disprove:
+\begin{center}
+$\forall x,y,z \in \{3,6\}, \biggl(x=y=z $ or $\frac{x+y+z}{3} >\frac{x}{y}+\frac{y}{z} + \frac{z}{x} \biggr).$	
+\end{center}
+\begin{itemize}
+	\item Let's think of two big cases. When $x,y,z$ are all equal and when $x,y,z$ are not all equal.
+	\item Case 1: When $x,y,z$ are equal, we can choose the two options.
+	\item Either when $x=y=z=3$ or $x=y=z=6$. In this case, the condition $x=y=z$ is fulfilled.
+	\item Case 2: For this case, we can divide this instance  into two cases. One case when there are two 3's and one 6, and the other where there are two 6's and one 3.
+	\item Case 2-1: Let's see the case when we have two 3's and one 6.
+	\item No matter what combination of $x,y,z$ fulfills this, the result maintains the same. (This is also the same for the other case with two 6's and one 3.)
+	\item Therefore, 
+	\begin{align}
+		\frac{x+y+z}{3} &= \frac{3+3+6}{3} \\&= 4 > \frac{3}{3}+\frac{3}{6}+\frac{6}{3} = \frac{7}{2}
+	\end{align}
+	\item Case 2-2: When there are two 6's and one 3.
+	\item This case,
+	\begin{align}
+		\frac{x+y+z}{3} &= \frac{3+6+6}{3} \\ &= 5 > \frac{6}{6} + \frac{6}{3} + \frac{3}{6} = \frac{7}{2}
+	\end{align}
+	\item Thus we can see that all cases satisfy the statement.
+	\item Therefore, the statement holds true.
+\end{itemize}
+
+\item We say that  a function $f:\mathbb{R} \rightarrow \mathbb{R}$ is increasing if 
+\begin{center}
+	$\forall a,b \in \mathbb{R}, $ $(a<b \Rightarrow f(a)<f(b))$
+\end{center}
+Show that 
+\begin{itemize}
+\item (a) $f(x) = x^3+3x+4$ is increasing.
+\begin{itemize}
+	\item Let's choose an arbitrary $a,b \in \mathbb{R}$, such that $a<b$.
+	\item Then $f(a) = a^3+3a+4$ and $f(b) = b^3+3b+4$.
+	\begin{align}
+		f(b)-f(a) &= b^3+3b-a^3-3a \\ &=(b-a)(b^2+ab+a^2) + 3(b-a) \\&=(b-a)\bigl((b-a)^2+3ab+3) \\&=(b-a)\bigl((b+a)^2-ab+3)
+	\end{align}
+	\item Let's consider the two cases, $ab \geq0$ and $ab <0.$
+	\item Case 1: $ab \geq 0.$ 
+	\item We already know that $b-a>0$, therefore we can conclude $(b-a)^2+3ab+3 >0.$ 
+	\item Thus, $f(b)-f(a) > 0$ for $a,b \in \mathbb{R}$ that satisfy $b>a.$
+	\item Case 2: $ab<0$.
+	\item We know that $b-a>0$, and we know by axiom that $(b+a)^2\geq0$ so $(b+a)^2+3 >0.$
+	\item As $ab<0$ it is noticeable that $-ab>0$.
+	\item Thus $(b+a)^2 -ab +3>0$, which shows that $f(b)-f(a)>0$ for this case.
+	\item To conclude, we can see that when $b>a$, $f(b)>f(a)$ is satisfied for the function $f(x) = x^3+3x+4$. Thus $f(x)$ is increasing.
+\end{itemize}
+\item (b) $g(x) = $ sin $x$ is not increasing.
+\begin{itemize}
+\item Let's negate the statement, then we get $\exists a,b \in \mathbb{R}, (f(a) < f(b) \Rightarrow a<b)$.
+\item Let's choose an instance when $f(a) = 0$ and $f(b) = 1$.
+\item This fulfills $f(a)<f(b).$
+\item However, when $f(a)=0$ then $a=n\pi , n\in \mathbb{Z}$. Also, for $f(b)=1$ then $b=\frac{\pi}{2}+(2k)\pi, k \in \mathbb{Z}$.
+\item So, if we grab the instance when $a=0$ and $b=-\frac{3\pi}{2}$. Then $f(a) < f(b)$, but $a>b.$
+\item Therefore, by this counter example the negation is false thus  sin $x$ is not increasing. 
+\end{itemize}
+\end{itemize}	
+\end{itemize}
+\end{enumerate}
+% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

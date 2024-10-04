@@ -1,0 +1,185 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > MGraph</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.graph</a>
+</div>
+
+<h1>Coverage Summary for Class: MGraph (cpen221.mp2.graph)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">MGraph</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.graph;
+&nbsp;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;public interface MGraph&lt;V extends Vertex, E extends Edge&lt;V&gt;&gt; {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a vertex to the graph
+&nbsp;     *
+&nbsp;     * @param v vertex to add
+&nbsp;     * @return true if the vertex was added successfully and false otherwise
+&nbsp;     */
+&nbsp;    public boolean addVertex(V v);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if a vertex is part of the graph
+&nbsp;     *
+&nbsp;     * @param v vertex to check in the graph
+&nbsp;     * @return true of v is part of the graph and false otherwise
+&nbsp;     */
+&nbsp;    public boolean vertex(V v);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add an edge of the graph
+&nbsp;     *
+&nbsp;     * @param e the edge to add to the graph
+&nbsp;     * @return true if the edge was successfully added and false otherwise
+&nbsp;     */
+&nbsp;    public boolean addEdge(E e);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if an edge is part of the graph
+&nbsp;     *
+&nbsp;     * @param e the edge to check in the graph
+&nbsp;     * @return true if e is an edge in the graph and false otherwise
+&nbsp;     */
+&nbsp;    public boolean edge(E e);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Check if v1-v2 is an edge in the graph
+&nbsp;     *
+&nbsp;     * @param v1 the first vertex of the edge
+&nbsp;     * @param v2 the second vertex of the edge
+&nbsp;     * @return true of the v1-v2 edge is part of the graph and false otherwise
+&nbsp;     */
+&nbsp;
+&nbsp;    public boolean edge(V v1, V v2);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Determine the length on an edge in the graph. The edge must exist between v1 and v2.
+&nbsp;     *
+&nbsp;     *
+&nbsp;     * @param v1 the first vertex of the edge
+&nbsp;     * @param v2 the second vertex of the edge
+&nbsp;     * @return the length of the v1-v2 edge if this edge is part of the graph.
+&nbsp;     */
+&nbsp;    public int edgeLength(V v1, V v2);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain the sum of the lengths of all edges in the graph
+&nbsp;     *
+&nbsp;     * @return the sum of the lengths of all edges in the graph
+&nbsp;     */
+&nbsp;    public int edgeLengthSum();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Remove an edge from the graph
+&nbsp;     *
+&nbsp;     * @param e the edge to remove
+&nbsp;     * @return true if e was successfully removed and false otherwise
+&nbsp;     */
+&nbsp;    public boolean remove(E e);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Remove a vertex from the graph
+&nbsp;     *
+&nbsp;     * @param v the vertex to remove
+&nbsp;     * @return true if v was successfully removed and false otherwise
+&nbsp;     */
+&nbsp;    public boolean remove(V v);
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain a set of all vertices in the graph.
+&nbsp;     * Access to this set **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @return a set of all vertices in the graph
+&nbsp;     */
+&nbsp;    public Set&lt;V&gt; allVertices();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain a set of all edges incident on v.
+&nbsp;     * Access to this set **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @param v the vertex of interest
+&nbsp;     * @return all edges incident on v
+&nbsp;     */
+&nbsp;    public Set&lt;E&gt; allEdges(V v);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain a set of all edges in the graph.
+&nbsp;     * Access to this set **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @return all edges in the graph
+&nbsp;     */
+&nbsp;    public Set&lt;E&gt; allEdges();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtain all the neighbours of vertex v.
+&nbsp;     * Access to this map **should not** permit graph mutations.
+&nbsp;     *
+&nbsp;     * @param v is the vertex whose neighbourhood we want.
+&nbsp;     * @return a map containing each vertex w that neighbors v and the edge between v and w.
+&nbsp;     */
+&nbsp;    Map&lt;V, E&gt; getNeighbours(V v);
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

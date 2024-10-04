@@ -1,0 +1,114 @@
+
+task2:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000400078 <.text>:
+  400078:	f94003f8 	ldr	x24, [sp]
+  40007c:	f1000b1f 	cmp	x24, #0x2
+  400080:	54000120 	b.eq	0x4000a4  // b.none
+  400084:	d2800040 	mov	x0, #0x2                   	// #2
+  400088:	500002e1 	adr	x1, 0x4000e6
+  40008c:	d28005c2 	mov	x2, #0x2e                  	// #46
+  400090:	d2800808 	mov	x8, #0x40                  	// #64
+  400094:	d4000001 	svc	#0x0
+  400098:	d2800040 	mov	x0, #0x2                   	// #2
+  40009c:	d2800ba8 	mov	x8, #0x5d                  	// #93
+  4000a0:	d4000001 	svc	#0x0
+  4000a4:	f9400bf8 	ldr	x24, [sp, #16]
+  4000a8:	9400001c 	bl	0x400118 <-------------------------------------------
+  4000ac:	d2800020 	mov	x0, #0x1                   	// #1
+  4000b0:	70000161 	adr	x1, 0x4000df
+  4000b4:	10000122 	adr	x2, 0x4000d8
+  4000b8:	f10003bf 	cmp	x29, #0x0
+  4000bc:	9a820021 	csel	x1, x1, x2, eq  // eq = none
+  4000c0:	d28000e2 	mov	x2, #0x7                   	// #7
+  4000c4:	d2800808 	mov	x8, #0x40                  	// #64
+  4000c8:	d4000001 	svc	#0x0
+  4000cc:	d2800000 	mov	x0, #0x0                   	// #0
+  4000d0:	d2800ba8 	mov	x8, #0x5d                  	// #93
+  4000d4:	d4000001 	svc	#0x0
+  4000d8:	53534150 	.inst	0x53534150 ; undefined
+  4000dc:	460a4445 	.inst	0x460a4445 ; undefined
+  4000e0:	454c4941 	uaddwb	z1.h, z10.h, z12.b
+  4000e4:	52450a44 	.inst	0x52450a44 ; undefined
+  4000e8:	3a524f52 	.inst	0x3a524f52 ; undefined
+  4000ec:	65656e20 	fnmls	z0.h, p3/m, z17.h, z5.h
+  4000f0:	78652064 	ldeorlh	w5, w4, [x3]
+  4000f4:	6c746361 	ldnp	d1, d24, [x27, #-192]
+  4000f8:	6e6f2079 	usubl2	v25.4s, v3.8h, v15.8h
+  4000fc:	6f632065 	umlal2	v5.4s, v3.8h, v3.h[2]
+  400100:	6e616d6d 	umin	v13.8h, v11.8h, v1.8h
+  400104:	696c2d64 	ldpsw	x4, x11, [x11, #-160]
+  400108:	6120656e 	.inst	0x6120656e ; undefined
+  40010c:	6d756772 	ldp	d18, d25, [x27, #-176]
+  400110:	0a746e65 	bic	w5, w19, w20, lsr #27
+  400114:	d503201f 	nop
+
+
+  400118:	a9bf63fe 	stp	x30, x24, [sp, #-16]!
+  40011c:	94000020 	bl	0x40019c			// 
+  400120:	b400021d 	cbz	x29, 0x400160			// if zero jump to 0x400160, not move on
+  400124:	f94007f8 	ldr	x24, [sp, #8]			
+  400128:	9400002b 	bl	0x4001d4
+  40012c:	b40001bd 	cbz	x29, 0x400160
+  400130:	f94007f8 	ldr	x24, [sp, #8]
+  400134:	9400000e 	bl	0x40016c
+  400138:	f10043bf 	cmp	x29, #0x10 			// checks if the length is 16                     
+  40013c:	54000121 	b.ne	0x400160  // b.any
+  400140:	f94007f8 	ldr	x24, [sp, #8]
+  400144:	9400000f 	bl	0x400180			
+  400148:	92401fbd 	and	x29, x29, #0xff			// Function 5 : x29  = x29 & 0xff ( =255 )
+  40014c:	f102e3bf 	cmp	x29, #0xb8			// compares (x29 & 255) and 0xb8 ( =184 )
+  400150:	54000081 	b.ne	0x400160  // b.any
+
+  400154:	d280003d 	mov	x29, #0x1                   	// #1
+  400158:	f84107fe 	ldr	x30, [sp], #16			// link register = address of sp + 16
+  40015c:	d65f03c0 	ret
+  400160:	d280001d 	mov	x29, #0x0                   	// #0
+  400164:	f84107fe 	ldr	x30, [sp], #16			// link register = address of sp + 16
+  400168:	d65f03c0 	ret
+
+  40016c:	9280001d 	mov	x29, #0xffffffffffffffff    	// #-1
+  400170:	38401719 	ldrb	w25, [x24], #1                  // Function 1 : gets the length of the input string: x24
+  400174:	910007bd 	add	x29, x29, #0x1			// w29 stores length of string
+  400178:	35ffffd9 	cbnz	w25, 0x400170
+  40017c:	d65f03c0 	ret
+
+  400180:	a9bf63fe 	stp	x30, x24, [sp, #-16]!	
+  400184:	97fffffa 	bl	0x40016c
+  400188:	a8c163fe 	ldp	x30, x24, [sp], #16		// Restores input string in x24 and x30 is link register
+  40018c:	38401719 	ldrb	w25, [x24], #1			
+  400190:	1b19773d 	madd	w29, w25, w25, w29		// w29 = w25 * w25 + w29 ex) w29 = 4 , input : "abc" a*a+4 / b*b + (a*a+4) / c*c + (b*b + (a*a +4 )) 
+  400194:	35ffffd9 	cbnz	w25, 0x40018c			// Function 4 : w29 = character ^ 2 + length at first
+  400198:	d65f03c0 	ret
+
+  40019c:	a9bf63fe 	stp	x30, x24, [sp, #-16]!		FUNCTION 2
+  4001a0:	97fffff3 	bl	0x40016c
+  4001a4:	a8c163fe 	ldp	x30, x24, [sp], #16
+  4001a8:	8b1d031c 	add	x28, x24, x29                   // x28 = input string + length of the string 
+  4001ac:	d280003d 	mov	x29, #0x1                   	// #1 , x29 = 1
+  4001b0:	eb18039f 	cmp	x28, x24			// input string + length of string < input string
+  4001b4:	540000e9 	b.ls	0x4001d0  // b.plast
+  4001b8:	38401719 	ldrb	w25, [x24], #1
+  4001bc:	385fff9a 	ldrb	w26, [x28, #-1]!
+  4001c0:	51008339 	sub	w25, w25, #0x20
+  4001c4:	6b1a033f 	cmp	w25, w26
+  4001c8:	54ffff40 	b.eq	0x4001b0  // b.none
+  4001cc:	d280001d 	mov	x29, #0x0                   	// #0 check if a[i] - 32 = a[n-i] if yes , 1. Not, 0
+  4001d0:	d65f03c0 	ret
+
+  4001d4:	d280003d 	mov	x29, #0x1                   	// #1  FUNCTION 3
+  4001d8:	38401719 	ldrb	w25, [x24], #1
+  4001dc:	34000159 	cbz	w25, 0x400204			// jumps to return if w25 is zero 
+  4001e0:	71010739 	subs	w25, w25, #0x41			// char < 65	
+  4001e4:	540000e4 	b.mi	0x400200  // b.first            // if minus move 0 to x29 (when w25 < 65)
+  4001e8:	71006739 	subs	w25, w25, #0x19			// char <= 90
+  4001ec:	54ffff69 	b.ls	0x4001d8  // b.plast		// if fails
+  4001f0:	71001f39 	subs	w25, w25, #0x7			// char - 90 < 7
+  4001f4:	54000064 	b.mi	0x400200  // b.first		// char < 97 (fails)
+  4001f8:	71006b39 	subs	w25, w25, #0x1a			// char - 97  < 26bt
+  4001fc:	54fffee4 	b.mi	0x4001d8  // b.first
+  400200:	aa1f03fd 	mov	x29, xzr			// x0
+  400204:	d65f03c0 	ret

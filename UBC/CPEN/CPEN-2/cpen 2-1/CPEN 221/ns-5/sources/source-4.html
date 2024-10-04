@@ -1,0 +1,216 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Model</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: Model (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+  <tr>
+    <td class="name">Model$Stage</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;import java.awt.geom.Point2D;
+&nbsp;import java.util.Set;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance can access a Space Gems game&#39;s state.
+&nbsp; */
+&nbsp;public interface Model {
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the seed used to generate this game.
+&nbsp;     */
+&nbsp;    public long seed();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a Set of all Nodes in this game.
+&nbsp;     */
+&nbsp;    public Set&lt;Planet&gt; planets();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a Set of all Edges in this game.
+&nbsp;     */
+&nbsp;    public Set&lt;Link&gt; edges();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the maximum separation between Nodes in the x-direction.
+&nbsp;     */
+&nbsp;    public int width();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the maximum separation between Nodes in the y-direction.
+&nbsp;     */
+&nbsp;    public int height();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the location of Earth, the starting Node.
+&nbsp;     */
+&nbsp;    public Planet earth();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the location of Kamino, the destination of the hunt stage.
+&nbsp;     */
+&nbsp;    public Planet kamino();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the closest Planet to the given Point, or null if
+&nbsp;     * there are no Planets in the universe.
+&nbsp;     */
+&nbsp;    public Planet closestNode(Point2D p);
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the Node that the ship is currently on or the Node
+&nbsp;     * from which the ship has just departed.
+&nbsp;     */
+&nbsp;    public Planet shipNode();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the current location of the ship in this game.
+&nbsp;     */
+&nbsp;    public Point2D shipLocation();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the current stage of this Space Gems game.
+&nbsp;     */
+&nbsp;    public Stage phase();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the remaining amount of fuel.
+&nbsp;     */
+&nbsp;    public int fuelRemaining();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the total distance traveled since the rescue stage started.
+&nbsp;     */
+&nbsp;    public int fuelUsed();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the current amount of gems collected.
+&nbsp;     */
+&nbsp;    public int spice();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the current score of this game.
+&nbsp;     */
+&nbsp;    public int score();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff the search phase ended successfully.
+&nbsp;     */
+&nbsp;    public boolean huntSucceeded();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff the rescue phase ended successfully.
+&nbsp;     */
+&nbsp;    public boolean gatherSucceeded();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * An instance describes the current phase of the model.
+&nbsp;     */
+<b class="nc">&nbsp;    public static enum Stage {</b>
+<b class="nc">&nbsp;        HUNT, GATHER, NONE</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    ;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

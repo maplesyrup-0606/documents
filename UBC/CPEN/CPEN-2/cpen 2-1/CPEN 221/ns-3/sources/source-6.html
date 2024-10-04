@@ -1,0 +1,503 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SidePanel</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: SidePanel (cpen221.mp2.gui)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SidePanel</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/138)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">SidePanel$Stat</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">SidePanel$StatName</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/23)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/151)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.gui;
+&nbsp;
+&nbsp;import javax.swing.*;
+&nbsp;import javax.swing.border.EmptyBorder;
+&nbsp;import javax.swing.event.ChangeListener;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.event.ItemListener;
+&nbsp;import java.util.HashMap;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance is a JPanel that displays various stats and has sliders to
+&nbsp; * control the view of the GUI.
+&nbsp; */
+&nbsp;@SuppressWarnings(&quot;serial&quot;)
+&nbsp;public class SidePanel extends JPanel {
+&nbsp;
+&nbsp;    /* Values for the speed slider. */
+&nbsp;    public static final int MINIMUM_SPEED = 1;
+&nbsp;    public static final int MAXIMUM_SPEED = 100;
+&nbsp;    public static final int INITIAL_SPEED = MINIMUM_SPEED;
+&nbsp;
+&nbsp;    /* Values for the zoom slider. */
+&nbsp;    public static final int MINIMUM_ZOOM = 1;
+&nbsp;    public static final int MAXIMUM_ZOOM = 10;
+&nbsp;    public static final int INITIAL_ZOOM = MINIMUM_ZOOM;
+&nbsp;
+&nbsp;    /* The font used to display stats on this Panel. */
+<b class="nc">&nbsp;    private static final Font LABEL_FONT = new Font(&quot;SansSerif&quot;, Font.BOLD, 14);</b>
+<b class="nc">&nbsp;    private static final Font STAT_FONT = new Font(&quot;SansSerif&quot;, Font.PLAIN, 16);</b>
+&nbsp;
+&nbsp;    /* The background color of this Panel. */
+<b class="nc">&nbsp;    private static final Color BACKCOLOR = Color.BLACK;</b>
+&nbsp;
+&nbsp;    /* The default foreground colors. */
+<b class="nc">&nbsp;    private static final Color STATCOLOR = Color.LIGHT_GRAY;</b>
+<b class="nc">&nbsp;    private static final Color FORECOLOR = Color.WHITE;</b>
+&nbsp;
+&nbsp;    /* Stats currently on the SidePanel; no null Stats. */
+&nbsp;    private HashMap&lt;StatName, Stat&gt; stats;
+&nbsp;    /* Subpanels on this SidePanel. */
+&nbsp;    private JPanel ctrlPanel;
+&nbsp;    private JPanel clickedPanel;
+&nbsp;    /* The sliders on panel. */
+&nbsp;    private JSlider speedSlider;
+&nbsp;    private JSlider zoomSlider;
+&nbsp;    /* The check boxes on panel. */
+&nbsp;    private JCheckBox followShipBox;
+&nbsp;    private JCheckBox pauseBox;
+&nbsp;    private JCheckBox pauseOnRescueBox;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a side panel of dimension (width, height).
+&nbsp;     */
+&nbsp;    public SidePanel(int width, int height) {
+<b class="nc">&nbsp;        super();</b>
+&nbsp;
+<b class="nc">&nbsp;        setBorder(new EmptyBorder(10, 10, 10, 10));</b>
+<b class="nc">&nbsp;        setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        setPreferredSize(new Dimension(width, height));</b>
+<b class="nc">&nbsp;        setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));</b>
+&nbsp;
+<b class="nc">&nbsp;        stats = new HashMap&lt;&gt;();</b>
+&nbsp;
+<b class="nc">&nbsp;        ctrlPanel = new JPanel();</b>
+<b class="nc">&nbsp;        addText(ctrlPanel, &quot;Simulation Speed&quot;);</b>
+<b class="nc">&nbsp;        ctrlPanel.setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        speedSlider = makeSlider(MINIMUM_SPEED, MAXIMUM_SPEED, INITIAL_SPEED);</b>
+<b class="nc">&nbsp;        ctrlPanel.add(speedSlider);</b>
+<b class="nc">&nbsp;        ctrlPanel.setAlignmentX(JPanel.LEFT_ALIGNMENT);</b>
+<b class="nc">&nbsp;        add(ctrlPanel);</b>
+&nbsp;
+<b class="nc">&nbsp;        addText(ctrlPanel, &quot;Zoom&quot;);</b>
+<b class="nc">&nbsp;        zoomSlider = makeSlider(MINIMUM_ZOOM, MAXIMUM_ZOOM, INITIAL_ZOOM);</b>
+<b class="nc">&nbsp;        ctrlPanel.add(zoomSlider);</b>
+&nbsp;
+<b class="nc">&nbsp;        followShipBox = new JCheckBox(&quot;Camera Follows Ship&quot;, false);</b>
+<b class="nc">&nbsp;        followShipBox.setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        followShipBox.setForeground(FORECOLOR);</b>
+<b class="nc">&nbsp;        followShipBox.setFocusable(false);</b>
+<b class="nc">&nbsp;        ctrlPanel.add(followShipBox);</b>
+&nbsp;
+<b class="nc">&nbsp;        pauseBox = new JCheckBox(&quot;Pause&quot;, false);</b>
+<b class="nc">&nbsp;        pauseBox.setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        pauseBox.setForeground(FORECOLOR);</b>
+<b class="nc">&nbsp;        pauseBox.setFocusable(false);</b>
+<b class="nc">&nbsp;        pauseBox.setSelected(true);</b>
+<b class="nc">&nbsp;        ctrlPanel.add(pauseBox);</b>
+&nbsp;
+<b class="nc">&nbsp;        pauseOnRescueBox = new JCheckBox(&quot;Pause at Gather Stage&quot;, false);</b>
+<b class="nc">&nbsp;        pauseOnRescueBox.setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        pauseOnRescueBox.setForeground(FORECOLOR);</b>
+<b class="nc">&nbsp;        pauseOnRescueBox.setFocusable(false);</b>
+<b class="nc">&nbsp;        ctrlPanel.add(pauseOnRescueBox);</b>
+&nbsp;
+<b class="nc">&nbsp;        ctrlPanel.setLayout(new BoxLayout(ctrlPanel, BoxLayout.PAGE_AXIS));</b>
+<b class="nc">&nbsp;        add(ctrlPanel);</b>
+&nbsp;
+<b class="nc">&nbsp;        addText(this, &quot; &quot;);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.SEED, &quot;Seed: &quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.SEED, null, FORECOLOR);</b>
+<b class="nc">&nbsp;        addText(this, &quot; &quot;);</b>
+<b class="nc">&nbsp;        addText(this, &quot;LOG&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; StatName.MESSAGES; ++i) {</b>
+<b class="nc">&nbsp;            addStat(this, StatName.valueOf(&quot;MESSAGE&quot; + i), &quot;&quot;, &quot;&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        addText(this, &quot; &quot;);</b>
+<b class="nc">&nbsp;        addText(this, &quot;CLICKED PLANET&quot;);</b>
+<b class="nc">&nbsp;        clickedPanel = new JPanel();</b>
+<b class="nc">&nbsp;        clickedPanel.setBackground(Color.BLACK);</b>
+<b class="nc">&nbsp;        clickedPanel.setBorder(new EmptyBorder(3, 5, 3, 5));</b>
+<b class="nc">&nbsp;        clickedPanel.setLayout(new BoxLayout(clickedPanel, BoxLayout.PAGE_AXIS));</b>
+<b class="nc">&nbsp;        addStat(clickedPanel, StatName.CLICKED_NAME, &quot;Name: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        addStat(clickedPanel, StatName.CLICKED_SPICE, &quot;Spice: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        add(clickedPanel);</b>
+<b class="nc">&nbsp;        addText(this, &quot; &quot;);</b>
+<b class="nc">&nbsp;        addText(this, &quot;MISSION CONTROL&quot;);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.HUNT, &quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.GATHER, &quot;&quot;, &quot;&quot;);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.PREVIOUS_NAME, &quot;Previous Planet: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.FUEL_LEFT, &quot;Fuel Remaining: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.FUEL_LEFT, null, Color.GREEN);</b>
+<b class="nc">&nbsp;        addText(this, &quot; &quot;);</b>
+<b class="nc">&nbsp;        addText(this, &quot;SCORE&quot;);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.FUEL_USED, &quot;Fuel Used For Hunt Stage: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.FUEL_USED, null, Color.YELLOW);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.HUNT_SCORE, &quot;Search Stage Score: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.HUNT_SCORE, null, Color.YELLOW);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.SPICE, &quot;Spice: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.SPICE, null, Color.CYAN);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.GATHERED_SCORE, &quot;Gather Stage Score: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.GATHERED_SCORE, null, Color.CYAN);</b>
+<b class="nc">&nbsp;        addStat(this, StatName.SCORE, &quot;Total Score: &quot;, &quot;N/A&quot;);</b>
+<b class="nc">&nbsp;        updateStat(StatName.SCORE, null, Color.GREEN);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Append a new label into Container c with text t.
+&nbsp;     * This label cannot be updated later.
+&nbsp;     */
+&nbsp;    public static void addText(Container c, String t) {
+<b class="nc">&nbsp;        JLabel label = new JLabel(t);</b>
+<b class="nc">&nbsp;        label.setFont(LABEL_FONT);</b>
+<b class="nc">&nbsp;        label.setForeground(FORECOLOR);</b>
+<b class="nc">&nbsp;        c.add(label);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Initialize this sidePanel to display seed seed.
+&nbsp;     */
+&nbsp;    public void init(long seed) {
+<b class="nc">&nbsp;        clearMessages();</b>
+<b class="nc">&nbsp;        updateStat(StatName.SEED, Long.toString(seed), null);</b>
+<b class="nc">&nbsp;        updateStat(StatName.MESSAGE0, &quot;To start mission: File -&gt; Start&quot;, Color.RED);</b>
+<b class="nc">&nbsp;        updateStat(StatName.HUNT, &quot;&quot;, STATCOLOR);</b>
+<b class="nc">&nbsp;        updateStat(StatName.GATHER, &quot;&quot;, STATCOLOR);</b>
+<b class="nc">&nbsp;        updateStat(StatName.PREVIOUS_NAME, &quot;N/A&quot;, STATCOLOR);</b>
+<b class="nc">&nbsp;        updateStat(StatName.FUEL_USED, &quot;N/A&quot;, Color.YELLOW);</b>
+<b class="nc">&nbsp;        updateStat(StatName.HUNT_SCORE, &quot;N/A&quot;, Color.YELLOW);</b>
+<b class="nc">&nbsp;        updateStat(StatName.SPICE, &quot;N/A&quot;, Color.CYAN);</b>
+<b class="nc">&nbsp;        updateStat(StatName.GATHERED_SCORE, &quot;N/A&quot;, Color.CYAN);</b>
+<b class="nc">&nbsp;        updateStat(StatName.SCORE, &quot;N/A&quot;, Color.GREEN);</b>
+<b class="nc">&nbsp;        updateStat(StatName.FUEL_LEFT, &quot;N/A&quot;, Color.GREEN);</b>
+<b class="nc">&nbsp;        resetClicked();</b>
+<b class="nc">&nbsp;        pauseBox.setSelected(true);</b>
+<b class="nc">&nbsp;        repaint();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Clear all messages.
+&nbsp;     */
+&nbsp;    public void clearMessages() {
+<b class="nc">&nbsp;        for (int i = 0; i &lt; StatName.MESSAGES; ++i) {</b>
+<b class="nc">&nbsp;            updateStat(StatName.valueOf(&quot;MESSAGE&quot; + i), &quot;&quot;, STATCOLOR);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add a message to the current list of messages.
+&nbsp;     */
+&nbsp;    public void addMessage(String s, Color c) {
+<b class="nc">&nbsp;        for (int i = StatName.MESSAGES - 1; i &gt; 0; --i) {</b>
+<b class="nc">&nbsp;            Stat stat = stats.get(StatName.valueOf(&quot;MESSAGE&quot; + (i - 1)));</b>
+<b class="nc">&nbsp;            updateStat(StatName.valueOf(&quot;MESSAGE&quot; + i),</b>
+<b class="nc">&nbsp;                    stat.value, stat.label.getForeground());</b>
+&nbsp;        }
+<b class="nc">&nbsp;        updateStat(StatName.MESSAGE0, s, c);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Reset the text and color of the clicked planet panel.
+&nbsp;     */
+&nbsp;    public void resetClicked() {
+<b class="nc">&nbsp;        clickedPanel.setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        updateStat(StatName.CLICKED_NAME, &quot;N/A&quot;, STATCOLOR);</b>
+<b class="nc">&nbsp;        updateStat(StatName.CLICKED_SPICE, &quot;N/A&quot;, STATCOLOR);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the name of the clicked planet for p. The panel&#39;s background
+&nbsp;     * will be set to p&#39;s color. The text in the clicked panel will
+&nbsp;     * automatically update to black or white to improve visibility.
+&nbsp;     */
+&nbsp;    public void setClicked(Planet p) {
+<b class="nc">&nbsp;        Color c = p.color();</b>
+<b class="nc">&nbsp;        clickedPanel.setBackground(c);</b>
+<b class="nc">&nbsp;        if (0.299d * c.getRed() + 0.587d * c.getGreen() + 0.114d * c.getBlue() &gt; 127d) {</b>
+<b class="nc">&nbsp;            updateStat(StatName.CLICKED_NAME, p.name(), Color.BLACK);</b>
+<b class="nc">&nbsp;            updateStat(StatName.CLICKED_SPICE, null, Color.BLACK);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            updateStat(StatName.CLICKED_NAME, p.name(), Color.WHITE);</b>
+<b class="nc">&nbsp;            updateStat(StatName.CLICKED_SPICE, null, Color.WHITE);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the spice amount of the clicked planet to the given argument.
+&nbsp;     */
+&nbsp;    public void setClickedSpice(String spice) {
+<b class="nc">&nbsp;        updateStat(StatName.CLICKED_SPICE, spice, null);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a new horizontal Slider with the given parameters.
+&nbsp;     */
+&nbsp;    private JSlider makeSlider(int min, int max, int init) {
+<b class="nc">&nbsp;        JSlider slider = new JSlider(JSlider.HORIZONTAL, min, max, init);</b>
+<b class="nc">&nbsp;        slider.setBackground(BACKCOLOR);</b>
+<b class="nc">&nbsp;        int range = max - min;</b>
+<b class="nc">&nbsp;        slider.setMajorTickSpacing(range / 10);</b>
+<b class="nc">&nbsp;        slider.setMinorTickSpacing(range / 5);</b>
+<b class="nc">&nbsp;        slider.setPaintTicks(true);</b>
+<b class="nc">&nbsp;        slider.setPaintLabels(false);</b>
+<b class="nc">&nbsp;        slider.setFocusable(false);</b>
+<b class="nc">&nbsp;        return slider;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add listener to this SidePanel&#39;s speed slider.
+&nbsp;     */
+&nbsp;    public void addSpeedSliderListener(ChangeListener listener) {
+<b class="nc">&nbsp;        speedSlider.addChangeListener(listener);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add listener to this SidePanel&#39;s zoom slider.
+&nbsp;     */
+&nbsp;    public void addZoomSliderListener(ChangeListener listener) {
+<b class="nc">&nbsp;        zoomSlider.addChangeListener(listener);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add listener to this SidePanel&#39;s follow ship check box.
+&nbsp;     */
+&nbsp;    public void addFollowShipListener(ItemListener listener) {
+<b class="nc">&nbsp;        followShipBox.addItemListener(listener);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add listener to this SidePanel&#39;s pause check box.
+&nbsp;     */
+&nbsp;    public void addPauseListener(ItemListener listener) {
+<b class="nc">&nbsp;        pauseBox.addItemListener(listener);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set this SidePanel&#39;s pause check box to checked or unchecked.
+&nbsp;     */
+&nbsp;    public void setPauseBox(boolean checked) {
+<b class="nc">&nbsp;        pauseBox.setSelected(checked);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Add listener to this SidePanel&#39;s pause on return check box.
+&nbsp;     */
+&nbsp;    public void addPauseOnReturnListener(ItemListener listener) {
+<b class="nc">&nbsp;        pauseOnRescueBox.addItemListener(listener);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Append a statistic to display on c. The number
+&nbsp;     * displayed can be updated later using the specified StatName.
+&nbsp;     * Precondition: no stat for sn exists.
+&nbsp;     */
+&nbsp;    public void addStat(Container c, StatName sn, String name, String value) {
+<b class="nc">&nbsp;        if (stats.containsKey(sn)) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(sn + &quot; already exists!&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        Stat stat = new Stat(name, value);</b>
+<b class="nc">&nbsp;        stats.put(sn, stat);</b>
+<b class="nc">&nbsp;        c.add(stat.label);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update existing statistic sn to display string s and color c.
+&nbsp;     * If s is null, don&#39;t change the value.
+&nbsp;     * If c is null, don&#39;t change the color.
+&nbsp;     * Precondition: sn already corresponds to a stat.
+&nbsp;     */
+&nbsp;    public void updateStat(StatName sn, String s, Color c) {
+<b class="nc">&nbsp;        Stat stat = stats.get(sn);</b>
+<b class="nc">&nbsp;        if (stat == null) {</b>
+<b class="nc">&nbsp;            throw new IllegalArgumentException(&quot;Uninitialized stat &quot; + sn);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (s != null) {</b>
+<b class="nc">&nbsp;            stat.setValue(s);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (c != null) {</b>
+<b class="nc">&nbsp;            stat.setColor(c);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /*** An instance is a stat that can be displayed on a SidePanel. */
+<b class="nc">&nbsp;    public static enum StatName {</b>
+<b class="nc">&nbsp;        SEED, HUNT, GATHER, PREVIOUS_NAME, SPICE, HUNT_SCORE, GATHERED_SCORE,</b>
+<b class="nc">&nbsp;        SCORE, FUEL_USED, FUEL_LEFT, CLICKED_NAME, CLICKED_SPICE, MESSAGE0, MESSAGE1,</b>
+<b class="nc">&nbsp;        MESSAGE2, MESSAGE3;</b>
+&nbsp;        private final static int MESSAGES = 4;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * An instance is a statistic displayed in this SidePanel.
+&nbsp;     */
+&nbsp;    private static class Stat {
+&nbsp;
+&nbsp;        private String name; // the first block of text displayed for this stat
+&nbsp;        private String value; // the second block of text displayed for this stat
+&nbsp;        private JLabel label; // the JLabel used to display this stat
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Constructor: a stat with name n and value v.
+&nbsp;         */
+<b class="nc">&nbsp;        public Stat(String n, String v) {</b>
+<b class="nc">&nbsp;            name = n;</b>
+<b class="nc">&nbsp;            value = v;</b>
+<b class="nc">&nbsp;            label = new JLabel(name + value);</b>
+<b class="nc">&nbsp;            label.setFont(STAT_FONT);</b>
+<b class="nc">&nbsp;            label.setForeground(STATCOLOR);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Change this stat&#39;s value to v.
+&nbsp;         */
+&nbsp;        public void setValue(String v) {
+<b class="nc">&nbsp;            value = v;</b>
+<b class="nc">&nbsp;            label.setText(name + value);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Change this stat&#39;s color to c.
+&nbsp;         */
+&nbsp;        public void setColor(Color c) {
+<b class="nc">&nbsp;            label.setForeground(c);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

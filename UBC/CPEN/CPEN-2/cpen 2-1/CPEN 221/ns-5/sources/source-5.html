@@ -1,0 +1,283 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Planet</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.models</a>
+</div>
+
+<h1>Coverage Summary for Class: Planet (cpen221.mp2.models)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Planet</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Planet$PlanetBuilder</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/31)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.models;
+&nbsp;
+&nbsp;import cpen221.mp2.graph.Vertex;
+&nbsp;import cpen221.mp2.util.Util;
+&nbsp;
+&nbsp;/**
+&nbsp; * A Planet (vertex) represents a Planet. Each Planet maintains:
+&nbsp; * 1. a set of edges that exit it,
+&nbsp; * 2. a modifier that affects the ship&#39;s speed upon visiting it,
+&nbsp; * 3. the amount of spice on the planet and the rate at which they are lost.
+&nbsp; */
+&nbsp;public class Planet extends Vertex implements GameElement {
+&nbsp;    int spice; // Current amount of spice on this planet; always &gt;= 0
+&nbsp;    private int x, y; // Logical x, y coordinates of this Planet
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a Planet named name with ID id with no edges
+&nbsp;     * leaving it, the given x and y coordinates, speed modifier sm, initial
+&nbsp;     * amount of spice g, and loss rate lr.
+&nbsp;     */
+&nbsp;    private Planet(int x, int y, String name, int id, int spice) {
+<b class="nc">&nbsp;        super(id, name);</b>
+<b class="nc">&nbsp;        this.x = x;</b>
+<b class="nc">&nbsp;        this.y = y;</b>
+<b class="nc">&nbsp;        this.spice = spice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public Planet clone() {
+<b class="nc">&nbsp;        return new Planet(this.x, this.y, super.name(), super.id(), this.spice);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the current amount of spice on this planet.
+&nbsp;     *
+&nbsp;     * @return the current amount of spice on this planet.
+&nbsp;     */
+&nbsp;    public int spice() {
+<b class="nc">&nbsp;        return spice;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the current number of spice on this planet and set
+&nbsp;     * the number of spice to 0.&lt;br/&gt;&lt;br/&gt;
+&nbsp;     * &lt;p&gt;&lt;strong&gt;modifies clause:&lt;/strong&gt; reduces the amount of spice on the planet.&lt;/p&gt;
+&nbsp;     *
+&nbsp;     * @return the amount of spice taken from this planet.
+&nbsp;     */
+&nbsp;    int takeSpice() {
+<b class="nc">&nbsp;        int ret = spice;</b>
+<b class="nc">&nbsp;        spice = 0;</b>
+<b class="nc">&nbsp;        return ret;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff ob and this point to the same Planet, or
+&nbsp;     * if ob is a Planet with the same ID as this Planet.
+&nbsp;     * Precondition: all Planets have unique IDs.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object ob) {
+<b class="nc">&nbsp;        if (ob == this) {</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        if (ob == null || getClass() != ob.getClass()) {</b>
+<b class="nc">&nbsp;            return false;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return super.equals(ob);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return super.hashCode();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return a String containing the name and coordinates of this Planet.
+&nbsp;     *
+&nbsp;     * @return a String containing the name and coordinates of this Planet.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        return String.format(&quot;%s: (%s, %s)&quot;, super.name(), x, y);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int x() {
+<b class="nc">&nbsp;        return x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int y() {
+<b class="nc">&nbsp;        return y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * An instance builds a Planet with the appropriate parameters.
+&nbsp;     * It will refuse to build if a parameter is unset.
+&nbsp;     */
+<b class="nc">&nbsp;    static class PlanetBuilder {</b>
+&nbsp;        /* The parameters needed to build a Planet */
+&nbsp;        private Integer x, y;
+&nbsp;        private String name;
+&nbsp;        private Integer id;
+&nbsp;        private Integer spice;
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Set the position (x, y) of this Planet and return the node.
+&nbsp;         */
+&nbsp;        public PlanetBuilder pos(int x, int y) {
+<b class="nc">&nbsp;            this.x = x;</b>
+<b class="nc">&nbsp;            this.y = y;</b>
+<b class="nc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Set the name of this Planet to name and return the node.
+&nbsp;         */
+&nbsp;        public PlanetBuilder name(String name) {
+<b class="nc">&nbsp;            this.name = name;</b>
+<b class="nc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Set the id to id, a unique identifier for this Planet and
+&nbsp;         * return the node.
+&nbsp;         */
+&nbsp;        public PlanetBuilder id(int id) {
+<b class="nc">&nbsp;            this.id = id;</b>
+<b class="nc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Set the initial number of spice on this Planet to &#39;spice&#39; and
+&nbsp;         * return this Planet.
+&nbsp;         */
+&nbsp;        public PlanetBuilder spice(int spice) {
+<b class="nc">&nbsp;            this.spice = spice;</b>
+<b class="nc">&nbsp;            return this;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Build this Planet.
+&nbsp;         * Precondition: all appropriate parameters have been set.
+&nbsp;         */
+&nbsp;        public Planet build() {
+<b class="nc">&nbsp;            if (Util.anyNull(x, y, name, id, spice)) {</b>
+<b class="nc">&nbsp;                throw new IllegalStateException(&quot;unset PlanetBuilder params&quot;);</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            return new Planet(x, y, name, id, spice);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

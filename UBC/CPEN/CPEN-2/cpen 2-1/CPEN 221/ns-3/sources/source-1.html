@@ -1,0 +1,296 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Circle</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: Circle (cpen221.mp2.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Circle</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/47)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.gui;
+&nbsp;
+&nbsp;import java.awt.*;
+&nbsp;import java.awt.geom.Ellipse2D;
+&nbsp;import java.awt.geom.Point2D;
+&nbsp;import java.awt.geom.Rectangle2D;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance represents a Circle that can be drawn using a Graphics2D
+&nbsp; * instance. It is drawn within a certain rectangle, with its drawn size and
+&nbsp; * position changing dynamically based on its initial size and position.
+&nbsp; */
+&nbsp;public class Circle implements Drawable {
+&nbsp;
+&nbsp;    /* Number of pixels between the top of the circle and the bottom of the
+&nbsp;     * name. */
+&nbsp;    private static final int NAME_Y_PADDING = 3;
+&nbsp;
+&nbsp;    /* The color used to draw this Circle&#39;s name. */
+<b class="nc">&nbsp;    private static final Color NAME_COLOR = new Color(255, 255, 255);</b>
+&nbsp;
+&nbsp;    /* The color used to draw this Circle&#39;s border. */
+<b class="nc">&nbsp;    private static final Color BORDER_COLOR = Color.GRAY;</b>
+&nbsp;
+&nbsp;    /* The amount of extra space on each side of the bounding box, used to
+&nbsp;     * ensure this Circle is fully bounded. */
+&nbsp;    private static final int BOUND_PADDING = 3;
+&nbsp;
+&nbsp;    /* The dimensions of this Circle&#39;s name. */
+&nbsp;    private int nameWidth;
+&nbsp;    private int nameHeight;
+&nbsp;
+&nbsp;    /* The area in which this Circle is drawn. */
+&nbsp;    private Rectangle2D bounds;
+&nbsp;
+&nbsp;    /* The &quot;actual&quot; area that is being drawn. */
+&nbsp;    private Rectangle2D area;
+&nbsp;
+&nbsp;    /* The &quot;actual&quot; location of this Circle represents. */
+&nbsp;    private Point2D location;
+&nbsp;
+&nbsp;    /* The circle used to draw this Circle. */
+&nbsp;    private Ellipse2D.Double circle;
+&nbsp;
+&nbsp;    /* The name of this planet drawn above it. */
+&nbsp;    private String name;
+&nbsp;
+&nbsp;    /* The color of this Circle. */
+&nbsp;    private Color color;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor: a Circle with the given name centered at ctr within the
+&nbsp;     * given area, drawn in the given bounds with initial diameter d and the
+&nbsp;     * given color. Its name&#39;s size will be measured using fm.
+&nbsp;     */
+&nbsp;    public Circle(String name, Point2D ctr, Rectangle2D area,
+<b class="nc">&nbsp;                  Rectangle2D bounds, double d, Color color, FontMetrics fm) {</b>
+<b class="nc">&nbsp;        this.name = name;</b>
+<b class="nc">&nbsp;        location = ctr;</b>
+<b class="nc">&nbsp;        this.area = area;</b>
+<b class="nc">&nbsp;        this.bounds = bounds;</b>
+<b class="nc">&nbsp;        circle = new Ellipse2D.Double(0, 0, d, d);</b>
+<b class="nc">&nbsp;        setBounds(bounds);</b>
+<b class="nc">&nbsp;        setArea(area);</b>
+<b class="nc">&nbsp;        this.color = color;</b>
+<b class="nc">&nbsp;        nameWidth = fm.stringWidth(name);</b>
+<b class="nc">&nbsp;        nameHeight = fm.getHeight();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the bounding Rectangle in which this Circle is drawn to r.
+&nbsp;     */
+&nbsp;    public void setBounds(Rectangle2D r) {
+<b class="nc">&nbsp;        bounds = r;</b>
+<b class="nc">&nbsp;        updateDrawnLocation();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /*** Set the area being drawn to r. */
+&nbsp;    public void setArea(Rectangle2D r) {
+<b class="nc">&nbsp;        circle.width = circle.width;</b>
+<b class="nc">&nbsp;        circle.height = circle.width;</b>
+<b class="nc">&nbsp;        area = r;</b>
+<b class="nc">&nbsp;        updateDrawnLocation();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Update the drawn circle&#39;s location based on the current true
+&nbsp;     * location, bounds, and area.
+&nbsp;     */
+&nbsp;    protected void updateDrawnLocation() {
+<b class="nc">&nbsp;        circle.x = drawnX() - (int) ((circle.width + 1) / 2.0);</b>
+<b class="nc">&nbsp;        circle.y = drawnY() - (int) ((circle.height + 1) / 2.0);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Graphical x-value for this circle.
+&nbsp;     */
+&nbsp;    public int drawnX() {
+<b class="nc">&nbsp;        return (int) ((location.getX() - area.getX()) * bounds.getWidth()</b>
+<b class="nc">&nbsp;                / area.getWidth());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Graphical y-value for this circle.
+&nbsp;     */
+&nbsp;    public int drawnY() {
+<b class="nc">&nbsp;        return (int) ((location.getY() - area.getY()) * bounds.getHeight()</b>
+<b class="nc">&nbsp;                / area.getHeight());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the x-coordinate of the center of this Circle.
+&nbsp;     */
+&nbsp;    public int x() {
+<b class="nc">&nbsp;        return (int) (location.getX() + 0.5);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the y-coordinate of the center of this Circle.
+&nbsp;     */
+&nbsp;    public int y() {
+<b class="nc">&nbsp;        return (int) (location.getY() + 0.5);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the radius of this Circle.
+&nbsp;     */
+&nbsp;    public double radius() {
+<b class="nc">&nbsp;        return circle.width / 2;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the &quot;true location&quot; of this Circle.
+&nbsp;     */
+&nbsp;    public Point2D location() {
+<b class="nc">&nbsp;        return location;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the &quot;true location&quot; of this Circle to v.
+&nbsp;     */
+&nbsp;    public void setLocation(Point2D p) {
+<b class="nc">&nbsp;        location = p;</b>
+<b class="nc">&nbsp;        updateDrawnLocation();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the graphical bounding box of this Circle.
+&nbsp;     */
+&nbsp;    public Rectangle bounds() {
+<b class="nc">&nbsp;        return new Rectangle(</b>
+<b class="nc">&nbsp;                (int) Math.min(circle.x,</b>
+<b class="nc">&nbsp;                        circle.getCenterX() - nameWidth / 2 - BOUND_PADDING),</b>
+&nbsp;                (int) (circle.y - nameHeight - NAME_Y_PADDING - BOUND_PADDING),
+<b class="nc">&nbsp;                (int) (Math.max(circle.width, nameWidth + 2 * BOUND_PADDING) + 0.5),</b>
+&nbsp;                (int) (circle.height + nameHeight + NAME_Y_PADDING
+&nbsp;                        + 2 * BOUND_PADDING));
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the color of this Circle.
+&nbsp;     */
+&nbsp;    public Color color() {
+<b class="nc">&nbsp;        return color;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the name of this Circle.
+&nbsp;     */
+&nbsp;    public String name() {
+<b class="nc">&nbsp;        return name;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void draw(Graphics2D g) {
+<b class="nc">&nbsp;        Color c = g.getColor();</b>
+<b class="nc">&nbsp;        g.setColor(color);</b>
+<b class="nc">&nbsp;        g.fill(circle);</b>
+<b class="nc">&nbsp;        g.setColor(BORDER_COLOR);</b>
+<b class="nc">&nbsp;        g.draw(circle);</b>
+&nbsp;
+&nbsp;        // draw the Circle&#39;s name
+<b class="nc">&nbsp;        int x = (int) (circle.getCenterX() - (nameWidth + 1) / 2.0);</b>
+<b class="nc">&nbsp;        int y = (int) (circle.getCenterY() - (circle.height + 1) / 2.0</b>
+&nbsp;                + -NAME_Y_PADDING);
+&nbsp;
+<b class="nc">&nbsp;        g.setColor(NAME_COLOR);</b>
+<b class="nc">&nbsp;        g.drawString(name, x, y);</b>
+&nbsp;
+<b class="nc">&nbsp;        g.setColor(c);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

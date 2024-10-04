@@ -1,0 +1,274 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CLIView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.views</a>
+</div>
+
+<h1>Coverage Summary for Class: CLIView (cpen221.mp2.views)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CLIView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/13)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">CLIView$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">CLIView$ViewThread</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/36)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/50)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.views;
+&nbsp;
+&nbsp;import cpen221.mp2.controllers.Controller;
+&nbsp;import cpen221.mp2.models.Model;
+&nbsp;import cpen221.mp2.models.Model.Stage;
+&nbsp;import cpen221.mp2.models.Planet;
+&nbsp;
+&nbsp;import java.util.Scanner;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance is a view of the Space Gems game that operates purely
+&nbsp; * in the console.
+&nbsp; */
+<b class="nc">&nbsp;public class CLIView extends Thread implements View {</b>
+&nbsp;    private ViewThread thread; // The currently running view thread
+&nbsp;    private Controller ctrlr; // The controller attached to this game
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init(Controller c, Model m) {
+<b class="nc">&nbsp;        ctrlr = c;</b>
+<b class="nc">&nbsp;        thread = new ViewThread(c, m);</b>
+<b class="nc">&nbsp;        thread.run();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void beginStage(Stage s) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endStage(Stage s) {
+<b class="nc">&nbsp;        switch (s) {</b>
+&nbsp;            case HUNT:
+<b class="nc">&nbsp;                if (ctrlr.huntSucceeded()) {</b>
+<b class="nc">&nbsp;                    outprintln(&quot;\nHunt stage complete! Distance traveled: &quot;</b>
+<b class="nc">&nbsp;                            + thread.model.fuelUsed());</b>
+<b class="nc">&nbsp;                    outprintln(&quot;\nScore: &quot; + thread.model.score() + &quot;\n&quot;);</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;
+&nbsp;            case GATHER:
+<b class="nc">&nbsp;                if (ctrlr.gatherSucceeded()) {</b>
+<b class="nc">&nbsp;                    outprintln(&quot;\nGather Stage completed!&quot;);</b>
+&nbsp;                }
+&nbsp;                break;
+&nbsp;
+&nbsp;            default:
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endGame(int score) {
+<b class="nc">&nbsp;        thread.running = false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private class ViewThread extends Thread {
+&nbsp;        /* The controller and model of the current game. */
+&nbsp;        private Controller ctrlr;
+&nbsp;        private Model model;
+&nbsp;
+&nbsp;        /* True iff the current game is still running. */
+&nbsp;        private boolean running;
+&nbsp;
+<b class="nc">&nbsp;        public ViewThread(Controller c, Model m) {</b>
+<b class="nc">&nbsp;            ctrlr = c;</b>
+<b class="nc">&nbsp;            model = m;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Runs a single game, then prompts the user for further action.
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void run() {
+&nbsp;            // get the desired action
+<b class="nc">&nbsp;            outprintln(&quot;============================================&quot;);</b>
+&nbsp;
+&nbsp;            @SuppressWarnings(&quot;resource&quot;) // no reason to close stdin
+<b class="nc">&nbsp;                    Scanner stdin = new Scanner(System.in);</b>
+&nbsp;
+<b class="nc">&nbsp;            running = true;</b>
+<b class="nc">&nbsp;            while (running) {</b>
+<b class="nc">&nbsp;                outprintln(&quot;Enter (without quotes):\n&quot;</b>
+<b class="nc">&nbsp;                        + &quot;\&quot;s\&quot; to start the game with seed \&quot;&quot; + model.seed() + &quot;\&quot;\n&quot;</b>
+&nbsp;                        + &quot;\&quot;n\&quot; to generate a new game\n&quot; + &quot;\&quot;q\&quot; to quit&quot;);
+<b class="nc">&nbsp;                String s = stdin.nextLine();</b>
+<b class="nc">&nbsp;                if (s.isEmpty() || s.length() &gt; 1) {</b>
+<b class="nc">&nbsp;                    outprintln(&quot;error: invalid input \&quot;&quot; + s + &#39;&quot;&#39;);</b>
+&nbsp;                } else {
+<b class="nc">&nbsp;                    switch (s.charAt(0)) {</b>
+&nbsp;                        case &#39;s&#39;:
+<b class="nc">&nbsp;                            outprintln(&quot;Starting...&quot;);</b>
+<b class="nc">&nbsp;                            running = false;</b>
+<b class="nc">&nbsp;                            break;</b>
+&nbsp;                        case &#39;n&#39;:
+<b class="nc">&nbsp;                            outprintln(</b>
+&nbsp;                                    &quot;Enter a new seed, or anything else &quot; + &quot;for a random seed&quot;);
+<b class="nc">&nbsp;                            ctrlr.newGame(stdin.nextLine());</b>
+&nbsp;                            return;
+&nbsp;                        case &#39;q&#39;:
+<b class="nc">&nbsp;                            outprintln(&quot;Quitting...&quot;);</b>
+&nbsp;                            return;
+&nbsp;                        default:
+<b class="nc">&nbsp;                            outprintln(&quot;error: invalid input \&quot;&quot; + s + &#39;&quot;&#39;);</b>
+&nbsp;                    }
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;
+&nbsp;            // run the game
+<b class="nc">&nbsp;            running = true;</b>
+<b class="nc">&nbsp;            ctrlr.start();</b>
+<b class="nc">&nbsp;            Planet previous = model.shipNode();</b>
+<b class="nc">&nbsp;            while (running) {</b>
+<b class="nc">&nbsp;                Planet current = model.shipNode();</b>
+<b class="nc">&nbsp;                if (current != previous) {</b>
+<b class="nc">&nbsp;                    outprintln(&quot;[GEMS = &quot; + model.spice() + &quot;, FUEL = &quot; +</b>
+<b class="nc">&nbsp;                            model.fuelRemaining() + &quot;]  &quot; + previous + &quot; &gt;&gt;&gt;=-----&gt;  &quot; + current);</b>
+<b class="nc">&nbsp;                    previous = current;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                ctrlr.update();</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            outprintln(&quot;FUEL REMAINING: &quot; + model.fuelRemaining());</b>
+<b class="nc">&nbsp;            outprintln(&quot;         SPICE: &quot; + model.spice());</b>
+<b class="nc">&nbsp;            outprintln(&quot;   FINAL SCORE: &quot; + model.score() + &quot;\n\n&quot;);</b>
+<b class="nc">&nbsp;            ctrlr.reset();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

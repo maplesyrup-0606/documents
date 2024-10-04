@@ -1,0 +1,206 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{9} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 9:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Suppose $f :A \rightarrow A$ such that $f \circ f$ is bijective. Is $f$ necessarily bijective?
+\begin{itemize}
+	\item If $f \circ f$ is injective, for $a_1,a_2 \in A $ where $a_1 \neq a_2$, $f(f(a_1)) \neq f(f(a_2))$.
+	\item This implies that $f(a_1) \neq f(a_2)$ for $a_1 \neq a_2$. Therefore, $f$ is injective.
+	\item When $f \circ f$ is surjective. $\forall a \in A,\exists b\in A$ such that $f(f(b)) = a$.
+	\item This also means that $\forall a \in A$, there exists $f(b) \in A$ where $f(f(b)) = a$.
+	\item Thus, $f$ is surjective and hence $f $ is bijective.
+\end{itemize}
+
+\item Suppose that $f:A \rightarrow B$ is a surjection and $ Y \subseteq B$. Show that 
+\begin{center}
+	$f(f^{-1}(Y))=Y$.
+\end{center}
+\begin{itemize}
+	\item Let $y \in f(f^{-1}(Y)),$ because $f$ is surjective $\exists x \in f^{-1}(Y)$ where $f(x) = y$.
+	\item When $x \in f^{-1}(Y)$ then $f(x) \in Y$ so $y \in f(Y)$, therefore $f(f^{-1}(Y)) \subseteq Y$.
+	\item Now let $y \in Y$, because $f$ is surjective $\exists x \in f^{-1}(Y)$ such that $f(x) = y$ is satisfied.
+	\item When $x \in f^{-1}(Y),f(x) \in f(f^{-1}(Y))$ hence $Y \subseteq f(f^{-1}(Y)).$
+	\item Therefore, $f(f^{-1}(Y)) = Y$.
+\end{itemize}
+
+\item Let $f: E \rightarrow F$ be a function. We recall that for any $A \subseteq E$, the image $f(A)$ of $A$ by $f$ is defined as
+\begin{center}
+	$f(A) = \{f(x):x \in A\}.$
+\end{center}
+Show that $f$ is surjective if and only if 
+\begin{center}
+	$\forall A \subseteq E, F-f(A) \subseteq f(E-A)$.
+\end{center}
+\begin{itemize}
+	\item Let $f$ be surjective and let $y \in F-f(A)$, then $\exists x \in E$ such that $f(x) = y$.
+	\item As we know that $y \in F-f(A)$ we can see that $x \notin A$ making $x \in E-A$.
+	\item Therefore, $f(x) = y \in f(E-A)$. Hence $F-f(A) \subseteq f(E-A).$
+	\item Now let $F-f(A) \subseteq f(E-A)$. And let's choose $y \in F-f(A)$.
+	\item Thus $y$ also satisfies $y \in f(E-A)$ ,$\forall A \subseteq E$.
+	\item This means that $\exists x \in E-A$ such that $f(x) =y $.
+	\item As we know that $\forall A \subseteq E$, $f$ becomes surjective.
+\end{itemize}
+
+\item (a) Prove that the function $g : \mathbb{R}^2 \rightarrow \mathbb{R}, g(x,y) = x^2-y^2,$ is surjective.\\
+	(b) Find $g^{-1}(\{0\}).$\\
+	(c) Let $A := \{a \in \mathbb{R},a \geq 0$ and consider the function $h: A \rightarrow A,h(x)=x^4+3 .$ Find $h^{-1}(\{c\})$ for each $c$ in the codomain.
+	\begin{itemize}
+		\item (a)
+		\begin{itemize}
+		\item For $\forall z\in \mathbb{R}$, choose $x,y \in \mathbb{R}$ such that $x^2-z \geq 0 $ and $y = \sqrt{x^2-z}$.
+		\item Then $g(x,y)=g(x,\sqrt{x^2-z}) = x^2-(\sqrt{x^2-z})^2=x^2-(x^2-z)=z.$
+		\item Hence, $g$ is surjective.
+		\end{itemize}
+		\item (b)
+		\begin{itemize}
+		\item $g^{-1}(\{0\})$ is the set that satisifies $g(x,y) = 0$.
+		\item Hence we need to find $(x,y) \in \mathbb{R}^2$ where $x^2-y^2=0$.
+		\item As $x,y \in \mathbb{R}$, 
+		\begin{align}
+			x^2-y^2 &=0 \\ x^2 &= y^2 \\ x &= \pm y
+		\end{align}
+		\item Thus $g^{-1}(\{0\}) = \{(y,y),(-y,y)\} = \{(x,y) \in \mathbb{R}^2 : x=y $ or $ x=-y\}.$
+		\end{itemize}
+		\item (c)
+		\begin{itemize}
+		\item We need to find a set $X$ in A  that contains $x$ where $h(x) = x^4+3 = c$.
+		\begin{align}
+			x^4+3 &= c \\x^4 &=c-3\\x^2 &= \pm \sqrt{c-3} \\&= \sqrt{c-3}  &&(x^2\geq0)
+		\end{align} 
+		\item Case 1: $c < 3,$ We know that $x \in \mathbb{R}$ hence $c-3 >0 $ needs to be satisfied.
+		\item Therefore, when $c<3$ then $h^{-1}(\{c\}) = \emptyset$.
+		\item Case 2: $c=3$, then $x^2 = 0$.
+		\item Therefore $x=0$ making $h^{-1}(\{c\}) = \{0\}.$
+		\item Case 3: $c>3$, then $x = \pm ^{4}\sqrt{c-3}$
+		\item As we know that $x \in A , x>0$ hence $x=^4\sqrt{c-3}$.
+		\item Hence $h^{-1}(\{c\}) = \{^4\sqrt{c-3}\}.$
+		\item Thus when $c<3$, $h^{-1}(\{c\}) = \emptyset$
+		\item And when $c \geq 3$, $h^{-1}(\{c\}) = \{x\in \mathbb{R} : x=^{4}\sqrt{c-3}\}$
+		\end{itemize}
+	\end{itemize} 
+	\item For a function $f : A \rightarrow B$ and subsets $E$ and $F$ of $B$, prove 
+	\begin{center}
+		$f^{-1}(E-F)= f^{-1}(E)-f^{-1}(F)$.
+	\end{center}
+	\begin{itemize}
+		\item Let $x \in f^{-1}(E-F)$, then $f(x) \in E-F$. Meaning that $f(x) \in E $ and $f(x) \notin F$.
+		\item Hence, $x \in  f^{-1}(E)$ and $x \notin f^{-1}(F)$. Which means that $x \in f^{-1}(E)-f^{-1}(F)$. 
+		\item Therefore, $f^{-1}(E-F) \subseteq f^{-1}(E)-f^{-1}(F)$.
+		\item Now let $x \in f^{-1}(E)-f^{-1}(F)$, Then we know that $x \in f^{-1}(E)$ and $ x \notin f^{-1}(F)$.
+		\item Thus, $f(x) \in E $ and $f(x) \notin F$ therefore $f(x) \in E-F$.
+		\item Showing that $x \in f^{-1}(E-F), $ therefore $f^{-1}(E)-f^{-1}(F) \subseteq  f^{-1}(E-F)$.
+		\item To conclude, $f^{-1}(E-F)= f^{-1}(E)-f^{-1}(F) $.
+	\end{itemize}
+	
+	\item Let $f: \mathbb{R} \rightarrow \mathbb{R}$ be the function defined by $f(x) = x^2+ax+b,$ where $a,b \in \mathbb{R}$. Determine whether $f$ is injective and/or surjective.
+	\begin{itemize}
+		\item First, we can see that $f(x) = x^2+ax+b = (x+\frac{a}{2})^2+b-\frac{a^2}{4}$.
+		\item Let's choose $y \in \mathbb{R}$ such that $y = b-\frac{a^2}{4}+1$ and $f(x) =y$.
+		\item Then 
+		\begin{align}
+			f(x) &= y=b-\frac{a^2}{4	}+1 \\ (x+\frac{a}{2}&)^2+b-\frac{a^2}{4} = b-\frac{a^2}{4}+1 \\ (x+\frac{a}{2})^2 &=1 \\ x&=\pm 1 -\frac{a}{2}
+		\end{align}
+		\item Hence as we know that $1-\frac{a}{2} \neq -1 -\frac{a}{2}$ and $f(1-\frac{a}{2})  = f(-1 -\frac{a}{2})$ is proves that $f$ is not injective.
+		\item Not let's choose $y = b-\frac{a^2}{4}-1 \in \mathbb{R}$.
+		\item Then
+		\begin{align}
+			f(x) =y &= b-\frac{a^2}{4}-1\\(x+\frac{a}{2}&)^2+b-\frac{a^2}{4} =b-\frac{a^2}{4}-1 \\ (x+\frac{a}{2})^2 &= -1
+		\end{align}
+		\item We know that $x \in \mathbb{R}$, thus no $x$ exists in $\mathbb{R}$ that satisfies this relation.
+		\item Hence for the chosen $y$ no $x$ exists such that $f(x) =y$.
+		\item Therefore, $f$ is not surjective.
+	
+\end{itemize}
+\item For $n \in \mathbb{N}$, let $A = \{a_1,a_2,a_3, \dots , a_n\}$ be a fixed set and let $F$ be the set of all functions $f:A \rightarrow \{0,1\}.$
+\begin{itemize}
+	\item (a) What is $|F|$, the cardinality of $F?$
+	\begin{itemize}
+	\item For each element of $A$ we can choose between $0,1$, hence the cardinality of $F$ is $2^n$.
+	\end{itemize}
+	\item (b) Let $g: F \rightarrow \mathcal{P}(A)$ be defined as $g(f) = \{a \in  A: f(a) =1 \}$. We prove that the function is both surjective and injective.
+	\begin{itemize}
+	\item Let $B\subseteq \mathcal{P}(A)$, then we know that $B \subseteq A$.
+	\item Thus, $f_B: A  \rightarrow \{0,1\}$, defined such that if $x \in B$, $f(x) = 1$ and if $x \notin B,f(x) = 0$. 
+	\item Therefore, $f$ is well-defined and also we have $g(f_B)=B$, hence $g$ is surjective.
+	\item Now let $f_1,f_2 \in F$ and assume that $g(f_1) = g(f_2),$ then $\{a\in A : f_1(a)=1\}= \{a \in  A : f_2(a)=1\}. $ 
+	\item Let's call this set $X$, let $x\in A$ then either $x\in X$ or $x\notin X$.
+	\item When $x \in X$, we have by definition $f_1(x)=1=f_2(x)$. Then when $x \notin X$, $f_1(x)=0=f_2(x)$. 
+	\item Thus $\forall x \in A ,$ we have $f_1(x)=f_2(x),$ hence $f_1=f_2$.
+	\item Which implies that $g$ is injective.
+ 	\end{itemize}
+\end{itemize}
+\item Determine all functions $f:\mathbb{N} \rightarrow \mathbb{N}$ that are injective and such that for all $n \in \mathbb{N}$ we have $f(n) \leq n$.
+\begin{itemize}
+	\item Let's start from $n=1$, as $f(n) \leq n $ thus $f(1) \leq 1$ and $f: \mathbb{N} \rightarrow \mathbb{N}$ therefore $f(1) = 1$.
+	\item Then for $f(2)$, $f(2) \leq 2$ and we know that $f$ is injective and $f(1) = 1$.
+	\item Thus $f(2) =2$.
+	\item Therefore we can conclude that $f(n) =n$ for all $n \in \mathbb{N}$
+	when $f(n) \leq n$ and $f$ is injective. 
+	\end{itemize}
+\end{enumerate}
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

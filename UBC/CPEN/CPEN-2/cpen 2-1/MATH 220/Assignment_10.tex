@@ -1,0 +1,222 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{10} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 10:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Prove that there is no integer $a$ so that $a \equiv 2(\mod 6)$ and $a \equiv 7(\mod 9)$.
+\begin{itemize}
+	\item Assume, by contrary, that there is an integer $a$ so that $a \equiv 2(\mod 6)$ and $a \equiv 7(\mod 9)$.
+	\item Therefore, $a=6k+2$ and $a=9\ell +7$ for $k,\ell \in \mathbb{Z}$.
+	\item Then
+	\begin{align}
+	a-a &= (6k+2)-(9\ell+7) \\ &=3(2k-3\ell)-5 \\&=0 \\ 5&=3(2k-3\ell)	
+	\end{align}
+	\item We know that $2k-3\ell \in \mathbb{Z}$, hence no $k,\ell \in \mathbb{Z}$ exists such that $2k-3\ell = \frac{5}{3}.$
+	\item This contradicts our assumption, hence the result holds.
+\end{itemize}
+\item The equation $5y^2-4x^2= 7$ has no integer solutions. \\ $Hint$: Consider the equation modulo 4.
+\begin{itemize}
+	\item $y^2 = 4(x^2-y^2)+7$. Hence, $y^2 \equiv 7(\mod 4).$
+	\item Let's consider the case when $y$ is even or odd.
+	\item Case 1: $y$ is even.
+	\item Then $y =2k,k\in \mathbb{Z}$, therefore $y^2 = 4k^2$ showing us that $y^2\equiv 0 (\mod 4)$.
+	\item Case 2: $y$ is odd.
+	\item $y=2k+1,k \in \mathbb{Z}$, thus $y^2=(2k+1)^2=4k^2+4k+1 = 4(k^2+k)+1$.
+	\item As we know that $k^2+k \in \mathbb{Z},$ $y^2 \equiv 1(\mod 4)$.
+	\item In either cases, $y^2 \not \equiv 7 (\mod 4)$. In which contradicts are assumption.
+	\item Hence, there are no integer solutions for $5y^2-4x^2 = 7$.
+\end{itemize}
+\item Let $f:X \rightarrow Y$ be a function. Suppose that $f$ admits an inverse function.
+\begin{itemize}
+	\item (a) Prove that the inverse function is unique.
+	\begin{itemize}
+	\item Suppose that $g$ is a left inverse of $f $ and $h$ is a right inverse of $f$.
+	\item Then, $g \circ f =i_{X} $ and $f \circ h = i_Y$.
+	\begin{align}
+		g&=g \circ i_Y \\&=g \circ (f \circ h) \\ &=(g \circ f) \circ h \\ &=i_X \circ h \\ &=h
+	\end{align}
+	\item Therefore, $g=h$ and the inverse function is unique.
+	\end{itemize}
+	\item (b) Let $g:Y \rightarrow Z$ be another function with an inverse. Show that the inverse function of $g \circ f$ is given by $f^{-1} \circ g^{-1}$
+	\begin{itemize}
+	\item We can see that 
+	\begin{align}
+		g &= g \circ i_Y \\ &= g\circ (f\circ f^{-1}) \\g \circ g^{-1} &= g\circ (f \circ f^{-1}) \circ g^{-1}  \\ i_Z &= (g\circ f) \circ (f^{-1} \circ g^{-1})
+	\end{align}
+	\item And
+	\begin{align}
+		f^{-1} &= f^{-1} \circ i_Y \\ &=f^{-1}\circ (g^{-1} \circ g) \\ f^{-1} \circ f &= f^{-1} \circ (g^{-1} \circ g) \circ f \\ i_X &= (f^{-1} \circ g^{-1}) \circ (g \circ f)
+	\end{align}
+	\item Hence we can see that the left and right inverse of $g \circ f$ is $f^{-1} \circ g^{-1}$.
+	\end{itemize}
+\end{itemize}
+\item Prove that $^3\sqrt{25}$ is irrational.
+\begin{itemize}
+	\item Let's assume, by contrary, that $^3\sqrt{25}$ is rational.
+	\item Then $a \in \mathbb{Z},b\in \mathbb{Z} - \{0\}$, such that $^3\sqrt{25} = \frac{a}{b}$ and $\gcd(a,b) = 1$.
+	\item We can express this such as $a = ^3\sqrt{25}b$.
+	\item Hence, $a^3 = 25b^3$. We can see that $25 \mid a^3$ thus $5 \mid a^3$, and we know that 5 is prime, therefore, $5\mid a$.
+	\item $a=5n,n\in \mathbb{Z}$. Then $25b^3 = 125n^3$, and $b^3=5n^3.$
+	\item $5 \mid b^3$ proves that $5\mid b$, hence $\gcd(a,b) =5$ which contradicts our assumption.
+	\item Therefore, $^3\sqrt{25} $ is irrational.
+	\end{itemize}
+\item Let $n \in \mathbb{N}$. Suppose that $n$ is a perfect square, that is $n = m^2$ for some $m \in \mathbb{Z}$. Show that $2n$ is not a perfect square. You may use the fact that $\sqrt{2}$ is irrational without proof.
+\begin{itemize}
+	\item Let's assume, by contrary, that 2n is a perfect square, hence, $2n = 2m^2 = (\sqrt{2}m)^2$.
+	\item Now let's assume, by contrary, that $\sqrt{2}m$ is an integer.
+	\item Thus we can make the expression $\sqrt{2}m = \frac{a}{b}$ where $a,b \in \mathbb{Z}$ and $b \neq 0$.
+	\item Then $\sqrt{2} = \frac{a}{mb}$ ($m \neq 0$) showing that $\sqrt{2}$ is a rational number, which contradicts with the fact that $\sqrt{2}$ is an irrational number, therefore showing that $\sqrt{2}m$ is not an integer.
+	\item This fact contradicts with our assumption that $2n$ is a perfect square.
+	\item Therefore, the result holds. 
+\end{itemize}
+\item Let $f : \mathbb{Z} \rightarrow \mathbb{Z}$ defined so that \\
+\begin{equation*}
+	f(n) = \{ \begin{array}{ll}
+ 	3-n & n $ is even$ \\ 7+n &n $ is odd$
+ \end{array}
+\end{equation*}
+Prove that $f$ is bijective and give its compositional inverse $f^{-1}$.
+\begin{itemize}
+	\item Let $n_1,n_2\in \mathbb{Z}$ such that $n_1,n_2$ are even numbers and $f(n_1)=f(n_2)$.
+	
+	\item Then
+	\begin{align}
+		f(n_1) &= f(n_2) \\3-n_1 &= 3-n_2\\n_1 &=n_2
+	\end{align}
+	\item Hence, $n_1= n_2$.
+	\item Now let $n_1,n_2 \in \mathbb{Z}$ such that $n_1,n_2$ are odd numbers and $f(n_1) = f(n_2)$.
+	\item Then
+	\begin{align}
+	f(n_1) &= f(n_2) \\ 7+n_1 &= 7+n_2\\n_1&=n_2	
+	\end{align}
+	\item Hence, $n_1=n_2$.
+	\item Now let $n_1 \in \mathbb{Z}$ such that $n_1$ is odd and $n_2 \in \mathbb{Z}$ such that $n_2$ is even.
+	\item Because $n_1$ is odd and $n_2$ is even, $n_1 \neq n_2$.
+	\item Then
+	\begin{align}
+		f(n_1) -f(n_2) &=(7+n_1)-(3-n_2) \\ &=4+n_1+n_2
+	\end{align}
+	\item We know that $n_1 + n_2$ is odd hence $4+n_1+n_2 \neq 0$.
+	\item Therefore, $f(n_1) \neq f(n_2)$ showing us that $f$ is injective.
+	\item Now let $k \in \mathbb{Z}$ and $k$ is even and let $n=k-7$.
+	\item We can see that $n$ is odd thus $f(n)=f(k-7)=7+(k-7) = k$.
+	\item Now let $k\in \mathbb{Z}$ be odd and $p = 3-k$.
+	\item We can also see that $p$ is even and  $f(p) = f(3-k)=3-(3-k) = k.$
+	\item Hence $f$ is surjective therefore $f $ is bijective.
+	\item Let us define $f^{-1}(n) = 3-n$ when $n$ is even.
+	\item $f(f^{-1}(n)) = f(3-n) = 3-(3-n) = n$.
+	\item And let us define $f^{-1}(n) = n-7$ when $n$ is odd.
+	\item $f(f^{-1}(n)) = f(n-7) = 7+(n-7) = n$.
+	\begin{equation*}
+	f^{-1}(n) = \{ \begin{array}{ll}
+	3-n & n $ is even$ \\ 7+n &n $ is odd$
+	\end{array}	
+	\end{equation*}
+
+\end{itemize}
+\item Let $A = \mathbb{R} -\{0,1\}$ and let $f: A \rightarrow A $ be defined by $f(x) = 1-\frac{1}{x}$.
+\begin{itemize}	
+
+	\item (a) Show that $f \circ f \circ f = i_A$ and let $f : A \rightarrow A $ be defined by $f(x) = 1 - \frac{1}{x}.$
+	\begin{itemize}
+	\item $f(f(f(x)))$ is 
+	\begin{align}
+		f(f(f(x))) &= f(f(1-\frac{1}{x})) \\ &=f(1-\frac{
+		1}{1-\frac{1}{x}}) \\&=f(\frac{-1}{x-1}) \\ &=1-\frac{1}{\frac{1}{1-x}} \\&=1-(1-x) \\ &= x
+	\end{align}
+	\item Hence, $f(f(f(x))) = x$ showing us that $f\circ f \circ f = i_A$.
+	\end{itemize}
+	\item (b) Prove that any function $g : A \rightarrow A $ satisfying $g\circ g \circ g = i_A$ is bijective.
+	\begin{itemize}
+	\item Let $x,y \in A$ s.t. $g(x) =g(y)$.
+	\item Then $g(g(x)) = g(g(y)),$ and $g(g(g(x))) =g(g(g(y)))$.
+	\item $g(g(g(x))) =x = y= g(g(g(y)))$. 
+	\item Therefore, $g$ is injective.
+	\item Now let $a \in A$, then $g(g(g(a)))= a$.
+	\item Let $g(a) = b$, then $g(b) = a$.
+	\item Hence we can declare that $g$ is surjective.
+	\item Therefore, $g$ is bijective.
+	\end{itemize}
+	\item (c) Use part (b) to conclude that $f$ is bijective and determine $f^{-1}$.
+	\begin{itemize}
+	\item As we proved in $(a)$, $f(f(f(x))) =x$ hence $f$ is bijective.
+	\item Now let $f^{-1}(x)$ be defined as $f^{-1}(x) = \frac{1}{1-x}$.
+	\item As $f$ is bijective it is sufficient to $f^{-1}$ is a right inverse of $f$.
+	\item Thus, $f(f^{-1}(x)) = f(\frac{1}{1-x}) = 1-\frac{1}{\frac{1}{1-x}} = 1-(1-x) = x$.
+	\item Therefore, $f^{-1}(x) = \frac{1}{1-x}$.
+	\end{itemize}
+\end{itemize}
+\item Prove that if $k$ is a positive integer and $\sqrt{k}$ is not an integer, then $\sqrt{k}$ is an irrational number. \\ $Hint:$B\'ezout's identity will help you.
+\begin{itemize}
+	\item Assume to contrary that when $k \in \mathbb{N}$ and $\sqrt{k} \notin \mathbb{Z}$, then $\sqrt{k} \in \mathbb{Q}$.
+	\item Then this implies that $\sqrt{k} = \frac{a}{b}$ where $a,b \in \mathbb{Z}$, $b \neq 0$.
+	\item We know that $\sqrt{k} \notin \mathbb{Z}$ so $\gcd(a,b)= 1$.
+	\item $k = (\sqrt{k})^2=(\frac{a}{b})^2$, and we know that $\gcd(a,b)=1$ therefore $ k\notin \mathbb{N}$.
+	\item This contradicts with our assumption hence $\sqrt{k}$ is an irrational number.
+\end{itemize}
+\end{enumerate}
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

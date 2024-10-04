@@ -1,0 +1,115 @@
+1. \sigma_{instrument = violin V instrument = piano} (Musician)
+
+2. \pi_{email} (Person) - \pi_{email} (Purchase)
+
+3. 
+
+performed once -> one show id exists in Songs performed
+
+moreThanOnce <- \pi_{sp1.email, sp1.composer, sp1.title}(\sigma_{sp1.showID != sp2.showID ^ sp1.composer = sp2.composer ^ sp1.title = sp2.title}(\rho(sp1, SongsPerformed) x \rho(sp2, SongsPerformed)))
+
+Purchase - moreThanOnce
+
+4. 
+showJAN <- \pi_{email}(\sigma_{month = jan ^ year = 2020}(Show) \bowtie_{Show.iD = Purchase.showID} Purchase)
+
+showFEB <- \pi_{email}(\sigma_{month = feb ^ year = 2020}(Show) \bowtie_{Show.iD = Purchase.showID} Purchase)
+
+showJAN \cap showFEB
+
+5.
+
+notMostAttendance <- \pi_{sh1.id}(\sigma_{sh1.attendance <= sh2.attendance}(\rho(sh1, Show) x \rho(sh2, Show)))
+
+\pi_{showID, composer, title}(SongsPerformed \bowtie_{showID <> sh1.id} notMostAttendance)
+
+highestAttendance <- \pi_{id}(Show) - notMostAttendance
+
+Purchase \bowtie_{highestAttendance.id = Purchase.id} highestAttendance
+
+6. 
+
+onlyTc <- \sigma_{composer = Tchaicovsky}(SongsPerformed)
+
+\pi_{email,showID}(Purchase) / onlyTc
+
+[ Every performamce!!! ]
+
+7.
+
+SELECT DISTINCT email
+FROM Purchase, Show
+WHERE Purchase.showID = Show.id AND month = January AND year = 2019
+
+8.
+
+SELECT DISTINCT year, month, day, attendanceNumber
+FROM Musician m, PerformedIn p, Show s
+WHERE m.id = p.id AND p.showID = S.id AND m.nationality = canadian
+
+9.
+
+SELECT name 
+FROM Musician
+WHERE instrument = 'flute'
+
+< NEED distinct or not depends on the case, not necessarily needed>
+
+10. 
+
+SELECT showID
+FROM SongsPerformed
+WHERE composer = Mozart
+
+INTERSECT
+
+SELECT showID
+FROM SongsPerformed
+WHERE composer = Beethoven
+
+11.
+SELECT DISTINCT sp1.showID 
+FROM SongsPerformed sp1, SongsPerformed sp2
+WHERE sp1.showID = sp2.showID AND sp1.composer = Mozart AND sp2.composer = Beethoven
+
+12. 
+
+SELECT sp1.showID
+FROM SongsPerformed sp1
+WHERE sp1.composer = Mozart AND EXISTS(SELECT *
+                                       FROM SongsPerformed sp2
+                                       WHERE sp1.showID = sp2.showID AND sp2.composer = Beethoven)
+
+13.
+
+SELECT sp1.showID
+FROM SongsPerformed sp1
+WHERE sp1.composer = Mozart AND sp1.showID in (SELECT sp2.showID
+                                               FROM SongsPerformed sp2
+                                               WHERE sp2.composer = Beethoven)
+
+14.
+
+SELECT SUM(attendanceNumber), year, month, day, showing
+FROM Show
+GROUP BY year, month, day, showing
+
+15.
+
+SELECT COUNT(*), instrument
+FROM Musician 
+WHERE nationality = 'Canada'
+GROUP BY instrument
+
+16.
+
+SELECT DISTINCT sp.composer, sp.title
+FROM SongsPerformed sp
+WHERE sp.ShowID in (SELECT pur.ShowID 
+                    FROM Purchase pur, Person p
+                    WHERE pur.email = p.email
+                    GROUP BY pur.showID
+                    HAVING AVG(p.age) > (SELECT AVG(p1.age) FROM Person p1))
+
+audience is from the Purchase table, so we get the avg age grouped by showID 
+here and compare it with the average age of the email list

@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > BenchmarkView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.views</a>
+</div>
+
+<h1>Coverage Summary for Class: BenchmarkView (cpen221.mp2.views)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BenchmarkView</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/65)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BenchmarkView$ViewThread</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.views;
+&nbsp;
+&nbsp;import cpen221.mp2.controllers.Controller;
+&nbsp;import cpen221.mp2.models.Model;
+&nbsp;import cpen221.mp2.models.Model.Stage;
+&nbsp;
+&nbsp;import java.util.Random;
+&nbsp;
+&nbsp;/**
+&nbsp; * An instance is a view of the Kamino Game that immediately starts N
+&nbsp; * games and outputs statistics about the games.
+&nbsp; */
+<b class="nc">&nbsp;public class BenchmarkView implements View {</b>
+&nbsp;
+&nbsp;    public static final int N = 50; // try 50 trials
+<b class="nc">&nbsp;    private static final Random R = new Random(42); // choose consistent seeds</b>
+&nbsp;
+&nbsp;    private ViewThread thread; // thread for current game
+&nbsp;    private Controller ctrlr; // controller for this game
+&nbsp;    private Model model;
+<b class="nc">&nbsp;    private int i = 0; // current run number</b>
+<b class="nc">&nbsp;    private int[] scores = new int[N]; // scores for each run</b>
+<b class="nc">&nbsp;    private double[] times = new double[N]; // times for each run, in seconds</b>
+&nbsp;    private long start; // time when starting the current run
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Convert time ns in nanoseconds to seconds.
+&nbsp;     */
+&nbsp;    private static double toSeconds(long ns) {
+<b class="nc">&nbsp;        return ns / 1e9;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void init(Controller c, Model m) {
+<b class="nc">&nbsp;        ctrlr = c;</b>
+<b class="nc">&nbsp;        model = m;</b>
+<b class="nc">&nbsp;        thread = new ViewThread(c, m);</b>
+<b class="nc">&nbsp;        thread.run();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void beginStage(Stage s) {
+<b class="nc">&nbsp;        if (s == Stage.HUNT) {</b>
+<b class="nc">&nbsp;            start = System.nanoTime();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endStage(Stage s) {
+<b class="nc">&nbsp;    }</b>
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public void endGame(int score) {
+<b class="nc">&nbsp;        thread.running = false;</b>
+<b class="nc">&nbsp;        times[i] = toSeconds(System.nanoTime() - start);</b>
+<b class="nc">&nbsp;        scores[i] = score;</b>
+<b class="nc">&nbsp;        outprintln(&quot;Finished run &quot; + i + &quot; with seed &quot; + model.seed() + &quot;, score &quot;</b>
+&nbsp;                + score + &quot;, and time &quot; + times[i]);
+<b class="nc">&nbsp;        ++i;</b>
+<b class="nc">&nbsp;        if (i &gt;= N) {</b>
+<b class="nc">&nbsp;            outprintln(&quot;&quot;);</b>
+<b class="nc">&nbsp;            scoreStats();</b>
+<b class="nc">&nbsp;            outprintln(&quot;&quot;);</b>
+<b class="nc">&nbsp;            timeStats();</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            ctrlr.newGame(Long.toString(R.nextLong()));</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print the mean, std. deviation, min, and max of the scores.
+&nbsp;     */
+&nbsp;    public void scoreStats() {
+<b class="nc">&nbsp;        double mean = 0d;</b>
+<b class="nc">&nbsp;        int min = Integer.MAX_VALUE;</b>
+<b class="nc">&nbsp;        int max = Integer.MIN_VALUE;</b>
+<b class="nc">&nbsp;        for (int i : scores) {</b>
+<b class="nc">&nbsp;            mean += i;</b>
+<b class="nc">&nbsp;            if (min &gt; i) {</b>
+<b class="nc">&nbsp;                min = i;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (max &lt; i) {</b>
+<b class="nc">&nbsp;                max = i;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        mean /= scores.length;</b>
+&nbsp;
+<b class="nc">&nbsp;        double variance = 0d;</b>
+<b class="nc">&nbsp;        for (int i : scores) {</b>
+<b class="nc">&nbsp;            variance += (i - mean) * (i - mean);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        double sd = Math.sqrt(variance / (scores.length - 1));</b>
+&nbsp;
+<b class="nc">&nbsp;        outprintln(&quot;Distribution of scores:&quot;);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Mean: &quot; + mean);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Standard deviation: &quot; + sd);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Min: &quot; + min);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Max: &quot; + max);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Print the mean, std. deviation, min, and max of the times.
+&nbsp;     */
+&nbsp;    public void timeStats() {
+<b class="nc">&nbsp;        double mean = 0d;</b>
+<b class="nc">&nbsp;        double min = Long.MAX_VALUE;</b>
+<b class="nc">&nbsp;        double max = Long.MIN_VALUE;</b>
+<b class="nc">&nbsp;        for (double d : times) {</b>
+<b class="nc">&nbsp;            mean += d;</b>
+<b class="nc">&nbsp;            if (min &gt; d) {</b>
+<b class="nc">&nbsp;                min = d;</b>
+&nbsp;            }
+<b class="nc">&nbsp;            if (max &lt; d) {</b>
+<b class="nc">&nbsp;                max = d;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        mean /= times.length;</b>
+&nbsp;
+<b class="nc">&nbsp;        double variance = 0d;</b>
+<b class="nc">&nbsp;        for (double d : times) {</b>
+<b class="nc">&nbsp;            variance += (d - mean) * (d - mean);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        double sd = Math.sqrt(variance / (times.length - 1));</b>
+&nbsp;
+<b class="nc">&nbsp;        outprintln(&quot;Distribution of times:&quot;);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Mean: &quot; + mean);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Standard deviation: &quot; + sd);</b>
+<b class="nc">&nbsp;        outprintln(&quot;  Min: &quot; + min);</b>
+<b class="nc">&nbsp;        if (max &gt;= 10d) {</b>
+<b class="nc">&nbsp;            errprintln(&quot;  Max: &quot; + max);</b>
+<b class="nc">&nbsp;            errprintln(&quot;\nWARNING: At least one of your runs exceeded 15 seconds.&quot;);</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            outprintln(&quot;  Max: &quot; + max);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private class ViewThread extends Thread {
+&nbsp;        /* The controller and model of the current game. */
+&nbsp;        private Controller ctrlr;
+&nbsp;
+&nbsp;        /* True iff the current game is still running. */
+&nbsp;        private boolean running;
+&nbsp;
+<b class="nc">&nbsp;        public ViewThread(Controller c, Model m) {</b>
+<b class="nc">&nbsp;            ctrlr = c;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Run a single game, then prompts the user for further action.
+&nbsp;         */
+&nbsp;        @Override
+&nbsp;        public void run() {
+<b class="nc">&nbsp;            running = true;</b>
+<b class="nc">&nbsp;            ctrlr.start();</b>
+<b class="nc">&nbsp;            while (running) {</b>
+<b class="nc">&nbsp;                ctrlr.update();</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

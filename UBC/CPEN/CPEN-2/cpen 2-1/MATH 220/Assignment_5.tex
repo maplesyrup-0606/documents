@@ -1,0 +1,237 @@
+%% Standard start of a latex document
+\documentclass[letterpaper,12pt]{article}
+%% Always use 12pt - it is much easier to read
+%% Things written after '%' sign, are ignored by the latex editor - they are how to introduce comments into your .tex source
+%% Anything mathematics related should be put in between '$' signs.
+
+%% Set some names and numbers here so we can use them below
+\newcommand{\myname}{Mercury Mcindoe} %%%%%%%%%%%%%%% ---------> Change this to your name
+\newcommand{\mynumber}{85594505} %%%%%%%%%%%%%%% ---------> Change this to your student number
+\newcommand{\hw}{5} %%%%%%%%%%%%%%% --------->  set this to the homework number
+
+%%%%%%
+%% There is a bit of stuff below which you should not have to change
+%%%%%%
+
+%% AMS mathematics packages - they contain many useful fonts and symbols.
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+
+%% The geometry package changes the margins to use more of the page, I suggest
+%% using it because standard latex margins are chosen for articles and letters,
+%% not homework.
+\usepackage[paper=letterpaper,left=25mm,right=25mm,top=3cm,bottom=25mm]{geometry}
+%% For details of how this package work, google the ``latex geometry documentation''.
+
+%%
+%% Fancy headers and footers - make the document look nice
+\usepackage{fancyhdr} %% for details on how this work, search-engine ``fancyhdr documentation''
+\pagestyle{fancy}
+%%
+%% The header
+\lhead{Mathematics 220} % course name as top-left
+\chead{Homework \hw} % homework number in top-centre
+\rhead{ \myname \\ \mynumber }
+%% This is a little more complicated because we have used `` \\ '' to force a line-break between the name and number.
+%%
+%% The footer
+\lfoot{\myname} % name on bottom-left
+\cfoot{Page \thepage} % page in middle
+\rfoot{\mynumber} % student number on bottom-right
+%%
+%% These put horizontal lines between the main text and header and footer.
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+%%%
+
+%%%%%%
+%% We shouldn't have to change the stuff above, but if you want to add some newcommands and things like that, then putting them between here and the ``\begin{document}'' is a good idea.
+%%%%%%
+%% A useful command to define is
+%% This command will make the left and right braces as tall as needed. Use it as \set{1,2,3}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+%% We also redfine the negation symbol:
+\renewcommand{\neg}{\sim}
+
+\begin{document}
+
+\subsection*{Solutions to homework 5:}
+
+%%
+%% There are 2 list environments, itemize and enumerate. They are almost identical, but each item in itemize is started with a bullet or dot, while each item in enumerate is numbered.
+%%
+\begin{enumerate}
+%% This is where your actual homework will go.
+\item Prove that for all $n\in \mathbb{N}$,
+\begin{center}
+	$\sum_{k=1}^{n} (2k-1) \cdot2^k=6+2^n(4n-6).$
+\end{center}
+\begin{itemize}
+	\item Let's prove by induction.
+	\item Base case: $n=1$, 
+	\begin{align}
+		\sum_{k=1}^{1}(2k-1)*2^k&=6+2(4-6) \\ (2-1)\cdot 2&=6+2(4-6) \\ 2 &= 2
+	\end{align}
+	\item Thus, the result holds.
+	\item Inductive step: Let's assume that this case is satisfied for $n$.
+	\item Then for $n+1$,
+	\begin{align}
+		\sum_{k=1}^{n+1}(2k-1)\cdot 2^k &= \sum_{k=1}^{n} (2k-1)\cdot2^k+(2n+1)\cdot2^{n+1} \\&=6+2^n(4n-6) + (2n+1)\cdot 2^{n+1} \\&= (4n+4n-6+2)\cdot 2^n +6 \\ &=(8n-4)\cdot 2^n+6 \\&=6+2^{n+1}(4(n+1)-6)
+	\end{align}
+	\item Therefore, by induction the result holds.
+\end{itemize}
+\item Let $n\in\mathbb{N}.$ Prove that if $a_{n+2} = 5a_{n+1}-6a_n$ and $a_1=1,a_2=5$, then $a_n=3^n-2^n$ for all $n \geq 3$.
+\begin{itemize}
+	\item Let's prove by induction.
+	\item Base case: $n=1$,
+	\begin{align}
+		a_3 &= 5a_2-6a_1 \\ &=5 \cdot5 -6\cdot 1 \\&=19 \\&= 3^3-2^3
+	\end{align}
+	\item Inductive step: Let's assume that this case is true for $n=k$.
+	\item Then,
+	\begin{align}
+		a_k=3^k-2^k &$  and  $ a_{k+2} = 5a_{k+1}-6a_k \\
+		a_{k-1} = 3^{k-1}-2^{k-1} &$  and  $ a_{k+1} = 5a_{k}-6a_{k-1}
+		\\ a_{k+1} &=5(3^k-2^k)-6(3^{k-1}-2^{k-1}) \\ &=3^{k+1}-2^{k+1}
+	\end{align}
+	\item Then we can continue 
+	\begin{align}
+		a_{k+2} &= 5a_{k+1}-6a_k \\ &=5(3^{k+1}-2^{k+1})-6(3^k-2^k) \\ &= 3^{k+2} - 2^{k+2}
+	\end{align}
+	\item As this is true for some $n = 1,2,3, \cdots k$,
+	\begin{align}
+	a_{k+3} &= 5a_{k+2}-6a_{k+1}	 \\ &=5(3^{k+2}-2^{k+2})-6(3^{k+1}-2^{k+1}) \\ 
+    &= 3^{k+3}-2^{k+3}
+	\end{align}
+
+	\item Therefore, we can see that when that the conclusion is true by induction.
+\end{itemize}
+\item Let $n \in \mathbb{N}$ and suppose that $a_0 = 1, a_1 =3, a_2 =9$ and $a_n=a_{n-1}+a_{n-2}+a_{n-3}$ for $n\geq 3$. Show that $a_n \leq 3^n$.
+\begin{itemize}
+	\item Let's prove by induction
+	\item Base case: $n=3$
+	\begin{align}
+		a_3 &= a_2+a_1+a_0 \\ &=1+3+9 \\&=13 \leq 27=3^3
+	\end{align}
+	\item Thus the result holds.
+	\item Now let's assume that this satisfies for some $n = 1,2,3, \cdots k$.
+	\item As $a_2,a_1,a_0 \geq 0$. We know that for any $a_n$, $a_n\geq 0$. Also $a_n \geq a_{n-1}, n\in \mathbb{N}$.
+	\item As we assumed that $a_n \leq 3^n$, for $a_{n+1}$ we can see that 
+	\begin{align}
+		a_{n+1} &= a_n+a_{n-1}+a_{n-2} \\a_n+a_{n-1}+a_{n-2} &\leq a_n+a_n+a_n = 3a_n \\ &\leq3\cdot 3^n = 3^{n+1} 
+	\end{align}
+	\item Thus we can see that $a_{n+1} \leq 3^{n+1}$, therefore the result holds.
+\end{itemize}
+
+\item Prove that for all integers $n>1,$
+\begin{center}
+	$\frac{1}{n+1} + \frac{1}{n+2} + \cdots+\frac{1}{2n} > \frac{13}{24}$.
+\end{center}
+\begin{itemize}
+	\item Let's simplify the equation, $\sum_{k=1}^{n}\frac{1}{n+k}$.
+	\item Now let's prove by induction.
+	\item Base case: $n=2$,
+	\begin{align}
+		\sum_{k=1}^{2}\frac{1}{2+k} &= \frac{1}{3} + \frac{1}{4}  = \frac{7}{12} > \frac{13}{24}.
+	\end{align}
+	\item Thus the result holds.
+	\item Inductive step: Let's assume that this relationship is satisfied for $n$.
+	\item Then for $n+1,$
+	\begin{align}
+		\sum_{k=1}^{n+1} \frac{1}{n+1+k} &= \sum_{k=2}^{n+2} \frac{1}{n+k}  
+		\\&=  \sum_{k=1}^{n} \frac{1}{n+k} -\frac{1}{n+1}+\frac{1}{2n+1}+\frac{1}{2n+2}
+	\end{align}
+	\item Then,
+	\begin{align}
+		\frac{1}{2n+1}+\frac{1}{2n+2} -\frac{1}{n+1} &= \frac{1}{2n+1}-\frac{1}{2n+2}\\ &=\frac{1}{(2n+1)(2n+2)	}>0\\ \sum_{k=1}^{n+1} \frac{1}{n+1+k} &= \sum_{k=1}^{n} \frac{1}{n+k} -\frac{1}{n+1}+\frac{1}{2n+1}+\frac{1}{2n+2} > \frac{13}{24}
+	\end{align}
+	\item Thus the result holds for $n+1$.
+	\item Therefore the implication is true.
+\end{itemize}
+	\item Prove that $7^{4n+3}+2$ is a multiple of 5 for all non-negative integers $n$.
+	\begin{itemize}
+		\item Let's prove by induction.
+		\item Base case: $n=0$,
+		\begin{align}
+			7^3+2 &= 345 \\ &=5 \cdot 69
+		\end{align}
+	\item Thus the result holds.
+	\item Inductive step: Let's assume that $7^{4n+3} +2 $ is a multiple of 5 for $n$.
+	\item $7^{4n+3}+2 = 5k , k \in \mathbb{Z}$.
+	\begin{align}
+		7^{4(n+1)+3}+2 &= 7^4\cdot(7^{4n+3}+2)-2\cdot 7^4+2 \\
+		&= 7^4 \cdot 5k -14 \cdot 7^3+2\\ 
+		&= 7^4 \cdot 5k -14(7^3+2)+30 \\
+		&=7^4\cdot 5k-14\cdot 245+30 \\
+		&=5(7^4k-14\cdot49+6)
+	\end{align}
+	\item As we know that $7^4k-14\cdot49+6 \in \mathbb{Z}$.
+	\item Therefore, $7^{4(n+1)+3}+2$ is also a multiple of 5.
+	\end{itemize}
+	
+	\item We define a sequence $(x_n)_{n \in \mathbb{N}}$ with $a_1 =3 $, and for every $n \geq 1, a_{n+1} = a_n^2-a_n$. Show that $(a_n)$ is increasing, which means that for all $n \in \mathbb{N}, a_n<a_{n+1}$.
+	\begin{itemize}
+		\item Let's prove by induction.
+		\item Base case: when $n=1$,
+		\begin{align}
+			a_2 &= a_1^2-a_1  \\ &=3^2-3 \\ &= 6
+		\end{align}
+	\item Therefore, we can see that it increases as $a_2>a_1$.
+	\item Inductive step: Let's assume for some $n$ this relationship is satisfied.
+	\item Also, for $n=1,2,3, \cdots ,k$ it is also satisfied.
+	\item Thus, $a_{k+1} = a_k^2 -a_k$ and $a_{k+1} > a_k$.
+	\item Through strong induction we know that $a_k > a_1 =3$ as the sequence is increasing.
+	\begin{align}
+		a_{k+2} &= a_{k+1}^2-a_{k+1} \\ a_{k+2}-a_{k+1} &= a_{k+1}^2-2a_{k+1} \\ &= (a_k^2-a_k)^2-2(a_k^2-a_k) \\ &= (a_k^2-a_k-2)(a_k^2-a_k)
+	\end{align} 
+	\item We know that $a_k >3 $, therefore we can conclude that both $(a_k^2-a_k-2)$ and $(a_k^2-a_k)$ are positive.
+	\item Thus $a_{k+2} - a_{k+1} >0 $, therefore by mathematical induction the result holds.
+	\end{itemize}
+	\item Let $x\in \mathbb{R}$ with $x \neq 1$and let $N\in \mathbb{N}$. Use mathematical induction to show that
+	\begin{center}
+		$\sum_{k=1}^{N}k\cdot x^{k-1} = \frac{1-x^N}{(1-x)^2} - \frac{Nx^N}{1-x}$
+	\end{center}
+	\begin{itemize}
+		\item Let $N=1$, then
+		\begin{align}
+			1=\sum_{k=1}^1 k \cdot x^{k-1} &= \frac{1-x}{(1-x)^2} - \frac{x}{1-x}\\
+			&= \frac{(1-x)^2}{(1-x)^2} = 1
+		\end{align}
+	\item Thus, the result holds.
+	\item Now let's assume the relationship is satisfied for some $N$.
+	\item Then,
+	\begin{align}
+		\sum_{k=1}^{N+1}k\cdot x^{k-1} &= \sum_{k=1}^{N} k \cdot x^{k-1} + (N+1) \cdot x^{N}\\
+		&= \frac{1-x^N}{(1-x)^2} - \frac{Nx^N}{1-x} + (N+1) \cdot x^{N} \\ 
+		&=\frac{(1-x^N)-(1-x)(N \cdot x^N)+(N+1)x^N(1-x)^2}{(1-x)^2} \\
+		&= \frac{(1-x^{N+1}) - (N+1)(1-x)(x^{N+1})}{(1-x)^2}
+	\end{align}	
+	\item We can further simplify this and obtain, 
+	\begin{align}
+		\frac{1-x^{N+1}}{(1-x)^2} - \frac{(N+1)x^{N+1}}{(1-x)}
+	\end{align}
+	\item Therefore, by mathematical induction the result holds.
+\end{itemize}
+\item Find all positive integers $n$ so that $n^3 > 2n^2+n.$ Prove your result using mathematical induction.
+	\begin{itemize}
+		\item $n=3$,
+		\begin{align}
+			3^3 &> 2\cdot3^2+3 \\ 27 &>21
+		\end{align}
+		\item Thus the result holds.
+		\item Now let's assume that $n^3>2n^2+n$ for all $n$ such that $n \geq 3$.
+		\begin{align}
+			(n^2-2)(n+1)&>0 (n\geq3) \\ (n^2-2)(n+1) &=  n^3+n^2-2n-2
+			\\ &= (n+1)^3-2(n+1)^2-(n+1) >0
+			\\ (n+1)^3&>2(n+1)^2+(n+1) 
+		\end{align}
+		\item Therefore, for all $n\geq3$ we can see that $n^3>2n^2+n$ by induction.
+	\end{itemize}
+
+	\end{enumerate}
+
+
+
+%% Anything that comes after the ``\end{document}'' will be ignored, not just by us but by the latex editor too.
+\end{document}
+
+See, we can have stuff here which will not appear in the compiled file.

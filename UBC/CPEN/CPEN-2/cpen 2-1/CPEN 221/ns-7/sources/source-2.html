@@ -1,0 +1,141 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Util</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.util</a>
+</div>
+
+<h1>Coverage Summary for Class: Util (cpen221.mp2.util)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Util</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.util;
+&nbsp;
+&nbsp;/**
+&nbsp; * Contains various static utility functions and constants.
+&nbsp; */
+<b class="nc">&nbsp;public abstract class Util {</b>
+&nbsp;    public static final String EARTH_NAME = &quot;Earth&quot;;
+&nbsp;    public static final String CRASHED_PLANET_NAME = &quot;Kamino&quot;;
+<b class="nc">&nbsp;    public static final String DIRECTORY = System.getProperty(&quot;user.dir&quot;);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff any of the given arguments are null.
+&nbsp;     *
+&nbsp;     * @param objects list of objects to check if any is null.
+&nbsp;     * @return true if one or more objects is null and false otherwise.
+&nbsp;     */
+&nbsp;    public static boolean anyNull(Object... objects) {
+<b class="nc">&nbsp;        for (Object obj : objects) {</b>
+<b class="nc">&nbsp;            if (obj == null) {</b>
+<b class="nc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the Euclidean distance between (x1, y1) and (x2, y2).
+&nbsp;     *
+&nbsp;     * @param x1 the first x-coordinate
+&nbsp;     * @param y1 the first y-coordinate
+&nbsp;     * @param x2 the second x-coordinate
+&nbsp;     * @param y2 the second y-coordinate
+&nbsp;     * @return the Euclidean distance between (x1, y1) and (x2, y2)
+&nbsp;     */
+&nbsp;    public static double distance(double x1, double y1, double x2, double y2) {
+<b class="nc">&nbsp;        return Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

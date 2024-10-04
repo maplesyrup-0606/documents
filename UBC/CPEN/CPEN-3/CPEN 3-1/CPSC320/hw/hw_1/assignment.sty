@@ -1,0 +1,45 @@
+%%%%% PACKAGES %%%%%
+\usepackage{fixltx2e}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{enumitem}
+\usepackage{algorithm,algorithmicx}
+\usepackage[noend]{algpseudocode}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usetikzlibrary{arrows,arrows.meta,positioning,intersections}
+
+\RequirePackage{latexsym}
+\RequirePackage{array}
+\RequirePackage{amsmath,amssymb,amsfonts}
+\RequirePackage{amsthm}
+\RequirePackage{vmargin}
+\RequirePackage{ifthen}                                 
+\RequirePackage{xspace}                                 
+\RequirePackage{float}
+\RequirePackage{caption2}
+\RequirePackage{slashed}
+\RequirePackage{ifpdf}
+\RequirePackage{alltt}
+\RequirePackage{listings}
+\RequirePackage{fancyhdr}
+\RequirePackage{environ}
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+% Pretty small margins
+\setmarginsrb{0.85in}{0.6in}{0.85in}{0.5in}{0in}{0in}{12pt}{24pt}
+\setlength{\parindent}{0mm}
+\setlength{\parskip}{1.5ex}
+
+\ifpdf
+\def\image#1#2{\begin{center}\includegraphics[#1pt]{#2}\end{center}}
+\else
+\def\image#1#2{\begin{center}\textbf{Image missing in DVI file}\end{center}}
+\fi
+    
+\definecolor{solnblue}{rgb}{0,0,1}
+\newenvironment{soln}{\color{solnblue}}{}

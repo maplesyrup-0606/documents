@@ -1,0 +1,121 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > HunterStage</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">cpen221.mp2.controllers</a>
+</div>
+
+<h1>Coverage Summary for Class: HunterStage (cpen221.mp2.controllers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">HunterStage</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package cpen221.mp2.controllers;
+&nbsp;
+&nbsp;import cpen221.mp2.models.PlanetStatus;
+&nbsp;
+&nbsp;/**
+&nbsp; * In the search stage, find and reach the planet with the missing
+&nbsp; * spaceship. You have access only to the planets you can directly
+&nbsp; * reach, as well as a signal whose strength varies depending on how
+&nbsp; * far you are from the missing ship.
+&nbsp; * &lt;p&gt;
+&nbsp; * An instance provides all necessary methods to move through the
+&nbsp; * galaxy and find the missing spaceship.
+&nbsp; */
+&nbsp;public interface HunterStage {
+&nbsp;    /**
+&nbsp;     * Return the unique ID of the spaceship&#39;s current planet.
+&nbsp;     *
+&nbsp;     * @return the planet id of the spaceship&#39;s current location.
+&nbsp;     */
+&nbsp;    public int currentID();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return the strength of the signal from the missing ship&#39;s
+&nbsp;     * current location.
+&nbsp;     *
+&nbsp;     * @return the signal strength from the missing ship.
+&nbsp;     */
+&nbsp;    public double signal();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return an unordered array of PlanetStatus objects associated with all direct
+&nbsp;     * neighbors of the current location. Each status contains the ID of the
+&nbsp;     * neighboring node as well as the strength of the signal from the missing
+&nbsp;     * spaceship at that node.&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * (NB: This is NOT the distance in the graph; it is a number between 0 and
+&nbsp;     * 1, where 0 is the farthest away, and 1 is the signal strength on the planet that
+&nbsp;     * has the missing spaceship.)&lt;br&gt;
+&nbsp;     * &lt;br&gt;
+&nbsp;     * It is possible to move directly to any node in this array.
+&nbsp;     */
+&nbsp;    public PlanetStatus[] neighbors();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return true iff the ship is on Kamino --- where the missing
+&nbsp;     * spaceship is.
+&nbsp;     */
+&nbsp;    public boolean onKamino();
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Change the current location to the planet given by id.
+&nbsp;     */
+&nbsp;    public void moveTo(int id);
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-11-13 02:52</div>
+</div>
+</body>
+</html>

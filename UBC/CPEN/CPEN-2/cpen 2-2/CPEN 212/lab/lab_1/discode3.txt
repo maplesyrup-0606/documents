@@ -1,0 +1,124 @@
+
+task3:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+0000000000400078 <.text>:
+  400078:	f9000319 	str	x25, [x24]		<--- stores name (NAMED constructor class)
+  40007c:	10000799 	adr	x25, 0x40016c		<-- Vtable
+  400080:	f9000719 	str	x25, [x24, #8]
+  400084:	d65f03c0 	ret
+
+  400088:	f940031d 	ldr	x29, [x24]		<-- get_age
+  40008c:	d65f03c0 	ret
+
+  400090:	6465656e 	.inst	0x6465656e ; undefined
+  400094:	61786520 	.inst	0x61786520 ; undefined
+  400098:	796c7463 	ldrh	w3, [x3, #5690]
+  40009c:	6f777420 	uqshl	v0.2d, v1.2d, #55
+  4000a0:	67726120 	.inst	0x67726120 ; undefined
+  4000a4:	6e656d75 	umin	v21.8h, v11.8h, v5.8h
+  4000a8:	000a7374 	.inst	0x000a7374 ; undefined
+  4000ac:	d503201f 	nop
+  4000b0:	6d612069 	ldp	d9, d8, [x3, #-496]		// I am
+  4000b4:	00000020 	.inst	0x00000020 ; undefined
+
+  4000b8:	a9bd07e0 	stp	x0, x1, [sp, #-48]!		//printf
+  4000bc:	a90123e2 	stp	x2, x8, [sp, #16]
+  4000c0:	f90017fe 	str	x30, [sp, #40]
+  4000c4:	aa1803e1 	mov	x1, x24				// String is stored to x1
+  4000c8:	94000009 	bl	0x4000ec
+  4000cc:	aa1d03e2 	mov	x2, x29				// moves length of string to x2
+  4000d0:	d2800020 	mov	x0, #0x1                   	// #1
+  4000d4:	d2800808 	mov	x8, #0x40                  	// #64
+  4000d8:	d4000001 	svc	#0x0				// Prints
+  4000dc:	f94017fe 	ldr	x30, [sp, #40]
+  4000e0:	a94123e2 	ldp	x2, x8, [sp, #16]		
+  4000e4:	a8c307e0 	ldp	x0, x1, [sp], #48
+  4000e8:	d65f03c0 	ret
+
+  4000ec:	9280001d 	mov	x29, #0xffffffffffffffff    	// #-1 get length
+  4000f0:	910007bd 	add	x29, x29, #0x1			//
+  4000f4:	38401719 	ldrb	w25, [x24], #1
+  4000f8:	35ffffd9 	cbnz	w25, 0x4000f0
+  4000fc:	d65f03c0 	ret
+
+  400100:	a9bf63fe 	stp	x30, x24, [sp, #-16]!   <--- PERSON CONSTRUCTOR
+  400104:	f900031a 	str	x26, [x24]		<--- stores age 
+  400108:	91002318 	add	x24, x24, #0x8		<---
+  40010c:	97ffffdb 	bl	0x400078		
+  400110:	a8c163fe 	ldp	x30, x24, [sp], #16
+  400114:	10000079 	adr	x25, 0x400120
+  400118:	f9000b19 	str	x25, [x24, #16]  <-- casting (overwritten to other table)
+  40011c:	d65f03c0 	ret
+
+  400120:	00400130 	.inst	0x00400130 ; undefined  <--- METHODS in vtable (print_name)
+  400124:	00000000 	.inst	0x00000000 ; undefined
+  400128:	00400088 	.inst	0x00400088 ; undefined  <-- get_age
+  40012c:	00000000 	.inst	0x00000000 ; undefined
+
+  400130:	a9bf63fe 	stp	x30, x24, [sp, #-16]!   <--- print_name
+  400134:	f9400b19 	ldr	x25, [x24, #16]
+  400138:	f9400739 	ldr	x25, [x25, #8]		<--- Stable access
+  40013c:	d63f0320 	blr	x25
+  400140:	f10007bf 	cmp	x29, #0x1		// compares age with 1 if higher goes next
+  400144:	54000088 	b.hi	0x400154  // b.pmore	// if higher than 1
+  400148:	f84107fe 	ldr	x30, [sp], #16		// goes to "goo goo"
+  40014c:	10000698 	adr	x24, 0x40021c
+  400150:	17ffffda 	b	0x4000b8
+  400154:	f94003fe 	ldr	x30, [sp]		//
+  400158:	10fffad8 	adr	x24, 0x4000b0
+  40015c:	97ffffd7 	bl	0x4000b8
+  400160:	a8c163fe 	ldp	x30, x24, [sp], #16
+  400164:	91002318 	add	x24, x24, #0x8
+  400168:	14000013 	b	0x4001b4
+  40016c:	004001b4 	.inst	0x004001b4 ; undefined  <--- Vtable , print_name
+  400170:	00000000 	.inst	0x00000000 ; undefined
+  400174:	aa1803e0 	mov	x0, x24
+  400178:	d2800ba8 	mov	x8, #0x5d                  	// #93
+  40017c:	d4000001 	svc	#0x0
+  400180:	00000a21 	.inst	0x00000a21 ; undefined
+  400184:	d503201f 	nop
+
+  400188:	d280001d 	mov	x29, #0x0                   	// #0       
+  40018c:	d280015a 	mov	x26, #0xa                   	// #10
+  400190:	38401719 	ldrb	w25, [x24], #1
+  400194:	340000f9 	cbz	w25, 0x4001b0
+  400198:	7100c339 	subs	w25, w25, #0x30
+  40019c:	540000a4 	b.mi	0x4001b0  // b.first
+  4001a0:	71002b3f 	cmp	w25, #0xa
+  4001a4:	54000065 	b.pl	0x4001b0  // b.nfrst
+  4001a8:	9b1a67bd 	madd	x29, x29, x26, x25
+  4001ac:	17fffff9 	b	0x400190
+  4001b0:	d65f03c0 	ret
+
+  4001b4:	f81f0ffe 	str	x30, [sp, #-16]!		// print_name original
+  4001b8:	f9400318 	ldr	x24, [x24]
+  4001c0:	f84107fe 	ldr	x30, [sp], #16			
+  4001c4:	10fffdf8 	adr	x24, 0x400180
+  4001c8:	17ffffbc 	b	0x4000b8
+
+  4001cc:	f94003f8 	ldr	x24, [sp]			// <-- program starts here
+  4001d0:	f1000f1f 	cmp	x24, #0x3
+  4001d4:	54000080 	b.eq	0x4001e4  // b.none
+  4001d8:	10fff5d8 	adr	x24, 0x400090
+  4001dc:	97ffffb7 	bl	0x4000b8
+  4001e0:	17ffffe5 	b	0x400174
+  4001e4:	f9400ff8 	ldr	x24, [sp, #24] 
+  4001e8:	97ffffe8 	bl	0x400188
+  4001ec:	d10083ff 	sub	sp, sp, #0x20  
+  4001f0:	910003f8 	mov	x24, sp
+  4001f4:	f9401bf9 	ldr	x25, [sp, #48]
+  4001f8:	aa1d03fa 	mov	x26, x29
+  4001fc:	97ffffc1 	bl	0x400100
+  400200:	910003f8 	mov	x24, sp
+  400204:	f9400b19 	ldr	x25, [x24, #16]
+  400208:	f9400339 	ldr	x25, [x25]
+  40020c:	d63f0320 	blr	x25
+  400210:	910083ff 	add	sp, sp, #0x20
+  400214:	d2800018 	mov	x24, #0x0                   	// #0
+  400218:	17ffffd7 	b	0x400174
+  40021c:	206f6f67 	.inst	0x206f6f67 ; undefined
+  400220:	0a6f6f67 	bic	w7, w27, w15, lsr #27
+  400224:	00000000 	.inst	0x00000000 ; undefined
